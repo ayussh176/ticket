@@ -101,6 +101,20 @@ const AuthAPI = {
     });
   },
 
+  async uploadId(data) {
+    return await apiRequest('/auth/upload-id', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  },
+
+  async verifyId(userId, action) {
+    return await apiRequest('/auth/verify-id', {
+      method: 'POST',
+      body: JSON.stringify({ userId, action }),
+    });
+  },
+
   async getProfile() {
     return await apiRequest('/auth/me');
   },
@@ -222,6 +236,14 @@ const AdminAPI = {
 
   async getAuditLog() {
     return await apiRequest('/admin/audit-log');
+  },
+
+  async getAnomalies() {
+    return await apiRequest('/admin/anomalies');
+  },
+
+  async getPendingVerifications() {
+    return await apiRequest('/admin/pending-verifications');
   },
 };
 

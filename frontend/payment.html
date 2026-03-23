@@ -64,48 +64,42 @@
 <h2 class="text-lg font-bold">Select Payment Method</h2>
 </div>
 <div class="p-6">
-<div class="grid grid-cols-3 gap-4 mb-8">
-<button class="flex flex-col items-center justify-center p-4 border-2 border-primary bg-primary/5 rounded-xl transition-all">
-<span class="material-symbols-outlined text-primary mb-2">credit_card</span>
-<span class="text-sm font-semibold">Card</span>
-</button>
-<button class="flex flex-col items-center justify-center p-4 border-2 border-slate-100 dark:border-slate-800 hover:border-primary/50 rounded-xl transition-all" onclick="window.location.href='user-profile.html'">
-<span class="material-symbols-outlined text-slate-500 mb-2">account_balance_wallet</span>
-<span class="text-sm font-semibold">UPI</span>
-</button>
-<button class="flex flex-col items-center justify-center p-4 border-2 border-slate-100 dark:border-slate-800 hover:border-primary/50 rounded-xl transition-all" onclick="window.location.href='payment.html'">
-<span class="material-symbols-outlined text-slate-500 mb-2">payments</span>
-<span class="text-sm font-semibold">Wallet</span>
-</button>
+<div class="mb-6 p-5 bg-primary/5 border border-primary/20 rounded-xl relative overflow-hidden">
+    <div class="absolute right-0 top-0 opacity-10 translate-x-4 -translate-y-4">
+        <span class="material-symbols-outlined !text-9xl">account_balance_wallet</span>
+    </div>
+    <div class="relative z-10">
+        <div class="flex items-center gap-2 mb-2">
+            <span class="material-symbols-outlined text-primary">security</span>
+            <span class="text-sm font-bold text-slate-700 dark:text-slate-300">Secure E-Rupee Wallet</span>
+        </div>
+        <p class="text-xs text-slate-500 mb-4 max-w-sm">As per platform policy, all transactions must be processed via your E-Rupee wallet for accountability. No UPI or card fallback is permitted.</p>
+        <div class="flex items-end gap-4">
+            <div>
+                <p class="text-xs text-slate-500 font-medium">Available Balance</p>
+                <div class="text-3xl font-black text-primary flex items-baseline gap-1" id="wallet-balance-display">
+                    ₹0 <span class="text-sm font-bold text-slate-500">e-INR</span>
+                </div>
+            </div>
+            
+            <div id="topup-container" class="hidden flex-1 max-w-xs bg-white dark:bg-slate-800 p-2 rounded-lg border border-slate-200 dark:border-slate-700 flex gap-2 shadow-sm">
+                <input type="number" id="topup-amount" placeholder="Amount (₹)" class="w-full text-sm bg-transparent border-none focus:ring-0 px-2 font-bold text-slate-900 dark:text-white" />
+                <button type="button" id="btn-topup" class="px-3 py-1.5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 text-xs font-bold rounded hover:opacity-90 transition-opacity">Add Funds</button>
+            </div>
+        </div>
+    </div>
 </div>
-<form action="/api/payment/create-order" class="space-y-4" method="POST">
-<div class="space-y-4" id="card-form">
-<div class="flex flex-col gap-1.5">
-<label class="text-sm font-medium text-slate-700 dark:text-slate-300">Card Number</label>
-<div class="relative">
-<input class="w-full h-11 px-4 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" placeholder="0000 0000 0000 0000" type="text"/>
-<span class="material-symbols-outlined absolute right-3 top-2.5 text-slate-400">lock</span>
+
+<div id="insufficient-funds-alert" class="hidden mb-6 p-4 bg-red-50 dark:bg-red-900/10 border border-red-200 dark:border-red-900/30 rounded-xl flex items-center gap-3">
+    <span class="material-symbols-outlined text-red-500">error</span>
+    <p class="text-sm text-red-700 dark:text-red-400 font-medium">Insufficient E-Rupee balance. Please add funds to your wallet to complete this transaction.</p>
 </div>
-</div>
-<div class="grid grid-cols-2 gap-4">
-<div class="flex flex-col gap-1.5">
-<label class="text-sm font-medium text-slate-700 dark:text-slate-300">Expiry Date</label>
-<input class="w-full h-11 px-4 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" placeholder="MM/YY" type="text"/>
-</div>
-<div class="flex flex-col gap-1.5">
-<label class="text-sm font-medium text-slate-700 dark:text-slate-300">CVV</label>
-<input class="w-full h-11 px-4 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" placeholder="***" type="password"/>
-</div>
-</div>
-<div class="flex flex-col gap-1.5">
-<label class="text-sm font-medium text-slate-700 dark:text-slate-300">Cardholder Name</label>
-<input class="w-full h-11 px-4 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" placeholder="John Doe" type="text"/>
-</div>
-</div>
+
+<form id="payment-form" class="space-y-4">
 <div class="pt-4">
-<button class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-3.5 rounded-xl transition-all shadow-lg shadow-primary/20 flex items-center justify-center gap-2" type="submit">
-<span class="material-symbols-outlined">security</span>
-                                            Pay $125.00 Now
+<button id="btn-pay-now" class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-3.5 rounded-xl transition-all shadow-lg shadow-primary/20 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed" type="submit">
+<span class="material-symbols-outlined">payments</span>
+                                            Pay ₹<span id="pay-btn-amount">0.00</span> Now
                                         </button>
 <p class="text-center text-xs text-slate-500 mt-4 flex items-center justify-center gap-1">
 <span class="material-symbols-outlined text-xs">verified_user</span>

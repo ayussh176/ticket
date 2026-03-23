@@ -98,6 +98,47 @@
 </div>
 </div>
 <div class="space-y-10">
+<!-- Identity Verification Section -->
+<section class="rounded-xl bg-white p-6 shadow-sm ring-1 ring-slate-200 dark:bg-background-dark dark:ring-slate-800 mb-10" id="kyc-info">
+<div class="flex items-center justify-between mb-6">
+    <div class="flex items-center gap-3">
+        <span class="material-symbols-outlined text-primary text-3xl">verified_user</span>
+        <div>
+            <h2 class="text-lg font-bold text-slate-900 dark:text-white">Identity Verification (KYC)</h2>
+            <p class="text-sm text-slate-500">Required before making any bookings.</p>
+        </div>
+    </div>
+    <div id="kyc-status-badge" class="px-3 py-1 bg-slate-100 text-slate-600 rounded-full text-xs font-bold uppercase tracking-wider">Loading...</div>
+</div>
+
+<div id="kyc-upload-container" class="hidden">
+    <div class="p-4 bg-primary/5 border border-primary/20 rounded-lg mb-4">
+        <p class="text-sm text-slate-700 dark:text-slate-300">Please upload a clear picture of your ID document (PAN or Aadhaar) to verify your account.</p>
+    </div>
+    <form id="kyc-upload-form" class="space-y-4">
+        <div>
+            <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">ID Document File</label>
+            <input id="kyc-file-input" type="file" accept="image/jpeg, image/png, application/pdf" class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 cursor-pointer" required/>
+            <p class="mt-1 text-xs text-slate-500">Max size 2MB. JPG, PNG, or PDF.</p>
+        </div>
+        <button type="submit" class="rounded-lg bg-primary px-6 py-2.5 text-sm font-bold text-white hover:bg-primary/90 flex items-center gap-2 transition-all">
+            <span class="material-symbols-outlined text-sm">upload</span> Upload Document
+        </button>
+    </form>
+</div>
+
+<div id="kyc-verified-container" class="hidden p-4 bg-success/10 border border-success/20 rounded-lg">
+    <p class="text-sm text-success font-semibold flex items-center gap-2">
+        <span class="material-symbols-outlined">check_circle</span> Your identity is successfully verified. You can now book tickets!
+    </p>
+</div>
+<div id="kyc-pending-container" class="hidden p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg">
+    <p class="text-sm text-amber-700 dark:text-amber-400 font-semibold flex items-center gap-2">
+        <span class="material-symbols-outlined">pending_actions</span> Your ID is currently under review by an administrator. Please check back later.
+    </p>
+</div>
+</section>
+
 <!-- Personal Info Section -->
 <section class="rounded-xl bg-white p-6 shadow-sm ring-1 ring-slate-200 dark:bg-background-dark dark:ring-slate-800" id="personal-info">
 <h2 class="text-lg font-bold text-slate-900 dark:text-white mb-6">Personal Information</h2>

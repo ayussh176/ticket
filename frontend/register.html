@@ -116,6 +116,75 @@
 <input class="w-full pl-11 pr-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" placeholder="+1 (555) 000-0000" type="tel"/>
 </div>
 </div>
+<!-- New Identity Fields -->
+<div class="space-y-4 pt-2 border-t border-slate-100 dark:border-slate-800">
+    <div class="space-y-2">
+        <label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Date of Birth</label>
+        <div class="relative">
+            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xl">calendar_today</span>
+            <input id="reg-dob"  class="w-full pl-11 pr-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" type="date" required/>
+        </div>
+    </div>
+    
+    <!-- Adult Section -->
+    <div id="reg-adult-fields" class="space-y-2 hidden">
+        <label class="text-sm font-semibold text-slate-700 dark:text-slate-300">PAN Number (Required for 18+)</label>
+        <div class="relative">
+            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xl">badge</span>
+            <input id="reg-pan" class="w-full pl-11 pr-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" placeholder="ABCDE1234F" type="text" pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}"/>
+        </div>
+    </div>
+
+    <!-- Minor Section -->
+    <div id="reg-minor-fields" class="space-y-4 hidden pb-2">
+        <div class="p-3 bg-amber-50 dark:bg-amber-900/20 text-amber-800 dark:text-amber-200 text-xs rounded-lg flex gap-2">
+            <span class="material-symbols-outlined text-sm">warning</span>
+            <span>Minors require an Aadhaar number and a Guardian's PAN.</span>
+        </div>
+        <div class="space-y-2">
+            <label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Aadhaar Number</label>
+            <div class="relative">
+                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xl">fingerprint</span>
+                <input id="reg-aadhaar" class="w-full pl-11 pr-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" placeholder="1234 5678 9012" type="text" maxlength="12"/>
+            </div>
+        </div>
+        <div class="space-y-2">
+            <label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Guardian's PAN Number</label>
+            <div class="relative">
+                <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xl">supervisor_account</span>
+                <input id="reg-gpan" class="w-full pl-11 pr-4 py-3 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all" placeholder="ABCDE1234F" type="text" pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}"/>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('reg-dob').addEventListener('change', function(e) {
+        const dobDate = new Date(e.target.value);
+        if(isNaN(dobDate)) return;
+        const today = new Date();
+        let age = today.getFullYear() - dobDate.getFullYear();
+        const m = today.getMonth() - dobDate.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < dobDate.getDate())) age--;
+        
+        const adultFields = document.getElementById('reg-adult-fields');
+        const minorFields = document.getElementById('reg-minor-fields');
+        
+        if (age >= 18) {
+            adultFields.classList.remove('hidden');
+            minorFields.classList.add('hidden');
+            document.getElementById('reg-pan').required = true;
+            document.getElementById('reg-aadhaar').required = false;
+            document.getElementById('reg-gpan').required = false;
+        } else {
+            adultFields.classList.add('hidden');
+            minorFields.classList.remove('hidden');
+            document.getElementById('reg-pan').required = false;
+            document.getElementById('reg-aadhaar').required = true;
+            document.getElementById('reg-gpan').required = true;
+        }
+    });
+</script>
 <div class="space-y-2">
 <label class="text-sm font-semibold text-slate-700 dark:text-slate-300">Password</label>
 <div class="relative">

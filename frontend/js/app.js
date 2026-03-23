@@ -164,9 +164,20 @@ function handleRegisterPage() {
     const email = form.querySelector('input[type="email"]')?.value;
     const phone = form.querySelector('input[type="tel"]')?.value;
     const password = form.querySelector('input[type="password"]')?.value;
+    
+    // Identity fields
+    const dateOfBirth = document.getElementById('reg-dob')?.value;
+    const panNumber = document.getElementById('reg-pan')?.value;
+    const aadhaarNumber = document.getElementById('reg-aadhaar')?.value;
+    const guardianPanNumber = document.getElementById('reg-gpan')?.value;
+
+    const payload = { name, email, phone, password, dateOfBirth };
+    if (panNumber) payload.panNumber = panNumber;
+    if (aadhaarNumber) payload.aadhaarNumber = aadhaarNumber;
+    if (guardianPanNumber) payload.guardianPanNumber = guardianPanNumber;
 
     try {
-      const data = await AuthAPI.register({ name, email, phone, password });
+      const data = await AuthAPI.register(payload);
       showToast(`Account created! Welcome, ${data.user.name}!`);
       setTimeout(() => {
         window.location.href = 'user-dashboard.html';
@@ -359,13 +370,88 @@ async function handleUserProfile() {
     const profileData = await AuthAPI.getProfile();
     const user = profileData.user;
 
-    // Update profile name/email in the page
+    // Update profile top area
     const nameEls = document.querySelectorAll('h2.text-2xl, h3.text-2xl');
     nameEls.forEach(el => {
       if (el.textContent.includes('John') || el.textContent.includes('User')) {
         el.textContent = user.name;
       }
     });
+
+    // Populate standard Personal Info form
+    const inputs = document.querySelectorAll('#personal-info input');
+    if (inputs.length >= 4) {
+        const names = user.name.split(' ');
+        inputs[0].value = names[0] || '';
+        inputs[1].value = names.slice(1).join(' ') || '';
+        inputs[2].value = user.email || '';
+        inputs[3].value = user.phone || '';
+    }
+
+    // --- KYC / Identity Verification Handling ---
+    const badge = document.getElementById('kyc-status-badge');
+    const uploadFormContainer = document.getElementById('kyc-upload-container');
+    const verifiedContainer = document.getElementById('kyc-verified-container');
+    const pendingContainer = document.getElementById('kyc-pending-container');
+    
+    if (badge) {
+        let status = user.idVerificationStatus || 'unverified';
+        
+        // Hide all initially
+        if(uploadFormContainer) uploadFormContainer.classList.add('hidden');
+        if(verifiedContainer) verifiedContainer.classList.add('hidden');
+        if(pendingContainer) pendingContainer.classList.add('hidden');
+
+        if (status === 'verified') {
+            badge.textContent = 'Verified';
+            badge.className = 'px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-bold uppercase tracking-wider';
+            if(verifiedContainer) verifiedContainer.classList.remove('hidden');
+        } else if (status === 'pending') {
+            badge.textContent = 'Pending Review';
+            badge.className = 'px-3 py-1 bg-amber-100 text-amber-700 rounded-full text-xs font-bold uppercase tracking-wider';
+            if(pendingContainer) pendingContainer.classList.remove('hidden');
+        } else {
+            badge.textContent = 'Unverified (Action Required)';
+            badge.className = 'px-3 py-1 bg-red-100 text-red-700 rounded-full text-xs font-bold uppercase tracking-wider';
+            if(uploadFormContainer) uploadFormContainer.classList.remove('hidden');
+        }
+        
+        // Handle Upload Form Submit
+        const kycForm = document.getElementById('kyc-upload-form');
+        if (kycForm) {
+            kycForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const fileInput = document.getElementById('kyc-file-input');
+                if (!fileInput.files.length) return;
+                
+                const file = fileInput.files[0];
+                if (file.size > 2 * 1024 * 1024) {
+                    showToast('File size must be under 2MB', 'error');
+                    return;
+                }
+
+                const submitBtn = kycForm.querySelector('button');
+                const stopLoading = showLoading(submitBtn);
+
+                // Convert file to base64
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = async () => {
+                   try {
+                       await AuthAPI.uploadId({
+                           idDocumentType: 'PAN_CARD', // Simplification, hardcoded for now
+                           idDocumentBase64: reader.result
+                       });
+                       showToast('ID Document uploaded successfully! Pending review.');
+                       setTimeout(() => window.location.reload(), 1500);
+                   } catch (err) {
+                       showToast(err.message, 'error');
+                       stopLoading();
+                   }
+                };
+            });
+        }
+    }
 
     // Update wallet balance if visible
     try {
@@ -374,12 +460,11 @@ async function handleUserProfile() {
       balanceEls.forEach(el => {
         el.textContent = `₹${walletData.balance} e-INR`;
       });
-      console.log('Wallet balance:', walletData.balance, 'e-INR');
     } catch (wErr) {
       console.log('Wallet not available:', wErr.message);
     }
   } catch (err) {
-    console.log('Profile using static data:', err.message);
+    console.log('Profile processing error:', err.message);
   }
 }
 
@@ -396,7 +481,7 @@ function handleBookTicketPage() {
 
   // Populate UI
   const titleEls = document.querySelectorAll('h1, h3', '.font-bold');
-  if (titleEls[1]) titleEls[1].textContent = eventData.title; // Quick hack to set title in summary card
+  if (titleEls[1]) titleEls[1].textContent = eventData.title;
   
   // Set prices
   const priceEls = document.querySelectorAll('.font-medium.text-slate-900.dark\\:text-white, .font-black.text-primary');
@@ -407,17 +492,58 @@ function handleBookTicketPage() {
     }
   });
 
-  const btn = document.querySelector('button[onclick*="payment.html"]');
+  // Dynamic Passenger Form State
+  // For UI testing, we hardcode to 1 seat 'A1' since the seat map is static
+  let selectedSeats = ['A1']; 
+  const container = document.getElementById('passenger-forms-container');
+  
+  function renderPassengerForms() {
+      if(!container) return;
+      container.innerHTML = '';
+      selectedSeats.forEach((seat, idx) => {
+          const div = document.createElement('div');
+          div.className = 'p-3 bg-slate-50 dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 space-y-3';
+          div.innerHTML = `
+              <p class="text-xs font-bold text-slate-700 dark:text-slate-300">Seat ${seat}</p>
+              <input type="text" id="pass-name-${idx}" placeholder="Full Name" class="w-full text-xs rounded border-slate-300 dark:border-slate-600 dark:bg-slate-700 py-1.5 focus:ring-primary" required>
+              <div class="flex gap-2">
+                  <select id="pass-idType-${idx}" class="w-1/3 text-xs rounded border-slate-300 dark:border-slate-600 dark:bg-slate-700 py-1.5 focus:ring-primary">
+                      <option value="PAN">PAN</option>
+                      <option value="Aadhaar">Aadhaar</option>
+                  </select>
+                  <input type="text" id="pass-idHash-${idx}" placeholder="ID Number" class="w-2/3 text-xs rounded border-slate-300 dark:border-slate-600 dark:bg-slate-700 py-1.5 focus:ring-primary uppercase" required>
+              </div>
+          `;
+          container.appendChild(div);
+      });
+  }
+  
+  renderPassengerForms();
+
+  const btn = document.getElementById('proceed-to-pay-btn');
   if (btn) {
     btn.onclick = (e) => {
       e.preventDefault();
-      // Store minimal state
+      
+      // Collect passengers
+      const passengers = [];
+      for(let i=0; i<selectedSeats.length; i++) {
+          const name = document.getElementById(`pass-name-${i}`).value.trim();
+          const idType = document.getElementById(`pass-idType-${i}`).value;
+          const idHash = document.getElementById(`pass-idHash-${i}`).value.trim().toUpperCase();
+          if(!name || !idHash) {
+              showToast('Please fill all passenger details', 'error');
+              return;
+          }
+          passengers.push({ name, idType, idHash });
+      }
+
       sessionStorage.setItem('apna_booking', JSON.stringify({
         eventId: eventData.id,
         eventTitle: eventData.title,
         price: eventData.price,
-        seats: ['A1'], // MOCK: frontend seat selection not fully wired
-        passengers: [{ name: getUser()?.name, idType: 'PAN', idHash: 'ABCD1234E' }]
+        seats: selectedSeats,
+        passengers: passengers
       }));
       window.location.href = 'payment.html';
     };
@@ -425,64 +551,114 @@ function handleBookTicketPage() {
 }
 
 // ─── PAYMENT PAGE ───────────────────────────────────────────────
-function handlePaymentPage() {
+async function handlePaymentPage() {
   if (!requireAuth()) return;
 
   const bookingState = JSON.parse(sessionStorage.getItem('apna_booking'));
-  if (bookingState) {
-    const total = bookingState.price * bookingState.seats.length;
-    const amountEls = document.querySelectorAll('.font-bold.text-slate-900, .text-xl.font-black, .text-3xl.font-black');
-    amountEls.forEach(el => {
-      if(el.textContent.includes('$') || el.textContent.includes('Amount')) {
-        el.textContent = `₹${total} e-INR`;
-      }
-    });
+  if (!bookingState) {
+      showToast('No booking found in session.', 'error');
+      setTimeout(() => window.location.href = 'events.html', 1500);
+      return;
   }
 
-  const form = document.querySelector('form');
-  if (!form) {
-    // Some payment pages might use the "Pay" button directly
-    const payBtn = document.querySelector('button.w-full.bg-primary');
-    if (payBtn) {
-      payBtn.addEventListener('click', async (e) => {
+  const total = bookingState.price * bookingState.seats.length;
+  
+  // Update order summary amounts (fallback for template classes)
+  const amountEls = document.querySelectorAll('.font-bold.text-slate-900, .text-xl.font-black, .text-3xl.font-black');
+  amountEls.forEach(el => {
+    if(el.textContent.includes('$') || el.textContent.includes('Amount')) {
+      el.textContent = `₹${total} e-INR`;
+    }
+  });
+
+  // Set the big pay button amount
+  const payBtnAmount = document.getElementById('pay-btn-amount');
+  if (payBtnAmount) payBtnAmount.textContent = total.toFixed(2);
+
+  const balanceDisplay = document.getElementById('wallet-balance-display');
+  const alertInsufficient = document.getElementById('insufficient-funds-alert');
+  const topupContainer = document.getElementById('topup-container');
+  const payBtn = document.getElementById('btn-pay-now');
+  const topupInput = document.getElementById('topup-amount');
+  const topupBtn = document.getElementById('btn-topup');
+
+  let currentBalance = 0;
+
+  async function checkBalance() {
+      try {
+          const data = await WalletAPI.getBalance();
+          currentBalance = data.balance || 0;
+          
+          if (balanceDisplay) {
+              balanceDisplay.innerHTML = `₹${currentBalance.toLocaleString()} <span class="text-sm font-bold text-slate-500">e-INR</span>`;
+          }
+
+          if (currentBalance < total) {
+              if (alertInsufficient) alertInsufficient.classList.remove('hidden');
+              if (topupContainer) topupContainer.classList.remove('hidden');
+              if (payBtn) payBtn.disabled = true;
+          } else {
+              if (alertInsufficient) alertInsufficient.classList.add('hidden');
+              if (topupContainer) topupContainer.classList.add('hidden');
+              if (payBtn) payBtn.disabled = false;
+          }
+      } catch (err) {
+          console.error("Failed to fetch wallet balance:", err);
+      }
+  }
+
+  // Initial balance check
+  await checkBalance();
+
+  // Handle Top-up
+  if (topupBtn) {
+      topupBtn.addEventListener('click', async () => {
+          const amount = parseFloat(topupInput.value);
+          if (!amount || amount <= 0) {
+              showToast('Enter a valid top-up amount', 'warning');
+              return;
+          }
+          
+          const stopLoading = showLoading(topupBtn);
+          try {
+              await WalletAPI.topup(amount);
+              showToast(`Successfully added ₹${amount} to your E-Rupee wallet!`);
+              topupInput.value = '';
+              await checkBalance(); // Re-evaluates Pay button state
+          } catch (err) {
+              showToast(err.message, 'error');
+          } finally {
+              stopLoading();
+          }
+      });
+  }
+
+  // Handle Checkout
+  const form = document.getElementById('payment-form');
+  if (form) {
+      form.addEventListener('submit', async (e) => {
         e.preventDefault();
-        const stopLoading = showLoading(payBtn);
         
+        if (currentBalance < total) {
+            showToast('Insufficient funds. Please top up your wallet first.', 'error');
+            return;
+        }
+
+        const stopLoading = showLoading(payBtn);
         try {
-          if (!bookingState) throw new Error("No booking data found");
           const data = await BookingsAPI.create(bookingState);
-          showToast('Booking confirmed! 🎉');
+          showToast('Payment successful! Booking confirmed! 🎉');
           sessionStorage.setItem('apna_last_booking', JSON.stringify(data.booking));
           sessionStorage.removeItem('apna_booking');
-          setTimeout(() => { window.location.href = 'booking-confirmation.html'; }, 1000);
-        } catch(err) {
+          setTimeout(() => {
+            window.location.href = 'user-dashboard.html';
+          }, 1500);
+        } catch (err) {
           showToast(err.message, 'error');
           stopLoading();
         }
       });
-    }
-    return;
   }
-
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const submitBtn = form.querySelector('button[type="submit"]');
-    const stopLoading = showLoading(submitBtn);
-
-    try {
-      if (!bookingState || !bookingState.eventId) throw new Error("No booking found in session.");
-      const data = await BookingsAPI.create(bookingState);
-      showToast('Booking confirmed! 🎉');
-      sessionStorage.setItem('apna_last_booking', JSON.stringify(data.booking));
-      sessionStorage.removeItem('apna_booking');
-      setTimeout(() => {
-        window.location.href = 'booking-confirmation.html';
-      }, 1000);
-    } catch (err) {
-      showToast(err.message, 'error');
-      stopLoading();
-    }
-  });
 }
 
 // ─── ADMIN DASHBOARD ────────────────────────────────────────────
@@ -499,8 +675,100 @@ async function handleAdminDashboard() {
     if (metricValues[1]) metricValues[1].textContent = data.activeTickets?.toLocaleString() || '0';
     if (metricValues[2]) metricValues[2].textContent = data.totalUsers?.toLocaleString() || '0';
   } catch (err) {
-    console.log('Admin dashboard using static data:', err.message);
+    console.log('Admin dashboard stats fetch failed:', err.message);
   }
+
+  // Fetch Pending Verifications
+  try {
+      const pendingData = await AdminAPI.getPendingVerifications();
+      const listContainer = document.getElementById('pending-verifications-list');
+      const countBudge = document.getElementById('pending-kyc-count');
+      
+      if(listContainer && pendingData.users) {
+          countBudge.textContent = pendingData.users.length;
+          listContainer.innerHTML = '';
+          if(pendingData.users.length === 0) {
+              listContainer.innerHTML = '<div class="p-6 text-center text-sm text-slate-500 italic">No pending verifications.</div>';
+          } else {
+              pendingData.users.forEach(u => {
+                 listContainer.innerHTML += `
+                    <div class="p-4 flex flex-col gap-3">
+                        <div class="flex justify-between items-start">
+                            <div class="flex items-center gap-3">
+                                <div class="size-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-400 font-bold uppercase">${u.name.charAt(0)}</div>
+                                <div>
+                                    <p class="font-bold text-sm text-slate-900 dark:text-white">${u.name}</p>
+                                    <p class="text-[10px] text-slate-500">${u.email} | ID: ${u.idDocumentType}</p>
+                                </div>
+                            </div>
+                            <span class="text-xs bg-slate-100 dark:bg-slate-800 text-slate-500 font-mono px-2 py-0.5 rounded border border-slate-200 dark:border-slate-700">${u.panMasked || u.aadhaarMasked || '***'}</span>
+                        </div>
+                        ${u.idDocumentUrl ? `
+                        <div class="w-full h-32 bg-slate-100 dark:bg-slate-800 rounded-lg overflow-hidden border border-slate-200 dark:border-slate-700 relative group">
+                            <img src="${u.idDocumentUrl}" class="w-full h-full object-cover" alt="ID Document"/>
+                            <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
+                               <a href="${u.idDocumentUrl}" target="_blank" class="text-white hover:text-primary"><span class="material-symbols-outlined">zoom_in</span></a>
+                            </div>
+                        </div>` : '<div class="text-xs text-red-500 italic">No document image provided</div>'}
+                        <div class="grid grid-cols-2 gap-2 mt-2">
+                            <button onclick="window.verifyUser('${u.id}', 'approve')" class="py-1.5 rounded bg-success/10 text-success text-xs font-bold hover:bg-success hover:text-white transition-colors">Approve</button>
+                            <button onclick="window.verifyUser('${u.id}', 'reject')" class="py-1.5 rounded bg-red-50 dark:bg-red-900/20 text-red-600 text-xs font-bold hover:bg-red-500 hover:text-white transition-colors">Reject</button>
+                        </div>
+                    </div>
+                 `; 
+              });
+          }
+      }
+  } catch (err) {
+      console.log('Pending verifications fetch failed', err.message);
+  }
+
+  // Fetch Anomalies
+  try {
+      const anomaliesData = await AdminAPI.getAnomalies();
+      const anomaliesList = document.getElementById('anomalies-list');
+      
+      if(anomaliesList && anomaliesData.anomalies) {
+          anomaliesList.innerHTML = '';
+          if(anomaliesData.anomalies.length === 0) {
+              anomaliesList.innerHTML = '<div class="p-6 text-center text-sm text-success font-semibold flex items-center justify-center gap-2"><span class="material-symbols-outlined">shield</span> No anomalies detected.</div>';
+          } else {
+              anomaliesData.anomalies.forEach(anomaly => {
+                  let icon = 'warning';
+                  switch(anomaly.type) {
+                      case 'EXCESSIVE_BOOKINGS': icon = 'local_activity'; break;
+                      case 'DUPLICATE_PANS': icon = 'admin_panel_settings'; break;
+                      case 'UNVERIFIED_BOOKER': icon = 'gpp_bad'; break;
+                  }
+
+                  anomaliesList.innerHTML += `
+                     <div class="p-3 bg-red-50 dark:bg-red-900/10 border border-red-100 dark:border-red-900/30 rounded-lg flex items-start gap-3">
+                         <span class="material-symbols-outlined text-red-500 mt-0.5">${icon}</span>
+                         <div>
+                             <p class="text-sm font-bold text-slate-900 dark:text-red-100">${anomaly.type.replace(/_/g, ' ')}</p>
+                             <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">${anomaly.details || 'No details'}</p>
+                             <p class="text-[10px] text-slate-500 mt-1 font-mono">${new Date(anomaly.detectedAt).toLocaleString()}</p>
+                         </div>
+                     </div>
+                  `;
+              });
+          }
+      }
+  } catch (err) {
+      console.log('Anomalies fetch failed', err.message);
+  }
+}
+
+// Global hook for the onclick handlers in generated HTML
+window.verifyUser = async function(userId, action) {
+    if(!confirm(`Are you sure you want to ${action} this ID?`)) return;
+    try {
+        await AuthAPI.verifyId(userId, action);
+        showToast(`User ${action === 'approve'? 'approved' : 'rejected'} successfully.`);
+        setTimeout(() => handleAdminDashboard(), 1000); // Reload sections
+    } catch(err) {
+        showToast(err.message, 'error');
+    }
 }
 
 // ─── ADMIN EVENTS ───────────────────────────────────────────────

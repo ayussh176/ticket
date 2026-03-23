@@ -387,15 +387,18 @@ router.get('/pending-verifications', authenticate, adminOnly, async (req, res) =
       const pending = mockUsers
         .filter(u => u.idVerificationStatus === 'pending' && u.idDocumentUrl)
         .map(u => ({
+          id: u.uid, // Add alias 'id' for frontend
           uid: u.uid,
           name: u.name,
           email: u.email,
           isMinor: u.isMinor || false,
           idDocumentType: u.idDocumentType || 'PAN_CARD',
+          idDocumentUrl: u.idDocumentUrl, // Crucial for rendering the image
           panMasked: u.panHash ? maskPAN(u.panHash) : '',
+          aadhaarMasked: u.aadhaarHash ? maskPAN(u.aadhaarHash) : '', // Use maskPAN or dedicated mask function
           uploadedAt: u.createdAt,
         }));
-      return res.json({ pending, total: pending.length });
+      return res.json({ users: pending, total: pending.length });
     }
 
     const db = getDb();
@@ -408,18 +411,22 @@ router.get('/pending-verifications', authenticate, adminOnly, async (req, res) =
       const data = doc.data();
       if (data.idDocumentUrl) {
         pending.push({
+          id: doc.id, // Add alias 'id' for frontend
           uid: doc.id,
           name: data.name,
           email: data.email,
           isMinor: data.isMinor || false,
           idDocumentType: data.idDocumentType || 'PAN_CARD',
+          idDocumentUrl: data.idDocumentUrl, // Crucial for rendering the image
           panMasked: data.panHash ? maskPAN(data.panHash) : '',
+          aadhaarMasked: data.aadhaarHash ? maskPAN(data.aadhaarHash) : '',
           uploadedAt: data.createdAt,
         });
       }
     });
 
-    res.json({ pending, total: pending.length });
+    // Frontend looks for { users: [...] }
+    res.json({ users: pending, total: pending.length });
   } catch (error) {
     console.error('Pending verifications error:', error);
     res.status(500).json({ error: 'Failed to fetch pending verifications.' });

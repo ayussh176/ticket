@@ -234,6 +234,49 @@
 </button>
 </div>
 </div>
+<!-- Security & KYC Section -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+<!-- Pending Verifications -->
+<div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden flex flex-col">
+    <div class="p-6 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-amber-50/50 dark:bg-amber-900/10">
+        <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-amber-500">pending_actions</span>
+            <div>
+                <h3 class="font-bold text-lg text-slate-900 dark:text-white">KYC Review Queue</h3>
+                <p class="text-xs text-slate-500">Users waiting for ID approval</p>
+            </div>
+        </div>
+        <span id="pending-kyc-count" class="bg-amber-100 text-amber-700 text-xs font-bold px-2 py-1 rounded-full">0</span>
+    </div>
+    <div class="flex-1 overflow-y-auto max-h-[400px]">
+        <div id="pending-verifications-list" class="divide-y divide-slate-100 dark:divide-slate-800">
+            <!-- Populated by JS -->
+            <div class="p-6 text-center text-sm text-slate-500 italic">No pending verifications.</div>
+        </div>
+    </div>
+</div>
+
+<!-- Anomaly Detection -->
+<div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden flex flex-col">
+    <div class="p-6 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-red-50/50 dark:bg-red-900/10">
+        <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-red-500">policy</span>
+            <div>
+                <h3 class="font-bold text-lg text-slate-900 dark:text-white">Fraud & Anomalies</h3>
+                <p class="text-xs text-slate-500">Suspicious activities flagged by backend</p>
+            </div>
+        </div>
+        <button class="text-xs font-bold text-primary hover:underline" onclick="handleAdminDashboard()">Refresh</button>
+    </div>
+    <div class="flex-1 overflow-y-auto max-h-[400px] p-4">
+        <div id="anomalies-list" class="space-y-3">
+            <!-- Populated by JS -->
+            <div class="p-6 text-center text-sm text-slate-500 italic">Running anomaly check...</div>
+        </div>
+    </div>
+</div>
+</div>
+
 <!-- Recent Tickets Table -->
 <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
 <div class="p-6 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
