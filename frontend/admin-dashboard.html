@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>APNATICKET Admin Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#4F46E5",
+                        "success": "#22C55E",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased">
+<div class="flex min-h-screen overflow-hidden">
+<!-- Sidebar Navigation -->
+<aside class="w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col shrink-0">
+<div class="p-6 flex items-center gap-3">
+<div class="size-10 bg-primary rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined">confirmation_number</span>
+</div>
+<div>
+<h1 class="text-lg font-bold tracking-tight text-slate-900 dark:text-white leading-none">APNATICKET</h1>
+<p class="text-xs text-slate-500 dark:text-slate-400 mt-1 font-medium">Admin Panel</p>
+</div>
+</div>
+<nav class="flex-1 px-4 py-4 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary" href="admin-dashboard.html">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-sm font-semibold">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">transit_ticket</span>
+<span class="text-sm font-semibold">Manage Tickets</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="text-sm font-semibold">Users</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="text-sm font-semibold">Reports</span>
+</a>
+</nav>
+<div class="p-4 border-t border-slate-200 dark:border-slate-800">
+<div class="flex items-center gap-3 p-2">
+<img alt="Admin Avatar" class="size-9 rounded-full object-cover" data-alt="Close up portrait of a male professional" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDtSEdKNV9e9KX4_XsQrYAL71IJPpVZSzNfqmv1n2Nb3hAxYQKCV9PINtVD8P4ARtrpn3vkFy77UmaItOYBMH5lGz1Nmw0-pm_aWmChVSc5PDbvtSRJzQp2HovMsQ9c2NThZ9NCyraeATnwcbRYi2J3wB0LrMB6EkbOAIDOGUGj5AM-RNA7KNOHDLiwVl3Apc-oaktxJ1DvC8MEGidAnPMjV8X5n--cu_PkfXiAc8QaPXX6ynP9XZF8i6KaFXkDF1f0SfANIeKAMcY"/>
+<div class="overflow-hidden">
+<p class="text-sm font-bold truncate">Alex Morgan</p>
+<p class="text-xs text-slate-500 truncate">Super Admin</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col overflow-y-auto">
+<!-- Header -->
+<header class="h-16 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-8 flex items-center justify-between sticky top-0 z-10">
+<div class="flex items-center gap-4 flex-1">
+<div class="relative max-w-md w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">search</span>
+<input class="w-full bg-slate-100 dark:bg-slate-800 border-none rounded-lg py-2 pl-10 pr-4 text-sm focus:ring-2 focus:ring-primary/20" placeholder="Search orders, tickets, or users..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 size-2 bg-red-500 rounded-full border-2 border-white dark:border-slate-900"></span>
+</button>
+<button class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+</header>
+<div class="p-8 space-y-8">
+<!-- Metrics Section -->
+<div>
+<h2 class="text-2xl font-bold mb-6">Dashboard Overview</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<div class="p-2 bg-primary/10 rounded-lg text-primary">
+<span class="material-symbols-outlined">payments</span>
+</div>
+<span class="text-xs font-bold text-success flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">trending_up</span> +12.5%
+                                </span>
+</div>
+<p class="text-sm font-medium text-slate-500 dark:text-slate-400">Total Sales</p>
+<p class="text-2xl font-bold mt-1">$45,280.00</p>
+</div>
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<div class="p-2 bg-primary/10 rounded-lg text-primary">
+<span class="material-symbols-outlined">confirmation_number</span>
+</div>
+<span class="text-xs font-bold text-success flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">trending_up</span> +5.2%
+                                </span>
+</div>
+<p class="text-sm font-medium text-slate-500 dark:text-slate-400">Active Tickets</p>
+<p class="text-2xl font-bold mt-1">1,240</p>
+</div>
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<div class="p-2 bg-primary/10 rounded-lg text-primary">
+<span class="material-symbols-outlined">person_add</span>
+</div>
+<span class="text-xs font-bold text-success flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">trending_up</span> +18.3%
+                                </span>
+</div>
+<p class="text-sm font-medium text-slate-500 dark:text-slate-400">New Users</p>
+<p class="text-2xl font-bold mt-1">328</p>
+</div>
+</div>
+</div>
+<!-- Charts and Tables -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Weekly Revenue Chart -->
+<div class="lg:col-span-2 bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex items-center justify-between mb-8">
+<div>
+<h3 class="font-bold text-lg">Weekly Revenue</h3>
+<p class="text-sm text-slate-500">Revenue growth over the last 7 days</p>
+</div>
+<select class="bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-lg text-xs font-semibold py-1.5 px-3">
+<option>Last 7 Days</option>
+<option>Last 30 Days</option>
+</select>
+</div>
+<div class="h-64 flex flex-col justify-end gap-2">
+<div class="flex items-end justify-between h-48 gap-4 px-2">
+<div class="w-full bg-primary/20 hover:bg-primary/40 rounded-t h-[40%] transition-all relative group">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[10px] py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">$1,200</div>
+</div>
+<div class="w-full bg-primary/20 hover:bg-primary/40 rounded-t h-[65%] transition-all relative group">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[10px] py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">$2,100</div>
+</div>
+<div class="w-full bg-primary/20 hover:bg-primary/40 rounded-t h-[55%] transition-all relative group">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[10px] py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">$1,800</div>
+</div>
+<div class="w-full bg-primary/40 hover:bg-primary/60 rounded-t h-[85%] transition-all relative group">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[10px] py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">$3,400</div>
+</div>
+<div class="w-full bg-primary/20 hover:bg-primary/40 rounded-t h-[45%] transition-all relative group">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[10px] py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">$1,400</div>
+</div>
+<div class="w-full bg-primary/20 hover:bg-primary/40 rounded-t h-[75%] transition-all relative group">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[10px] py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">$2,800</div>
+</div>
+<div class="w-full bg-primary rounded-t h-[95%] transition-all relative group">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[10px] py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity">$4,200</div>
+</div>
+</div>
+<div class="flex justify-between px-2 pt-2 border-t border-slate-100 dark:border-slate-800">
+<span class="text-[10px] font-bold text-slate-400 w-full text-center">MON</span>
+<span class="text-[10px] font-bold text-slate-400 w-full text-center">TUE</span>
+<span class="text-[10px] font-bold text-slate-400 w-full text-center">WED</span>
+<span class="text-[10px] font-bold text-slate-400 w-full text-center">THU</span>
+<span class="text-[10px] font-bold text-slate-400 w-full text-center">FRI</span>
+<span class="text-[10px] font-bold text-slate-400 w-full text-center">SAT</span>
+<span class="text-[10px] font-bold text-slate-400 w-full text-center">SUN</span>
+</div>
+</div>
+</div>
+<!-- Category Breakdown -->
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col">
+<h3 class="font-bold text-lg mb-6">Sales by Category</h3>
+<div class="space-y-6 flex-1">
+<div class="space-y-2">
+<div class="flex justify-between text-sm font-medium">
+<span>Concerts</span>
+<span>45%</span>
+</div>
+<div class="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 45%"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between text-sm font-medium">
+<span>Sports</span>
+<span>30%</span>
+</div>
+<div class="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
+<div class="bg-primary/60 h-full rounded-full" style="width: 30%"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between text-sm font-medium">
+<span>Theater</span>
+<span>15%</span>
+</div>
+<div class="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
+<div class="bg-primary/40 h-full rounded-full" style="width: 15%"></div>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between text-sm font-medium">
+<span>Festivals</span>
+<span>10%</span>
+</div>
+<div class="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
+<div class="bg-primary/20 h-full rounded-full" style="width: 10%"></div>
+</div>
+</div>
+</div>
+<button class="mt-4 text-primary text-sm font-semibold hover:underline flex items-center gap-1" onclick="window.location.href='events.html'">
+                            View all insights <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Recent Tickets Table -->
+<div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+<div class="p-6 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+<div>
+<h3 class="font-bold text-lg">Recent Ticket Listings</h3>
+<p class="text-sm text-slate-500">Manage your latest event uploads</p>
+</div>
+<button class="bg-primary text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 hover:bg-primary/90">
+<span class="material-symbols-outlined text-sm">add</span> New Ticket
+                        </button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-slate-50 dark:bg-slate-800/50">
+<tr>
+<th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Event Name</th>
+<th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Category</th>
+<th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Status</th>
+<th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Price</th>
+<th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Available</th>
+<th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+<tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded bg-slate-100 dark:bg-slate-800 overflow-hidden flex-shrink-0">
+<img alt="Event" class="w-full h-full object-cover" data-alt="Vibrant concert stage with spotlights" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpqXoQ2kIQhfnUiUDuU9IiSeuu_6dc1LQePYloRvsbozKi97ci6IjpB5SGjIij6yJSB2_Mwa6Uea-TmbXWZPe6uAQphfTZwid7Px5bPLZ-zAZQI3-xt0K_7niYRJwHzpIRP5N1C53jG-YfJZ7VnJeZbQe-XojdBtAdWpacNfmOtS_J5-2lccKCWwry0xk7UkvK0ZczJhxE20-DUBuW4DDq7xzY4MYWNzjnWhjWm-WgS8MBjl_ku7Z2qwNMCfdoZuuKrInYKh6jwN0"/>
+</div>
+<span class="text-sm font-semibold">Neon Summer Festival</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Festival</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 bg-success/10 text-success text-[10px] font-bold rounded-full uppercase tracking-wide">Live</span>
+</td>
+<td class="px-6 py-4 text-sm font-medium">$89.00</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">450 / 1000</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-xl">edit</span>
+</button>
+<button class="p-1.5 hover:bg-red-50 dark:hover:bg-red-900/20 rounded text-slate-400 hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined text-xl">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded bg-slate-100 dark:bg-slate-800 overflow-hidden flex-shrink-0">
+<img alt="Event" class="w-full h-full object-cover" data-alt="Basketball game in a large stadium" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAByu1dDDz9TIR1SRRKjYuQiG3k2SzblbHmhVWL_XX8mFDc7JVwu9AeyVIUeuqfhO6q6SiPEMt8ielGMycQMBHLlRlDRUh43XA-KUmK6mJfmcu-O8z91dQw0pCLljp8g1D9v5Mcozme4JNoO3Yuk_tdw-PwHuWrwTIPVZMGxZ38UuJ0kGMQxjjEKJh8bDHODwSm5K-4NZVvsHvuSeG1ag91E64Z43LeoCjVjFETlf2xq0LPDFJZ8pX5A3NjDrl5njuYBCWwCapCoUo"/>
+</div>
+<span class="text-sm font-semibold">NBA Finals 2024</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Sports</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 bg-amber-100 text-amber-600 text-[10px] font-bold rounded-full uppercase tracking-wide">Pending</span>
+</td>
+<td class="px-6 py-4 text-sm font-medium">$250.00</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">0 / 200</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-xl">edit</span>
+</button>
+<button class="p-1.5 hover:bg-red-50 dark:hover:bg-red-900/20 rounded text-slate-400 hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined text-xl">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded bg-slate-100 dark:bg-slate-800 overflow-hidden flex-shrink-0">
+<img alt="Event" class="w-full h-full object-cover" data-alt="Classic theater stage with red curtains" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-kwRNGaIioU-j8cP-pLrbXRuWs-0wYtWmecTJ7dO0k21Gi2hzL06bqKyvYGF9P_rptf97JPzlUto3JjEh-iOxdbfSuDRkcn4YUmhsc3kli02HDDhj_yVD-hp4x7cfT2iLDf_DU-1eOuRGGTr_g1-ICvs8yM048Nx8IiJpzXvfSCYhHGpJlSIwDK0hELbRvyfhRZAnch6CQfNAj5tmyIIglOxemunXnU7miawW16LZVJKsDyKIqFfNNTDoNIUagS2if0OCocVAO3c"/>
+</div>
+<span class="text-sm font-semibold">Phantom of the Opera</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">Theater</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 bg-success/10 text-success text-[10px] font-bold rounded-full uppercase tracking-wide">Live</span>
+</td>
+<td class="px-6 py-4 text-sm font-medium">$120.00</td>
+<td class="px-6 py-4 text-sm text-slate-600 dark:text-slate-400">82 / 500</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-800 rounded text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-xl">edit</span>
+</button>
+<button class="p-1.5 hover:bg-red-50 dark:hover:bg-red-900/20 rounded text-slate-400 hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined text-xl">delete</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
+<span class="text-xs text-slate-500">Showing 3 of 42 tickets</span>
+<div class="flex items-center gap-2">
+<button class="p-1 border border-slate-200 dark:border-slate-700 rounded hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-400">
+<span class="material-symbols-outlined text-sm">chevron_left</span>
+</button>
+<button class="p-1 border border-slate-200 dark:border-slate-700 rounded bg-primary text-white text-xs px-2.5 font-bold">1</button>
+<button class="p-1 border border-slate-200 dark:border-slate-700 rounded hover:bg-slate-50 dark:hover:bg-slate-800 text-xs px-2.5 font-bold">2</button>
+<button class="p-1 border border-slate-200 dark:border-slate-700 rounded hover:bg-slate-50 dark:hover:bg-slate-800 text-xs px-2.5 font-bold">3</button>
+<button class="p-1 border border-slate-200 dark:border-slate-700 rounded hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-400">
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+    <script src="js/api.js"></script><script src="js/main.js"></script>
+    <script src="js/app.js"></script>
+</body></html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<title>Contact Us - APNATICKET</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 transition-colors duration-200">
+<!-- Top Navigation Bar -->
+<header class="sticky top-0 z-50 w-full border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-background-dark/80 backdrop-blur-md">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex h-16 items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-3xl">confirmation_number</span>
+</div>
+<span class="text-xl font-bold tracking-tight text-slate-900 dark:text-white uppercase">APNATICKET</span>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary" href="index.html">Home</a>
+<a class="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary" href="#">Tickets</a>
+<a class="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary" href="book-ticket.html">Bookings</a>
+<a class="text-sm font-medium text-primary" href="contact.html">Contact</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="hidden sm:block text-sm font-medium px-4 py-2 rounded-lg bg-primary text-white hover:bg-primary/90" onclick="window.location.href='login.html'">Sign In</button>
+<div class="size-9 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden border border-slate-200 dark:border-slate-800">
+<img class="w-full h-full object-cover" data-alt="User profile avatar placeholder" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSING9m9RK3sasq-v7TwCfB7cA6gjwVuvaZ51DUxSAPVpUCsE0G6Dw9ZBgxXXlBwasfahW7vM4p-jU7sNDm7xsFxAw-uD70sluNPOTiJ0b7tI8GUdtPEkFfHeiJvMu-ucZRcaBlR44DR00EJNU7kdzsKguJcAqOokdsoA6xgN-z96oV5WaFX0v1iKifuPuI8V9DFKByr8xETIwrFrgBInJQiMTyMJJI05w_MSYGFRlKkzs2dXuv-avRvWftC-GnZVPosN-n6XCuEk"/>
+</div>
+</div>
+</div>
+</div>
+</header>
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<!-- Hero Section -->
+<div class="mb-16">
+<h1 class="text-4xl md:text-5xl font-black tracking-tight text-slate-900 dark:text-white mb-4">
+                Get in Touch
+            </h1>
+<p class="text-lg text-slate-600 dark:text-slate-400 max-w-2xl">
+                Have questions about your booking or need assistance with your travel plans? Our team is available 24/7 to help you navigate your journey.
+            </p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+<!-- Contact Form -->
+<div class="lg:col-span-7 bg-white dark:bg-slate-900/50 p-8 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800">
+<h2 class="text-2xl font-bold mb-6">Send us a message</h2>
+<form action="" class="space-y-6">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="flex flex-col gap-2">
+<label class="text-sm font-medium text-slate-700 dark:text-slate-300">Name</label>
+<input class="w-full rounded-lg border-slate-200 dark:border-slate-800 dark:bg-slate-900 focus:ring-primary focus:border-primary px-4 py-3 outline-none transition-all" placeholder="Your full name" type="text"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-sm font-medium text-slate-700 dark:text-slate-300">Email Address</label>
+<input class="w-full rounded-lg border-slate-200 dark:border-slate-800 dark:bg-slate-900 focus:ring-primary focus:border-primary px-4 py-3 outline-none transition-all" placeholder="email@example.com" type="email"/>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-sm font-medium text-slate-700 dark:text-slate-300">Subject</label>
+<select class="w-full rounded-lg border-slate-200 dark:border-slate-800 dark:bg-slate-900 focus:ring-primary focus:border-primary px-4 py-3 outline-none transition-all">
+<option>Booking Inquiry</option>
+<option>Ticket Cancellation</option>
+<option>Refund Status</option>
+<option>Technical Support</option>
+<option>Other</option>
+</select>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-sm font-medium text-slate-700 dark:text-slate-300">Message</label>
+<textarea class="w-full rounded-lg border-slate-200 dark:border-slate-800 dark:bg-slate-900 focus:ring-primary focus:border-primary px-4 py-3 outline-none transition-all" placeholder="How can we help you?" rows="5"></textarea>
+</div>
+<button class="w-full md:w-max px-8 py-3 bg-primary text-white font-bold rounded-lg hover:bg-primary/90 shadow-lg shadow-primary/20 transition-all" type="submit">
+                        Send Message
+                    </button>
+</form>
+</div>
+<!-- Support Info -->
+<div class="lg:col-span-5 space-y-8">
+<!-- Info Cards -->
+<div class="space-y-4">
+<div class="flex items-start gap-4 p-6 bg-primary/5 dark:bg-primary/10 rounded-xl border border-primary/10">
+<div class="p-3 bg-primary rounded-lg text-white">
+<span class="material-symbols-outlined">mail</span>
+</div>
+<div>
+<h3 class="font-bold text-slate-900 dark:text-white">Email Us</h3>
+<p class="text-slate-600 dark:text-slate-400 text-sm">Our support team responds within 2 hours.</p>
+<a class="text-primary font-semibold hover:underline mt-1 block" href="mailto:support@apnaticket.com">support@apnaticket.com</a>
+</div>
+</div>
+<div class="flex items-start gap-4 p-6 bg-slate-100 dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-800">
+<div class="p-3 bg-slate-900 dark:bg-primary/20 rounded-lg text-white dark:text-primary">
+<span class="material-symbols-outlined">call</span>
+</div>
+<div>
+<h3 class="font-bold text-slate-900 dark:text-white">Call Anytime</h3>
+<p class="text-slate-600 dark:text-slate-400 text-sm">24/7 Toll-free assistance.</p>
+<p class="text-slate-900 dark:text-white font-semibold mt-1">+1 (800) 123-4567</p>
+</div>
+</div>
+<div class="flex items-start gap-4 p-6 bg-slate-100 dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-800">
+<div class="p-3 bg-slate-900 dark:bg-primary/20 rounded-lg text-white dark:text-primary">
+<span class="material-symbols-outlined">location_on</span>
+</div>
+<div>
+<h3 class="font-bold text-slate-900 dark:text-white">Headquarters</h3>
+<p class="text-slate-600 dark:text-slate-400 text-sm">Visit our main office.</p>
+<p class="text-slate-900 dark:text-white font-semibold mt-1">123 Travel Avenue, Suite 500<br/>San Francisco, CA 94105</p>
+</div>
+</div>
+</div>
+<!-- Map Placeholder -->
+<div class="w-full aspect-video rounded-xl overflow-hidden shadow-inner bg-slate-200 dark:bg-slate-800 relative group">
+<div class="absolute inset-0 flex items-center justify-center">
+<img class="w-full h-full object-cover" data-alt="Map of San Francisco downtown location" data-location="San Francisco" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1rrIzjFmR0ylGJrvWo2UoodjdEkiqOOzg6rQWj3z8TIU7RJWz2loloO4c1X6tIN4B9FYazpAA-RV4uz_lgY6iAUiK12R-qm_K6RMV58LxTmOmw0HEt9l_GY8FwIRuo2nS9aZM9dfCNyzUfw3zkoydO2as1LKlukJ_qFIR7wGA8oL7pO0FYUHOvINmN_VVBtC9ZSS5yKhZ9NtpIV-UrLdmtpeyMUv9k5WI42objHLBVr4aZu_373agUrCAlHoCGwmj5h3FIylC4BQ"/>
+<div class="absolute inset-0 bg-primary/10 group-hover:bg-transparent transition-colors"></div>
+</div>
+<div class="absolute bottom-4 left-4 right-4 bg-white/90 dark:bg-slate-900/90 p-3 rounded-lg flex items-center gap-2 text-xs font-medium backdrop-blur">
+<span class="material-symbols-outlined text-primary text-sm">explore</span>
+<span>Click to open in Google Maps</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 mt-20">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+<div class="col-span-1 md:col-span-2">
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-3xl text-primary">confirmation_number</span>
+<span class="text-xl font-bold tracking-tight text-slate-900 dark:text-white uppercase">APNATICKET</span>
+</div>
+<p class="text-slate-500 dark:text-slate-400 max-w-sm">
+                        Simplifying travel across the globe. Find the best deals on flights, buses, and trains with our easy-to-use platform.
+                    </p>
+<div class="flex gap-4 mt-6">
+<a class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-400 hover:bg-primary hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">share</span>
+</a>
+<a class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-400 hover:bg-primary hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">public</span>
+</a>
+<a class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-400 hover:bg-primary hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">thumb_up</span>
+</a>
+</div>
+</div>
+<div>
+<h4 class="text-slate-900 dark:text-white font-bold mb-6">Quick Links</h4>
+<ul class="space-y-4 text-slate-500 dark:text-slate-400">
+<li><a class="hover:text-primary transition-colors" href="about.html">About Us</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Available Routes</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Pricing Plans</a></li>
+<li><a class="hover:text-primary transition-colors" href="contact.html">Help Center</a></li>
+</ul>
+</div>
+<div>
+<h4 class="text-slate-900 dark:text-white font-bold mb-6">Legal</h4>
+<ul class="space-y-4 text-slate-500 dark:text-slate-400">
+<li><a class="hover:text-primary transition-colors" href="#">Privacy Policy</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Terms of Service</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Cookie Policy</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Refund Policy</a></li>
+</ul>
+</div>
+</div>
+<div class="border-t border-slate-200 dark:border-slate-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="text-sm text-slate-500 dark:text-slate-400">
+                    © 2024 APNATICKET. All rights reserved.
+                </p>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-400">language</span>
+<span class="text-sm text-slate-500 dark:text-slate-400">English (US)</span>
+</div>
+</div>
+</div>
+</div>
+</footer>
+    <script src="js/api.js"></script><script src="js/main.js"></script>
+    <script src="js/app.js"></script>
+</body></html>

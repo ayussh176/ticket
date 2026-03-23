@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<title>404 - Page Not Found | APNATICKET</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex flex-col">
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark px-6 md:px-10 py-3 sticky top-0 z-50">
+<div class="flex items-center gap-4">
+<div class="text-primary">
+<span class="material-symbols-outlined text-3xl">flight_takeoff</span>
+</div>
+<h2 class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-tight uppercase">APNATICKET</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8 items-center">
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#">Flights</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#">Hotels</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#">Trains</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="#">Bus</a>
+</nav>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center rounded-lg h-10 px-5 bg-primary text-white text-sm font-bold tracking-wide hover:bg-primary/90 transition-all" onclick="window.location.href='login.html'">
+<span>Login</span>
+</button>
+</div>
+</header>
+<main class="flex-grow flex flex-col items-center justify-center px-6 py-12 md:py-24">
+<div class="max-w-2xl w-full flex flex-col items-center text-center space-y-8">
+<div class="relative w-full max-w-md aspect-video rounded-xl overflow-hidden bg-primary/5 dark:bg-primary/10 flex items-center justify-center">
+<div class="absolute inset-0 opacity-20 dark:opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-primary via-transparent to-transparent"></div>
+<div class="flex flex-col items-center">
+<span class="material-symbols-outlined text-[120px] text-primary/40">wrong_location</span>
+<div class="absolute bottom-4 left-0 right-0 flex justify-center space-x-2">
+<span class="h-1 w-8 rounded-full bg-primary/30"></span>
+<span class="h-1 w-12 rounded-full bg-primary"></span>
+<span class="h-1 w-8 rounded-full bg-primary/30"></span>
+</div>
+</div>
+<img class="hidden" data-alt="Abstract minimalist illustration of a lost traveler in a terminal" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWpzyteOvvRf5NIxwYXBBjL-qj0iTvyL-sFWD0nTKdGX1ctHP4TQiHqxbB8CKfob3qF02ZTMB4TbXrOeFm67-twyw3hz4irN_ogcZUDCqYVTA16BXo9IteQDnDwSKeHAkqK-P_ILDUNcxKNTfnAIapTV65esXGMFAe7Fmsm-DmtPpSMAHLKmR8BtYfZmSNoZ19ZB-vm36RLEgqZb-sjB06e4BnaOZSynS8cBmY3QZnE8ffuF-hqqyJEfqP4MlVy2XmOdwhNKDZNW4"/>
+</div>
+<div class="flex flex-col items-center gap-3">
+<h1 class="text-4xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tight">404 Not Found</h1>
+<p class="text-slate-600 dark:text-slate-400 text-lg max-w-md">
+                    Oops! It looks like your flight to this page was cancelled. The destination you're looking for doesn't exist or has been moved.
+                </p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4 w-full justify-center">
+<button class="flex min-w-[160px] cursor-pointer items-center justify-center rounded-lg h-12 px-6 bg-primary text-white text-base font-bold tracking-wide hover:bg-primary/90 transition-all shadow-lg shadow-primary/20" onclick="window.location.href='index.html'">
+<span class="material-symbols-outlined mr-2">home</span>
+<span>Back to Home</span>
+</button>
+<button class="flex min-w-[160px] cursor-pointer items-center justify-center rounded-lg h-12 px-6 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 text-base font-bold hover:bg-slate-50 dark:hover:bg-slate-700 transition-all" onclick="window.location.href='contact.html'">
+<span class="material-symbols-outlined mr-2">help</span>
+<span>Get Support</span>
+</button>
+</div>
+</div>
+<div class="w-full max-w-5xl mt-20">
+<div class="flex flex-col items-center mb-8">
+<div class="h-px w-24 bg-primary/30 mb-4"></div>
+<h3 class="text-slate-500 dark:text-slate-400 text-sm font-bold uppercase tracking-widest">Need help finding your way?</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<a class="group flex gap-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark p-6 transition-all hover:border-primary/50 hover:shadow-xl hover:shadow-primary/5" href="events.html">
+<div class="flex items-center justify-center size-12 rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">flight</span>
+</div>
+<div class="flex flex-col">
+<h4 class="text-slate-900 dark:text-white text-lg font-bold group-hover:text-primary transition-colors">Search Flights</h4>
+<p class="text-slate-500 dark:text-slate-400 text-sm">Discover your next destination</p>
+</div>
+</a>
+<a class="group flex gap-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark p-6 transition-all hover:border-primary/50 hover:shadow-xl hover:shadow-primary/5" href="my-bookings.html">
+<div class="flex items-center justify-center size-12 rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">confirmation_number</span>
+</div>
+<div class="flex flex-col">
+<h4 class="text-slate-900 dark:text-white text-lg font-bold group-hover:text-primary transition-colors">My Bookings</h4>
+<p class="text-slate-500 dark:text-slate-400 text-sm">Manage your current itineraries</p>
+</div>
+</a>
+<a class="group flex gap-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark p-6 transition-all hover:border-primary/50 hover:shadow-xl hover:shadow-primary/5" href="contact.html">
+<div class="flex items-center justify-center size-12 rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">support_agent</span>
+</div>
+<div class="flex flex-col">
+<h4 class="text-slate-900 dark:text-white text-lg font-bold group-hover:text-primary transition-colors">Customer Support</h4>
+<p class="text-slate-500 dark:text-slate-400 text-sm">24/7 assistance for travelers</p>
+</div>
+</a>
+</div>
+</div>
+</main>
+<footer class="mt-auto border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark py-12 px-6">
+<div class="max-w-7xl mx-auto flex flex-col items-center gap-8">
+<div class="flex flex-wrap items-center justify-center gap-x-12 gap-y-4">
+<a class="text-slate-500 dark:text-slate-400 hover:text-primary transition-colors text-sm font-medium" href="#">Terms &amp; Conditions</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-primary transition-colors text-sm font-medium" href="#">Privacy Policy</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-primary transition-colors text-sm font-medium" href="#">Cookie Settings</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-primary transition-colors text-sm font-medium" href="contact.html">Contact Us</a>
+</div>
+<div class="flex items-center gap-6">
+<a class="text-slate-400 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">social_leaderboard</span>
+</a>
+<a class="text-slate-400 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">public</span>
+</a>
+</div>
+<p class="text-slate-400 dark:text-slate-500 text-sm">© 2024 APNATICKET. Making travel seamless across the globe.</p>
+</div>
+</footer>
+    <script src="js/api.js"></script><script src="js/main.js"></script>
+    <script src="js/app.js"></script>
+</body></html>

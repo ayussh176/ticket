@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Create Event | APNATICKET Admin</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
+<div class="flex h-full min-h-screen flex-col lg:flex-row">
+<!-- Sidebar Navigation -->
+<aside class="w-full lg:w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col">
+<div class="p-6 flex items-center gap-3">
+<div class="bg-primary text-white p-2 rounded-lg">
+<span class="material-symbols-outlined">confirmation_number</span>
+</div>
+<h2 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white leading-none">APNATICKET</h2>
+</div>
+<nav class="flex-1 px-4 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-medium text-sm">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 bg-primary/10 text-primary rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="font-medium text-sm">Events</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">confirmation_number</span>
+<span class="font-medium text-sm">Bookings</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-medium text-sm">Users</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-medium text-sm">Settings</span>
+</a>
+</nav>
+<div class="p-4 border-t border-slate-200 dark:border-slate-800">
+<div class="flex items-center gap-3 p-2">
+<div class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 bg-cover" data-alt="Admin user profile avatar thumbnail" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDnVEnwYB1gSQAnG7kG0S59Gpm-AGbwcHG512QBlFNvi1L7jycOOkCMcAuWwWYLN6DSreoRW2d76Sa8bnHsbj9v3t9ETEOMJM43SXEYf9sTJV0cvG6J4qcxAX41FSLZ2-tfz8svmG58gvNdd3kVDR9x5J52MBdYc4Y-lv8J8mlEUTF1F5ctDATQb2k1-8pNWRl-Iniu1rRrDQFrw6diCvxdME5g5eIhtp3O7zh4o8ajk1lhGYB8lR0FwU9SVSZoaYlFy_8-SJQUegw')"></div>
+<div class="flex flex-col">
+<p class="text-sm font-semibold">Admin Panel</p>
+<p class="text-xs text-slate-500">Super Admin</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col overflow-y-auto">
+<!-- Header -->
+<header class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-8 py-4 flex items-center justify-between">
+<div>
+<h1 class="text-2xl font-bold text-slate-900 dark:text-white">Create New Event</h1>
+<p class="text-sm text-slate-500">Post a new event to the marketplace</p>
+</div>
+<div class="flex gap-3">
+<button class="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full">
+<span class="material-symbols-outlined">search</span>
+</button>
+</div>
+</header>
+<!-- Form Content -->
+<div class="p-8 max-w-5xl mx-auto w-full">
+<form action="/api/admin/events" class="space-y-8" method="POST">
+<!-- Section: General Info -->
+<div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
+<div class="p-6 border-b border-slate-100 dark:border-slate-800">
+<h3 class="text-lg font-bold">Event Information</h3>
+<p class="text-sm text-slate-500">Basic details about your upcoming event.</p>
+</div>
+<div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="col-span-2">
+<label class="block text-sm font-semibold mb-2 text-slate-700 dark:text-slate-300">Event Name</label>
+<input class="w-full rounded-lg border-slate-300 dark:border-slate-700 dark:bg-slate-800 focus:ring-primary focus:border-primary transition-all" placeholder="e.g. Neon Nights Music Festival 2024" type="text"/>
+</div>
+<div class="col-span-2 lg:col-span-1">
+<label class="block text-sm font-semibold mb-2 text-slate-700 dark:text-slate-300">Venue Location</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">location_on</span>
+<input class="w-full pl-10 rounded-lg border-slate-300 dark:border-slate-700 dark:bg-slate-800 focus:ring-primary focus:border-primary" placeholder="Search for a venue..." type="text"/>
+</div>
+</div>
+<div class="col-span-2 lg:col-span-1">
+<label class="block text-sm font-semibold mb-2 text-slate-700 dark:text-slate-300">Event Date &amp; Time</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">calendar_month</span>
+<input class="w-full pl-10 rounded-lg border-slate-300 dark:border-slate-700 dark:bg-slate-800 focus:ring-primary focus:border-primary" type="datetime-local"/>
+</div>
+</div>
+<div class="col-span-2">
+<label class="block text-sm font-semibold mb-2 text-slate-700 dark:text-slate-300">Event Description</label>
+<textarea class="w-full rounded-lg border-slate-300 dark:border-slate-700 dark:bg-slate-800 focus:ring-primary focus:border-primary" placeholder="Describe the event, lineup, and special instructions..." rows="4"></textarea>
+</div>
+</div>
+</div>
+<!-- Section: Ticketing & Capacity -->
+<div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
+<div class="p-6 border-b border-slate-100 dark:border-slate-800">
+<h3 class="text-lg font-bold">Ticketing &amp; Capacity</h3>
+<p class="text-sm text-slate-500">Configure pricing and seat availability.</p>
+</div>
+<div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+<div>
+<label class="block text-sm font-semibold mb-2 text-slate-700 dark:text-slate-300">Standard Ticket Price (USD)</label>
+<div class="relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 font-medium">$</span>
+<input class="w-full pl-8 rounded-lg border-slate-300 dark:border-slate-700 dark:bg-slate-800 focus:ring-primary focus:border-primary" placeholder="0.00" step="0.01" type="number"/>
+</div>
+</div>
+<div>
+<label class="block text-sm font-semibold mb-2 text-slate-700 dark:text-slate-300">Total Seat Count</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">event_seat</span>
+<input class="w-full pl-10 rounded-lg border-slate-300 dark:border-slate-700 dark:bg-slate-800 focus:ring-primary focus:border-primary" placeholder="e.g. 500" type="number"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Section: Media -->
+<div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
+<div class="p-6 border-b border-slate-100 dark:border-slate-800">
+<h3 class="text-lg font-bold">Event Imagery</h3>
+<p class="text-sm text-slate-500">Upload high-quality banners to attract attendees.</p>
+</div>
+<div class="p-6">
+<label class="block text-sm font-semibold mb-2 text-slate-700 dark:text-slate-300">Cover Image</label>
+<div class="border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-xl p-8 text-center hover:border-primary/50 transition-colors cursor-pointer group bg-slate-50 dark:bg-slate-800/50">
+<div class="mb-4">
+<span class="material-symbols-outlined text-4xl text-slate-400 group-hover:text-primary transition-colors">add_photo_alternate</span>
+</div>
+<p class="text-sm font-medium text-slate-600 dark:text-slate-400">Click to upload or drag and drop</p>
+<p class="text-xs text-slate-400 mt-1">PNG, JPG or WEBP (Recommended: 1600x900px)</p>
+<input accept="image/*" class="hidden" type="file"/>
+</div>
+</div>
+</div>
+<!-- Form Actions -->
+<div class="flex items-center justify-end gap-4 pb-12">
+<button class="px-6 py-2.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 font-semibold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" type="button">
+                            Save as Draft
+                        </button>
+<button class="px-8 py-2.5 rounded-lg bg-primary text-white font-bold hover:bg-primary/90 shadow-lg shadow-primary/20 transition-all flex items-center gap-2" type="submit">
+<span class="material-symbols-outlined text-sm">rocket_launch</span>
+                            Publish Event
+                        </button>
+</div>
+</form>
+</div>
+</main>
+</div>
+</body></html>

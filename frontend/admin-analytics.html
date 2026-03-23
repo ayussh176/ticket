@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>APNATICKET Admin Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#4F46E5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    </style>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display">
+<div class="flex min-h-screen">
+<!-- Sidebar -->
+<aside class="w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col fixed h-full">
+<div class="p-6 flex items-center gap-3">
+<div class="bg-primary size-10 rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined">confirmation_number</span>
+</div>
+<div>
+<h1 class="text-slate-900 dark:text-white font-bold text-lg leading-none">APNATICKET</h1>
+<p class="text-slate-500 dark:text-slate-400 text-xs mt-1">Admin Control Panel</p>
+</div>
+</div>
+<nav class="flex-1 px-4 space-y-1 mt-4">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary text-white" href="admin-dashboard.html">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+<span class="font-medium text-sm">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="book-ticket.html">
+<span class="material-symbols-outlined text-[20px]">confirmation_number</span>
+<span class="font-medium text-sm">Bookings</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="payment.html">
+<span class="material-symbols-outlined text-[20px]">payments</span>
+<span class="font-medium text-sm">Revenue</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">group</span>
+<span class="font-medium text-sm">Users</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">calendar_month</span>
+<span class="font-medium text-sm">Events</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">campaign</span>
+<span class="font-medium text-sm">Marketing</span>
+</a>
+</nav>
+<div class="p-4 border-t border-slate-200 dark:border-slate-800">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+<span class="font-medium text-sm">Settings</span>
+</a>
+<div class="mt-4 flex items-center gap-3 px-3">
+<div class="size-8 rounded-full bg-slate-200 dark:bg-slate-700 bg-cover bg-center" data-alt="User profile avatar circle" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBx-zMHmJxSDvlJ_vblQQ--NzwO9wrCiL2_XJqKXi0IEMe-SN5tpl7LR5E5UbbP9R5ecKk8ze1MGAYZsoSux5FKrMu7FG0UrApYu1-V5bE5ElaD_Ejg-03mko-Y53rQUeICS9Jf1R1aRtoFsNh_dA4ZZ12YYq6pckn-4oLlVe9JL63W5evFA_lEeuMDj487XioOIogc6eipF-aGOy7vON3yg4D2uZ3RKkY3WXgemYpucZxMXMumMS_-iqWuwotj3sj6qirWx2TwXvk')"></div>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-semibold truncate">Alex Rivera</p>
+<p class="text-xs text-slate-500 truncate">Super Admin</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 ml-64 p-8">
+<!-- Header -->
+<header class="flex items-center justify-between mb-8">
+<div>
+<h2 class="text-2xl font-bold text-slate-900 dark:text-white">Dashboard Overview</h2>
+<p class="text-slate-500 dark:text-slate-400">Welcome back, here's what's happening today.</p>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[20px]">search</span>
+<input class="pl-10 pr-4 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-transparent outline-none w-64" placeholder="Search bookings..." type="text"/>
+</div>
+<button class="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 size-2 bg-red-500 border-2 border-white dark:border-slate-900 rounded-full"></span>
+</button>
+<button class="bg-primary text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 hover:bg-primary/90 transition-colors">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                        New Event
+                    </button>
+</div>
+</header>
+<!-- Stats Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<div class="p-2 bg-primary/10 rounded-lg">
+<span class="material-symbols-outlined text-primary">confirmation_number</span>
+</div>
+<span class="text-emerald-500 text-xs font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">trending_up</span> +12.5%
+                        </span>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Total Bookings</p>
+<h3 class="text-2xl font-bold text-slate-900 dark:text-white mt-1">12,840</h3>
+</div>
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<div class="p-2 bg-primary/10 rounded-lg">
+<span class="material-symbols-outlined text-primary">payments</span>
+</div>
+<span class="text-emerald-500 text-xs font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">trending_up</span> +8.2%
+                        </span>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Total Revenue</p>
+<h3 class="text-2xl font-bold text-slate-900 dark:text-white mt-1">$450,200</h3>
+</div>
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<div class="p-2 bg-primary/10 rounded-lg">
+<span class="material-symbols-outlined text-primary">group</span>
+</div>
+<span class="text-emerald-500 text-xs font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">trending_up</span> +5.1%
+                        </span>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Total Users</p>
+<h3 class="text-2xl font-bold text-slate-900 dark:text-white mt-1">8,250</h3>
+</div>
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex items-center justify-between mb-4">
+<div class="p-2 bg-primary/10 rounded-lg">
+<span class="material-symbols-outlined text-primary">event</span>
+</div>
+<span class="text-red-500 text-xs font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">trending_down</span> -2.4%
+                        </span>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Upcoming Events</p>
+<h3 class="text-2xl font-bold text-slate-900 dark:text-white mt-1">42</h3>
+</div>
+</div>
+<!-- Charts Section -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+<!-- Revenue Chart Container -->
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex items-center justify-between mb-6">
+<div>
+<h4 class="text-lg font-bold text-slate-900 dark:text-white">Revenue Trend</h4>
+<p class="text-sm text-slate-500 dark:text-slate-400">Weekly performance analysis</p>
+</div>
+<select class="text-sm bg-slate-50 dark:bg-slate-800 border-none rounded-lg px-3 py-1.5 focus:ring-primary cursor-pointer">
+<option>Last 7 Days</option>
+<option>Last 30 Days</option>
+</select>
+</div>
+<div class="h-64 flex flex-col justify-between">
+<div class="relative flex-1">
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 400 150">
+<defs>
+<lineargradient id="gradient" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#4F46E5" stop-opacity="0.3"></stop>
+<stop offset="100%" stop-color="#4F46E5" stop-opacity="0"></stop>
+</lineargradient>
+</defs>
+<path d="M0,120 C50,110 80,40 120,50 C160,60 200,100 240,80 C280,60 320,10 360,20 L400,30 L400,150 L0,150 Z" fill="url(#gradient)"></path>
+<path d="M0,120 C50,110 80,40 120,50 C160,60 200,100 240,80 C280,60 320,10 360,20 L400,30" fill="none" stroke="#4F46E5" stroke-linecap="round" stroke-width="3"></path>
+</svg>
+</div>
+<div class="flex justify-between mt-4 text-xs font-bold text-slate-400">
+<span>MON</span>
+<span>TUE</span>
+<span>WED</span>
+<span>THU</span>
+<span>FRI</span>
+<span>SAT</span>
+<span>SUN</span>
+</div>
+</div>
+</div>
+<!-- Booking Statistics -->
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex items-center justify-between mb-6">
+<div>
+<h4 class="text-lg font-bold text-slate-900 dark:text-white">Booking Statistics</h4>
+<p class="text-sm text-slate-500 dark:text-slate-400">Activity by category</p>
+</div>
+<div class="flex gap-2">
+<div class="flex items-center gap-1.5">
+<span class="size-2 rounded-full bg-primary"></span>
+<span class="text-[10px] font-bold text-slate-400">ONLINE</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="size-2 rounded-full bg-slate-300"></span>
+<span class="text-[10px] font-bold text-slate-400">OFFLINE</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-7 gap-4 items-end h-64 px-2">
+<div class="flex flex-col gap-1 items-center h-full justify-end">
+<div class="w-full bg-primary rounded-t-sm" style="height: 60%"></div>
+<div class="w-full bg-slate-100 dark:bg-slate-800 rounded-t-sm" style="height: 20%"></div>
+<span class="text-[10px] font-bold text-slate-400 mt-2">M</span>
+</div>
+<div class="flex flex-col gap-1 items-center h-full justify-end">
+<div class="w-full bg-primary rounded-t-sm" style="height: 45%"></div>
+<div class="w-full bg-slate-100 dark:bg-slate-800 rounded-t-sm" style="height: 30%"></div>
+<span class="text-[10px] font-bold text-slate-400 mt-2">T</span>
+</div>
+<div class="flex flex-col gap-1 items-center h-full justify-end">
+<div class="w-full bg-primary rounded-t-sm" style="height: 80%"></div>
+<div class="w-full bg-slate-100 dark:bg-slate-800 rounded-t-sm" style="height: 15%"></div>
+<span class="text-[10px] font-bold text-slate-400 mt-2">W</span>
+</div>
+<div class="flex flex-col gap-1 items-center h-full justify-end">
+<div class="w-full bg-primary rounded-t-sm" style="height: 35%"></div>
+<div class="w-full bg-slate-100 dark:bg-slate-800 rounded-t-sm" style="height: 25%"></div>
+<span class="text-[10px] font-bold text-slate-400 mt-2">T</span>
+</div>
+<div class="flex flex-col gap-1 items-center h-full justify-end">
+<div class="w-full bg-primary rounded-t-sm" style="height: 90%"></div>
+<div class="w-full bg-slate-100 dark:bg-slate-800 rounded-t-sm" style="height: 10%"></div>
+<span class="text-[10px] font-bold text-slate-400 mt-2">F</span>
+</div>
+<div class="flex flex-col gap-1 items-center h-full justify-end">
+<div class="w-full bg-primary rounded-t-sm" style="height: 55%"></div>
+<div class="w-full bg-slate-100 dark:bg-slate-800 rounded-t-sm" style="height: 40%"></div>
+<span class="text-[10px] font-bold text-slate-400 mt-2">S</span>
+</div>
+<div class="flex flex-col gap-1 items-center h-full justify-end">
+<div class="w-full bg-primary rounded-t-sm" style="height: 70%"></div>
+<div class="w-full bg-slate-100 dark:bg-slate-800 rounded-t-sm" style="height: 15%"></div>
+<span class="text-[10px] font-bold text-slate-400 mt-2">S</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Recent Activity Table -->
+<div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+<div class="p-6 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+<h4 class="text-lg font-bold text-slate-900 dark:text-white">Recent Bookings</h4>
+<a class="text-primary text-sm font-semibold hover:underline underline-offset-4" href="events.html">View All</a>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="bg-slate-50 dark:bg-slate-800/50">
+<th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Customer</th>
+<th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Event</th>
+<th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Date</th>
+<th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Amount</th>
+<th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Status</th>
+<th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-right">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+<tr>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-full bg-slate-200 flex items-center justify-center text-xs font-bold" data-alt="User avatar placeholder">JD</div>
+<span class="text-sm font-medium">Jane Doe</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm">Summer Music Fest</td>
+<td class="px-6 py-4 text-sm text-slate-500">Oct 24, 2023</td>
+<td class="px-6 py-4 text-sm font-semibold">$120.00</td>
+<td class="px-6 py-4">
+<span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-400 uppercase tracking-wide">Paid</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-slate-400 hover:text-primary">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</td>
+</tr>
+<tr>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-full bg-slate-200 flex items-center justify-center text-xs font-bold" data-alt="User avatar placeholder">MS</div>
+<span class="text-sm font-medium">Mark Smith</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm">Tech Conference 2024</td>
+<td class="px-6 py-4 text-sm text-slate-500">Oct 23, 2023</td>
+<td class="px-6 py-4 text-sm font-semibold">$350.00</td>
+<td class="px-6 py-4">
+<span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-100 text-amber-700 dark:bg-amber-500/20 dark:text-amber-400 uppercase tracking-wide">Pending</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-slate-400 hover:text-primary">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</td>
+</tr>
+<tr>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="size-8 rounded-full bg-slate-200 flex items-center justify-center text-xs font-bold" data-alt="User avatar placeholder">AL</div>
+<span class="text-sm font-medium">Alice Luna</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm">Standup Comedy Night</td>
+<td class="px-6 py-4 text-sm text-slate-500">Oct 22, 2023</td>
+<td class="px-6 py-4 text-sm font-semibold">$45.00</td>
+<td class="px-6 py-4">
+<span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-400 uppercase tracking-wide">Paid</span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-slate-400 hover:text-primary">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</main>
+</div>
+    <script src="js/api.js"></script><script src="js/main.js"></script>
+    <script src="js/app.js"></script>
+</body></html>

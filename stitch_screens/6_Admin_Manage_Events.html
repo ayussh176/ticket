@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>APNATICKET Admin - Event Management</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100">
+<div class="relative flex min-h-screen w-full flex-col">
+<!-- Top Navigation Bar -->
+<header class="sticky top-0 z-50 w-full border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-background-dark/80 backdrop-blur-md">
+<div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3">
+<div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-white">
+<span class="material-symbols-outlined">confirmation_number</span>
+</div>
+<h2 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">APNATICKET</h2>
+</div>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-sm font-semibold text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary transition-colors" href="#">Dashboard</a>
+<a class="text-sm font-semibold text-primary" href="#">Events</a>
+<a class="text-sm font-semibold text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary transition-colors" href="#">Orders</a>
+<a class="text-sm font-semibold text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary transition-colors" href="#">Users</a>
+<a class="text-sm font-semibold text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary transition-colors" href="#">Settings</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden sm:block">
+<span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+<span class="material-symbols-outlined text-sm">search</span>
+</span>
+<input class="block w-64 rounded-lg border-slate-200 bg-slate-100 py-2 pl-10 pr-3 text-sm focus:border-primary focus:ring-primary dark:border-slate-700 dark:bg-slate-800 dark:text-white" placeholder="Search events..." type="text"/>
+</div>
+<button class="relative rounded-full p-2 text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 flex h-2 w-2 rounded-full bg-red-500"></span>
+</button>
+<div class="h-10 w-10 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden border-2 border-primary/20" data-alt="Admin user avatar portrait">
+<img alt="Profile" class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDAeE0ZomhsHhoyi5CTTYc-vEFKHomJh7MhI5OYZAHycoLN8O2dpUr_fuXXERXMguOdyEKOUoS-_wRU5NMOtdwk_Qo1lr5mzEbBN1m3FSumg6zUKbAKUIZUbB74_fn8XsKBCi77VoANRycWsDC_LC53-6tb2A3T8VJufHkVt4J7kb_AvYmaWJGGj8BTfD5GEksqyCzbnsc5KZ9LCVt_gh4ZTN-GWunpnRSAhrf_BQQyWoZk9qSzFAf4DgcERWuS0SaofoIOhLrHH-I"/>
+</div>
+</div>
+</div>
+</header>
+<main class="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+<!-- Header Section -->
+<div class="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+<div>
+<h1 class="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">Event Management</h1>
+<p class="mt-1 text-base text-slate-500 dark:text-slate-400">Oversee and manage your upcoming and past events.</p>
+</div>
+<button class="flex items-center justify-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-primary/30 hover:bg-primary/90 transition-all">
+<span class="material-symbols-outlined text-lg">add_circle</span>
+<span>Create New Event</span>
+</button>
+</div>
+<!-- Stats Overview -->
+<div class="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+<div class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+<p class="text-sm font-medium text-slate-500 dark:text-slate-400">Total Events</p>
+<p class="mt-2 text-3xl font-bold text-slate-900 dark:text-white">124</p>
+</div>
+<div class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+<p class="text-sm font-medium text-slate-500 dark:text-slate-400">Tickets Sold</p>
+<p class="mt-2 text-3xl font-bold text-primary">8,432</p>
+</div>
+<div class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+<p class="text-sm font-medium text-slate-500 dark:text-slate-400">Revenue</p>
+<p class="mt-2 text-3xl font-bold text-green-600">$45,210</p>
+</div>
+<div class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+<p class="text-sm font-medium text-slate-500 dark:text-slate-400">Active Now</p>
+<p class="mt-2 text-3xl font-bold text-slate-900 dark:text-white">18</p>
+</div>
+</div>
+<!-- Table Filters -->
+<div class="mb-6 flex flex-wrap items-center gap-4 border-b border-slate-200 dark:border-slate-800">
+<button class="border-b-2 border-primary pb-4 text-sm font-bold text-primary">All Events</button>
+<button class="border-b-2 border-transparent pb-4 text-sm font-medium text-slate-500 hover:text-slate-700 dark:hover:text-slate-300">Active</button>
+<button class="border-b-2 border-transparent pb-4 text-sm font-medium text-slate-500 hover:text-slate-700 dark:hover:text-slate-300">Drafts</button>
+<button class="border-b-2 border-transparent pb-4 text-sm font-medium text-slate-500 hover:text-slate-700 dark:hover:text-slate-300">Completed</button>
+</div>
+<!-- Events Table -->
+<div class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="bg-slate-50 dark:bg-slate-800/50">
+<th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Event Details</th>
+<th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Date &amp; Location</th>
+<th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Status</th>
+<th class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Tickets Sold</th>
+<th class="px-6 py-4 text-right text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-200 dark:divide-slate-800">
+<!-- Event Row 1 -->
+<tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-4">
+<div class="h-12 w-12 flex-shrink-0 rounded-lg bg-slate-200 object-cover dark:bg-slate-700 overflow-hidden" data-alt="Colorful music festival stage with lights">
+<img alt="Event" class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZc9qGli2lN2_djaSkvJtfyXtTDf0GOxZpmB4ZhBxpG479vAjJdXOqAApGXeXM61iYq_AvUJooZtjfMhNsc6ugfqEeiyU1oY6QTecI-r-1xCBUsaGkKirtzmvPKjLKWja0gKJhWxSF97_VobhZl8F9LB5btvRDkuj2_rJntvwmvBOHi3u2vceB1P51GQUK-CwUzflfu3boBwsvn9er1ul6kQjahPSQ0hAdnAXS21w8wvWrnjxnlQavVuxTNyZXbXX_eBBwSNJduWg"/>
+</div>
+<div>
+<div class="font-bold text-slate-900 dark:text-white">Summer Music Fest 2024</div>
+<div class="text-sm text-slate-500">ID: #EVT-29384</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="text-sm text-slate-900 dark:text-slate-100">Aug 20, 2024</div>
+<div class="text-xs text-slate-500 flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">location_on</span>
+                                        Beachside Arena, Karachi
+                                    </div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800 dark:bg-green-900/30 dark:text-green-400">
+                                        Active
+                                    </span>
+</td>
+<td class="px-6 py-4">
+<div class="flex flex-col gap-1.5 w-32">
+<div class="flex items-center justify-between text-xs">
+<span class="text-slate-600 dark:text-slate-400">850/1000</span>
+<span class="font-bold">85%</span>
+</div>
+<div class="h-1.5 w-full rounded-full bg-slate-200 dark:bg-slate-700">
+<div class="h-full rounded-full bg-primary" style="width: 85%"></div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex justify-end gap-2">
+<button class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-600 hover:bg-primary hover:text-white hover:border-primary dark:border-slate-700 dark:text-slate-400 transition-all" title="View Analytics">
+<span class="material-symbols-outlined text-lg">insights</span>
+</button>
+<button class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-600 hover:bg-primary hover:text-white hover:border-primary dark:border-slate-700 dark:text-slate-400 transition-all" title="Edit Event">
+<span class="material-symbols-outlined text-lg">edit</span>
+</button>
+<button class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-600 hover:bg-red-500 hover:text-white hover:border-red-500 dark:border-slate-700 dark:text-slate-400 transition-all" title="Delete Event">
+<span class="material-symbols-outlined text-lg">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Event Row 2 -->
+<tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-4">
+<div class="h-12 w-12 flex-shrink-0 rounded-lg bg-slate-200 object-cover dark:bg-slate-700 overflow-hidden" data-alt="Modern tech conference room with screens">
+<img alt="Event" class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBpl_N3XchgKwoEawF5O_HwwbvWd06R4N3GBSVrqIePIxZ_0A-Xp3jTdxUROnMKi5LnGgAoMJ_px-05NB7_7mxVrDjeaEOZoaDdT6wA1ZqKPjr5LxZEecx0yrWVBk5qqXg2b_zt1ATchjli_vsCgw6qpRUKt8JmfeukzTS2oH73Uy81zfOottLrnVeLHxy4TjvQCHWB772WplMTb-PtUWtGvATV5tsLZ0k91flUOiRoVnMs5jdiZImm8lckIAWcVW3-bq2OKbq57ko"/>
+</div>
+<div>
+<div class="font-bold text-slate-900 dark:text-white">Tech Summit 2024</div>
+<div class="text-sm text-slate-500">ID: #EVT-11029</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="text-sm text-slate-900 dark:text-slate-100">Sep 05, 2024</div>
+<div class="text-xs text-slate-500 flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">location_on</span>
+                                        Grand Hotel, Lahore
+                                    </div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary dark:bg-primary/20 dark:text-primary">
+                                        Active
+                                    </span>
+</td>
+<td class="px-6 py-4">
+<div class="flex flex-col gap-1.5 w-32">
+<div class="flex items-center justify-between text-xs">
+<span class="text-slate-600 dark:text-slate-400">200/500</span>
+<span class="font-bold">40%</span>
+</div>
+<div class="h-1.5 w-full rounded-full bg-slate-200 dark:bg-slate-700">
+<div class="h-full rounded-full bg-primary" style="width: 40%"></div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex justify-end gap-2">
+<button class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-600 hover:bg-primary hover:text-white hover:border-primary dark:border-slate-700 dark:text-slate-400 transition-all" title="View Analytics">
+<span class="material-symbols-outlined text-lg">insights</span>
+</button>
+<button class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-600 hover:bg-primary hover:text-white hover:border-primary dark:border-slate-700 dark:text-slate-400 transition-all" title="Edit Event">
+<span class="material-symbols-outlined text-lg">edit</span>
+</button>
+<button class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-600 hover:bg-red-500 hover:text-white hover:border-red-500 dark:border-slate-700 dark:text-slate-400 transition-all" title="Delete Event">
+<span class="material-symbols-outlined text-lg">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Event Row 3 -->
+<tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-4">
+<div class="h-12 w-12 flex-shrink-0 rounded-lg bg-slate-200 object-cover dark:bg-slate-700 overflow-hidden" data-alt="Elegant art gallery with paintings">
+<img alt="Event" class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHZOl7NkYiKJIe2DW0DVcFeEM3LjXrPRPbP7AtbxK0vD4zUUbuw_iOQSrfFYXgFD1bXD-df-7A4Om0RfVQ7-PO5tIyTwq68bbjgtVpXwfSesn95llCzQDAqXayWzLCO-zTxqiTUkZNMvIAzNsKfULTNCppUpCQ9fFqbkHwk_Gk64kZtV35COh9d_0oexJaZ6xb1Cl51vyqRA-iDoJfAyib8n7ovSHQbLIDklxg8O0eaGY5x_RF7I6seKK8hfuuqeO9rky4ogMsGUs"/>
+</div>
+<div>
+<div class="font-bold text-slate-900 dark:text-white">Abstract Art Exhibition</div>
+<div class="text-sm text-slate-500">ID: #EVT-30941</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="text-sm text-slate-900 dark:text-slate-100">Oct 12, 2024</div>
+<div class="text-xs text-slate-500 flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">location_on</span>
+                                        National Gallery, Islamabad
+                                    </div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-800 dark:bg-slate-800 dark:text-slate-400">
+                                        Draft
+                                    </span>
+</td>
+<td class="px-6 py-4">
+<div class="flex flex-col gap-1.5 w-32">
+<div class="flex items-center justify-between text-xs text-slate-400">
+<span>Not started</span>
+<span>0%</span>
+</div>
+<div class="h-1.5 w-full rounded-full bg-slate-200 dark:bg-slate-700">
+<div class="h-full rounded-full bg-primary" style="width: 0%"></div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex justify-end gap-2">
+<button class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-600 hover:bg-primary hover:text-white hover:border-primary dark:border-slate-700 dark:text-slate-400 transition-all opacity-50 cursor-not-allowed" title="View Analytics">
+<span class="material-symbols-outlined text-lg">insights</span>
+</button>
+<button class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-600 hover:bg-primary hover:text-white hover:border-primary dark:border-slate-700 dark:text-slate-400 transition-all" title="Edit Event">
+<span class="material-symbols-outlined text-lg">edit</span>
+</button>
+<button class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-600 hover:bg-red-500 hover:text-white hover:border-red-500 dark:border-slate-700 dark:text-slate-400 transition-all" title="Delete Event">
+<span class="material-symbols-outlined text-lg">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Event Row 4 -->
+<tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center gap-4">
+<div class="h-12 w-12 flex-shrink-0 rounded-lg bg-slate-200 object-cover dark:bg-slate-700 overflow-hidden" data-alt="Microphone on a stand in a dim comedy club">
+<img alt="Event" class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdTKRzx6c-StK8STFaVXtCJkgPd9zxKidWEDeaxnQecfgkYhi6U2haC4Cew4-A1uiTdi1eXLie5YWIy9Hw-umLAOqmJSBTTeFgV1Q-5CL_tllLlps4mKke5ucHuSO06eDvAKRWCh-H7fG1DLSY6rbBPHyEWT-JGbxNFxsRBtjyHtketM8ovYYKqMUiPlnVTput5IpsbvCpAhHhbE3L_ZDME5XvYy_6MCZW1lwChks6T5Majk-MfqCxVJ_IC0WumQGUNTrzGhtigWs"/>
+</div>
+<div>
+<div class="font-bold text-slate-900 dark:text-white">Late Night Comedy</div>
+<div class="text-sm text-slate-500">ID: #EVT-44821</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<div class="text-sm text-slate-900 dark:text-slate-100">Aug 15, 2024</div>
+<div class="text-xs text-slate-500 flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">location_on</span>
+                                        The Lounge, Karachi
+                                    </div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center rounded-full bg-red-100 px-2.5 py-0.5 text-xs font-medium text-red-800 dark:bg-red-900/30 dark:text-red-400">
+                                        Sold Out
+                                    </span>
+</td>
+<td class="px-6 py-4">
+<div class="flex flex-col gap-1.5 w-32">
+<div class="flex items-center justify-between text-xs">
+<span class="text-slate-600 dark:text-slate-400">300/300</span>
+<span class="font-bold text-red-600">100%</span>
+</div>
+<div class="h-1.5 w-full rounded-full bg-slate-200 dark:bg-slate-700">
+<div class="h-full rounded-full bg-red-500" style="width: 100%"></div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex justify-end gap-2">
+<button class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-600 hover:bg-primary hover:text-white hover:border-primary dark:border-slate-700 dark:text-slate-400 transition-all" title="View Analytics">
+<span class="material-symbols-outlined text-lg">insights</span>
+</button>
+<button class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-600 hover:bg-primary hover:text-white hover:border-primary dark:border-slate-700 dark:text-slate-400 transition-all" title="Edit Event">
+<span class="material-symbols-outlined text-lg">edit</span>
+</button>
+<button class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-600 hover:bg-red-500 hover:text-white hover:border-red-500 dark:border-slate-700 dark:text-slate-400 transition-all" title="Delete Event">
+<span class="material-symbols-outlined text-lg">delete</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="flex items-center justify-between border-t border-slate-200 bg-slate-50 px-6 py-4 dark:border-slate-800 dark:bg-slate-800/50">
+<div class="text-sm text-slate-500">
+                        Showing <span class="font-medium text-slate-900 dark:text-white">1</span> to <span class="font-medium text-slate-900 dark:text-white">10</span> of <span class="font-medium text-slate-900 dark:text-white">124</span> results
+                    </div>
+<div class="flex items-center gap-2">
+<button class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400 transition-all">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="flex h-9 w-9 items-center justify-center rounded-lg bg-primary font-bold text-white shadow-sm transition-all">1</button>
+<button class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400 transition-all">2</button>
+<button class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400 transition-all">3</button>
+<span class="px-2 text-slate-400">...</span>
+<button class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400 transition-all">12</button>
+<button class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-400 transition-all">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+<footer class="mt-auto border-t border-slate-200 py-6 dark:border-slate-800">
+<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+<div class="flex flex-col items-center justify-between gap-4 sm:flex-row">
+<p class="text-sm text-slate-500 dark:text-slate-400">© 2024 APNATICKET Admin Portal. All rights reserved.</p>
+<div class="flex gap-6">
+<a class="text-sm text-slate-500 hover:text-primary dark:text-slate-400 transition-colors" href="#">Support</a>
+<a class="text-sm text-slate-500 hover:text-primary dark:text-slate-400 transition-colors" href="#">Privacy Policy</a>
+<a class="text-sm text-slate-500 hover:text-primary dark:text-slate-400 transition-colors" href="#">Terms</a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+</body></html>

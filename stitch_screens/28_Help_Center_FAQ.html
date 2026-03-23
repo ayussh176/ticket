@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#5048e5",
+              "background-light": "#f6f6f8",
+              "background-dark": "#121121",
+            },
+            fontFamily: {
+              "display": ["Inter", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<title>APNATICKET Help Center</title>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100">
+<div class="relative flex min-h-screen w-full flex-col">
+<!-- Header/Nav -->
+<header class="sticky top-0 z-50 w-full border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-background-dark/80 backdrop-blur-md">
+<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+<div class="flex h-16 items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-white">
+<span class="material-symbols-outlined">confirmation_number</span>
+</div>
+<h1 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">APNATICKET</h1>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Home</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">My Bookings</a>
+<button class="flex items-center gap-2 rounded-lg bg-slate-100 dark:bg-slate-800 px-3 py-2 text-sm font-semibold hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined text-xl">account_circle</span>
+<span>Account</span>
+</button>
+</nav>
+</div>
+</div>
+</header>
+<main class="flex-grow">
+<!-- Hero Section & Search -->
+<section class="bg-white dark:bg-slate-900 py-12 border-b border-slate-200 dark:border-slate-800">
+<div class="mx-auto max-w-3xl px-4 text-center">
+<nav class="mb-4 flex justify-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+<a class="hover:text-primary" href="#">Home</a>
+<span>/</span>
+<span class="text-slate-900 dark:text-white font-medium">Help Center</span>
+</nav>
+<h2 class="text-4xl font-black tracking-tight mb-4">How can we help you?</h2>
+<p class="text-lg text-slate-600 dark:text-slate-400 mb-8">Search our knowledge base or browse categories below</p>
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-slate-400 group-focus-within:text-primary transition-colors">
+<span class="material-symbols-outlined">search</span>
+</div>
+<input class="block w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 py-4 pl-12 pr-4 text-slate-900 dark:text-white shadow-sm focus:border-primary focus:ring-primary sm:text-lg" placeholder="Search for articles, guides, or keywords..." type="text"/>
+</div>
+</div>
+</section>
+<div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+<div class="grid grid-cols-1 gap-12 lg:grid-cols-3">
+<!-- Common Questions Section -->
+<section class="space-y-6">
+<div class="flex items-center gap-3">
+<div class="p-2 rounded-lg bg-primary/10 text-primary">
+<span class="material-symbols-outlined">star</span>
+</div>
+<h3 class="text-2xl font-bold">Common Questions</h3>
+</div>
+<div class="flex flex-col gap-2">
+<a class="group flex items-center justify-between p-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-primary/50 hover:bg-white dark:hover:bg-slate-900 transition-all" href="#">
+<span class="text-slate-700 dark:text-slate-300 group-hover:text-primary">How do I cancel my ticket?</span>
+<span class="material-symbols-outlined text-slate-400">chevron_right</span>
+</a>
+<a class="group flex items-center justify-between p-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-primary/50 hover:bg-white dark:hover:bg-slate-900 transition-all" href="#">
+<span class="text-slate-700 dark:text-slate-300 group-hover:text-primary">Where is my confirmation email?</span>
+<span class="material-symbols-outlined text-slate-400">chevron_right</span>
+</a>
+<a class="group flex items-center justify-between p-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-primary/50 hover:bg-white dark:hover:bg-slate-900 transition-all" href="#">
+<span class="text-slate-700 dark:text-slate-300 group-hover:text-primary">Can I change my travel date?</span>
+<span class="material-symbols-outlined text-slate-400">chevron_right</span>
+</a>
+<a class="group flex items-center justify-between p-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-primary/50 hover:bg-white dark:hover:bg-slate-900 transition-all" href="#">
+<span class="text-slate-700 dark:text-slate-300 group-hover:text-primary">How to download PDF ticket?</span>
+<span class="material-symbols-outlined text-slate-400">chevron_right</span>
+</a>
+</div>
+</section>
+<!-- Troubleshooting Section -->
+<section class="space-y-6">
+<div class="flex items-center gap-3">
+<div class="p-2 rounded-lg bg-primary/10 text-primary">
+<span class="material-symbols-outlined">build</span>
+</div>
+<h3 class="text-2xl font-bold">Troubleshooting</h3>
+</div>
+<div class="flex flex-col gap-2">
+<a class="group flex items-center justify-between p-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-primary/50 hover:bg-white dark:hover:bg-slate-900 transition-all" href="#">
+<span class="text-slate-700 dark:text-slate-300 group-hover:text-primary">App keeps crashing on checkout</span>
+<span class="material-symbols-outlined text-slate-400">chevron_right</span>
+</a>
+<a class="group flex items-center justify-between p-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-primary/50 hover:bg-white dark:hover:bg-slate-900 transition-all" href="#">
+<span class="text-slate-700 dark:text-slate-300 group-hover:text-primary">Cannot login to my account</span>
+<span class="material-symbols-outlined text-slate-400">chevron_right</span>
+</a>
+<a class="group flex items-center justify-between p-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-primary/50 hover:bg-white dark:hover:bg-slate-900 transition-all" href="#">
+<span class="text-slate-700 dark:text-slate-300 group-hover:text-primary">OTP not being received</span>
+<span class="material-symbols-outlined text-slate-400">chevron_right</span>
+</a>
+<a class="group flex items-center justify-between p-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-primary/50 hover:bg-white dark:hover:bg-slate-900 transition-all" href="#">
+<span class="text-slate-700 dark:text-slate-300 group-hover:text-primary">Promo code not working</span>
+<span class="material-symbols-outlined text-slate-400">chevron_right</span>
+</a>
+</div>
+</section>
+<!-- Payment Issues Section -->
+<section class="space-y-6">
+<div class="flex items-center gap-3">
+<div class="p-2 rounded-lg bg-primary/10 text-primary">
+<span class="material-symbols-outlined">payments</span>
+</div>
+<h3 class="text-2xl font-bold">Payment Issues</h3>
+</div>
+<div class="flex flex-col gap-2">
+<a class="group flex items-center justify-between p-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-primary/50 hover:bg-white dark:hover:bg-slate-900 transition-all" href="#">
+<span class="text-slate-700 dark:text-slate-300 group-hover:text-primary">Payment failed but money deducted</span>
+<span class="material-symbols-outlined text-slate-400">chevron_right</span>
+</a>
+<a class="group flex items-center justify-between p-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-primary/50 hover:bg-white dark:hover:bg-slate-900 transition-all" href="#">
+<span class="text-slate-700 dark:text-slate-300 group-hover:text-primary">Refund processing time</span>
+<span class="material-symbols-outlined text-slate-400">chevron_right</span>
+</a>
+<a class="group flex items-center justify-between p-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-primary/50 hover:bg-white dark:hover:bg-slate-900 transition-all" href="#">
+<span class="text-slate-700 dark:text-slate-300 group-hover:text-primary">Accepted payment methods</span>
+<span class="material-symbols-outlined text-slate-400">chevron_right</span>
+</a>
+<a class="group flex items-center justify-between p-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-primary/50 hover:bg-white dark:hover:bg-slate-900 transition-all" href="#">
+<span class="text-slate-700 dark:text-slate-300 group-hover:text-primary">How to apply for a refund?</span>
+<span class="material-symbols-outlined text-slate-400">chevron_right</span>
+</a>
+</div>
+</section>
+</div>
+</div>
+<!-- Contact Support Section -->
+<section class="bg-primary/5 dark:bg-primary/10 py-16">
+<div class="mx-auto max-w-7xl px-4 text-center">
+<h3 class="text-3xl font-bold mb-4">Still need help?</h3>
+<p class="text-slate-600 dark:text-slate-400 mb-8 max-w-2xl mx-auto">Our support team is available 24/7 to assist you with any inquiries or issues you might be facing.</p>
+<div class="flex flex-wrap justify-center gap-4">
+<button class="flex items-center gap-2 rounded-xl bg-primary px-8 py-4 text-white font-bold hover:bg-primary/90 transition-all shadow-lg shadow-primary/25">
+<span class="material-symbols-outlined">chat</span>
+                        Contact Support
+                    </button>
+<button class="flex items-center gap-2 rounded-xl bg-white dark:bg-slate-800 px-8 py-4 border border-slate-200 dark:border-slate-700 font-bold hover:bg-slate-50 dark:hover:bg-slate-700 transition-all">
+<span class="material-symbols-outlined">mail</span>
+                        Email Us
+                    </button>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="border-t border-slate-200 dark:border-slate-800 py-12 bg-white dark:bg-background-dark">
+<div class="mx-auto max-w-7xl px-4">
+<div class="flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="flex items-center gap-2">
+<div class="flex h-6 w-6 items-center justify-center rounded bg-primary text-white">
+<span class="material-symbols-outlined text-sm">confirmation_number</span>
+</div>
+<span class="font-bold">APNATICKET</span>
+</div>
+<div class="flex gap-8 text-sm text-slate-500 dark:text-slate-400">
+<a class="hover:text-primary" href="#">Terms</a>
+<a class="hover:text-primary" href="#">Privacy</a>
+<a class="hover:text-primary" href="#">Sitemap</a>
+</div>
+<div class="text-sm text-slate-500">
+                    © 2024 APNATICKET. All rights reserved.
+                </div>
+</div>
+</div>
+</footer>
+</div>
+</body></html>

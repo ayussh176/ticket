@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<title>Event Details | APNATICKET</title>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 transition-colors duration-200">
+<div class="relative flex min-h-screen w-full flex-col">
+<!-- Top Navigation -->
+<header class="sticky top-0 z-50 w-full border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-background-dark/80 backdrop-blur-md px-4 lg:px-20 py-3">
+<div class="max-w-[1200px] mx-auto flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="flex items-center justify-center bg-primary rounded-lg p-1.5 text-white">
+<span class="material-symbols-outlined text-2xl">confirmation_number</span>
+</div>
+<h2 class="text-xl font-bold leading-tight tracking-tight text-slate-900 dark:text-white uppercase">APNATICKET</h2>
+</div>
+<div class="flex items-center gap-4">
+<button class="hidden md:flex items-center justify-center rounded-lg h-10 w-10 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-primary/10 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">share</span>
+</button>
+<button class="hidden md:flex items-center justify-center rounded-lg h-10 w-10 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-red-50 hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined">favorite</span>
+</button>
+<div class="h-10 w-10 rounded-full border-2 border-primary/20 bg-cover bg-center overflow-hidden" data-alt="User profile avatar placeholder" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCV1CaPSyyFydgoVo2h3g6a76nnJLgwExSt2YOSFniu2h5RHEcmEm0Y9zvHDK6Qja5_3ZbIgtnMCnml5HOpNWBdzKfZvphI3-gQUO5n7EA0jq41hokyvUFBxd_hcjMvULUoy5OAYBYyfftjuYPjBOSQJMEDxomilkQ-s5HwUuAi2J1MO0s_LvZi1HDZ-OH8HSRxpLKul_UM9h4o3j-i6H1vEnP6r8K36lhBaecQPBaKEF8H1Xq3fZjXP0Nf24_V9SKfQ0KZ-JqgM2E");'></div>
+</div>
+</div>
+</header>
+<main class="flex-1 flex flex-col items-center">
+<div class="w-full max-w-[1200px] px-4 py-6 md:py-10">
+<!-- Hero Section -->
+<div class="relative w-full rounded-xl md:rounded-2xl overflow-hidden shadow-xl aspect-[21/9] bg-slate-200 dark:bg-slate-800">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="Vibrant outdoor music festival stage with lights and crowd" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBvLij9frltq9O_8_YWxUelx39S85Xsrc8LGgdXVSo0It2rAJVLgmeqRERf29PZEQZ8MYrJQAcHbhkSCKUnk-z3zhAh0qnIPWdmHRBU3VHGApu2qoThwMjmOtfI_NCW4vThESmgkX1LzNxut8_gPS8LYSR5-Mgp3SqZux-Ik7FLW1HeXfPOCe1eX1Sfxj7vO-4h7GZhMicz_-NpGGMyj4At94PfAG7DBkCKdaCrM5RMFFSFB8xSGd6B8q1apoBOr_mhf-vTLzxcrCI");'></div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-6 md:p-10 w-full">
+<div class="flex flex-col gap-2">
+<span class="inline-flex w-fit px-3 py-1 rounded-full bg-primary text-white text-xs font-bold uppercase tracking-wider">Live Music</span>
+<h1 class="text-3xl md:text-5xl lg:text-6xl font-black text-white leading-tight">Grand Music Festival 2024</h1>
+<p class="text-slate-200 text-lg md:text-xl font-medium max-w-2xl">The ultimate audio-visual experience of the summer featuring global headliners.</p>
+</div>
+</div>
+</div>
+<!-- Event Details Content -->
+<div class="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Left Column: Info -->
+<div class="lg:col-span-2 space-y-8">
+<!-- Description Section -->
+<div class="bg-white dark:bg-slate-900/50 p-6 md:p-8 rounded-2xl border border-slate-200 dark:border-slate-800">
+<h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">description</span>
+                                About Event
+                            </h3>
+<div class="space-y-4 text-slate-600 dark:text-slate-400 leading-relaxed">
+<p>Join us for the most anticipated musical event of the year! The Grand Music Festival 2024 brings together an eclectic mix of international superstars and rising indie talents for an unforgettable night under the stars.</p>
+<p>Experience world-class sound engineering, immersive visual displays, and a curated selection of gourmet food and craft beverages. This year's lineup includes top-charting artists across electronic, rock, and pop genres.</p>
+<ul class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-4">
+<li class="flex items-center gap-2 text-sm">
+<span class="material-symbols-outlined text-primary text-sm">check_circle</span>
+                                        Doors open at 6:00 PM
+                                    </li>
+<li class="flex items-center gap-2 text-sm">
+<span class="material-symbols-outlined text-primary text-sm">check_circle</span>
+                                        All ages welcome
+                                    </li>
+<li class="flex items-center gap-2 text-sm">
+<span class="material-symbols-outlined text-primary text-sm">check_circle</span>
+                                        VIP Lounge access available
+                                    </li>
+<li class="flex items-center gap-2 text-sm">
+<span class="material-symbols-outlined text-primary text-sm">check_circle</span>
+                                        Free parking with online booking
+                                    </li>
+</ul>
+</div>
+</div>
+<!-- Location & Details Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Date & Time Card -->
+<div class="flex items-start gap-4 p-5 rounded-2xl bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800">
+<div class="flex items-center justify-center rounded-xl bg-primary/10 text-primary shrink-0 h-12 w-12">
+<span class="material-symbols-outlined">calendar_today</span>
+</div>
+<div>
+<h4 class="font-bold text-slate-900 dark:text-white">Date &amp; Time</h4>
+<p class="text-slate-600 dark:text-slate-400 text-sm mt-1">Saturday, Oct 24, 2024</p>
+<p class="text-slate-600 dark:text-slate-400 text-sm">7:00 PM - 11:00 PM</p>
+</div>
+</div>
+<!-- Venue Card -->
+<div class="flex items-start gap-4 p-5 rounded-2xl bg-white dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800">
+<div class="flex items-center justify-center rounded-xl bg-primary/10 text-primary shrink-0 h-12 w-12">
+<span class="material-symbols-outlined">location_on</span>
+</div>
+<div>
+<h4 class="font-bold text-slate-900 dark:text-white">Location</h4>
+<p class="text-slate-600 dark:text-slate-400 text-sm mt-1">Metropolitan Convention Center</p>
+<p class="text-slate-600 dark:text-slate-400 text-sm">123 Festival Way, Downtown Metro</p>
+</div>
+</div>
+</div>
+<!-- Map Preview -->
+<div class="rounded-2xl overflow-hidden h-64 w-full bg-slate-200 dark:bg-slate-800 relative group border border-slate-200 dark:border-slate-800">
+<div class="absolute inset-0 bg-cover bg-center grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="Map showing the location of the Convention Center in Downtown Metro" data-location="Metropolitan Convention Center" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCb3d6SDOC2RCnIL4xVQEjJ76cJ1SfADxn4tzGzYJpNo0Q_u7qW8aF5wVHBC9JTeEWFyEm60O9zYvSd584tC4PSFO70v52DSmxKvtMkT7e7z3vK2EkiI71XXAzuLAliPSTCW3FjWDDNlIADj_jtNkPehYmTn6WGixItHLBmZwkqa0SKmVp4xLAkA-aAysAsH8LHZ39GwxQ7xhmn21Hn65eO3JGkPu4iNVvr8Oi5IreAEqJD6IsQO6Rw5FhGfCtGfk9SKQ5p1QObuyk");'></div>
+<div class="absolute inset-0 bg-primary/5"></div>
+<div class="absolute top-4 right-4">
+<button class="bg-white dark:bg-slate-900 px-4 py-2 rounded-lg text-xs font-bold shadow-lg text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">directions</span>
+                                    Get Directions
+                                </button>
+</div>
+</div>
+</div>
+<!-- Right Column: Booking Card -->
+<div class="lg:col-span-1">
+<div class="sticky top-24 space-y-6">
+<div class="bg-white dark:bg-slate-900 p-6 md:p-8 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xl shadow-primary/5">
+<div class="flex justify-between items-center mb-6">
+<span class="text-slate-500 dark:text-slate-400 text-sm font-medium">Starting from</span>
+<div class="text-right">
+<span class="text-3xl font-black text-slate-900 dark:text-white">$89.00</span>
+<p class="text-xs text-slate-400">per person</p>
+</div>
+</div>
+<div class="space-y-4 mb-8">
+<div class="flex items-center justify-between py-3 border-b border-slate-100 dark:border-slate-800">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-slate-400">group</span>
+<span class="text-sm font-medium">Standard Admission</span>
+</div>
+<span class="text-sm font-bold">$89.00</span>
+</div>
+<div class="flex items-center justify-between py-3 border-b border-slate-100 dark:border-slate-800">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-slate-400">workspace_premium</span>
+<span class="text-sm font-medium">VIP Premium</span>
+</div>
+<span class="text-sm font-bold text-primary">$159.00</span>
+</div>
+</div>
+<button class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-all transform active:scale-[0.98] shadow-lg shadow-primary/20 mb-4">
+                                    Book Now
+                                    <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+<p class="text-center text-xs text-slate-400 flex items-center justify-center gap-1">
+<span class="material-symbols-outlined text-[14px]">lock</span>
+                                    Secure checkout powered by APNATICKET
+                                </p>
+</div>
+<!-- Social Proof -->
+<div class="bg-primary/5 dark:bg-primary/10 rounded-2xl p-6 border border-primary/10">
+<div class="flex -space-x-2 mb-3">
+<div class="size-8 rounded-full border-2 border-white dark:border-slate-900 bg-cover" data-alt="Attending user profile 1" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBWHSJZldkkehfYIq5W9zftpuNcAKhphIpFp0548zoRgb9_QJR6yq66nGr8o1iDpng2LklMOvYjaHfKYKpC_PLGMhCUxbgm7dN4xGisE2mgGCveOA27y9kNXKKXi4s3B7rRLjtyooLm_QYVrTOx6KTUpbwkcS7GdjSu0YZd5gQKlZV3ZwQWzLtEr1wuIr01kGkjdQ5qNWfeNDACEnVP1tsuuGeeHR7LkHuPL7f0OwIA5UYZwuzFCFKyJi1z4jEEzK5MiK2qKVmkBlg");'></div>
+<div class="size-8 rounded-full border-2 border-white dark:border-slate-900 bg-cover" data-alt="Attending user profile 2" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuA1D-GF2jYPdb267mA7UyEqrgrqacTgcZmroDDIPYCIh1xk9qm34JcD8cNvoK3z2hl8HUFfX2ioNrqMucQJD6ZVDIXRKfEBKPpmfRDyL2I3Suryj5gHqQ8oedRkmVr3t-TmSPZ1IyFq5j7pGgqim8Y_voZg4o-DrrAq1zoHeYAQb_2EsnfS2paJTPcGv9h8ZwWA8oHNYvp5VrtWRAEVcikclc-MMO8sIxISsGmqk_p1zdf3OYscvb9V5d4PgUkd7NKMVFUVMEg8kFA");'></div>
+<div class="size-8 rounded-full border-2 border-white dark:border-slate-900 bg-cover" data-alt="Attending user profile 3" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC-n1YTTR6L69zitn74rYP5odUVhy2IxmLQbiNn_XEkSr-rA87XmqoJ0QpimgealTGDDFt8lFF7NgnidfZde1Pr3AubUhYuDAvWGy2NJCszPRJTugtwLMkJhB8OG9u8JgL1UVybFXFaTS9OUyfWW1EWQIfZEvsqkeSoC9d-S2PzDqgS72D0xRx5-ubKtxW3nJHmMnF6ZdovQM1Rhx4Pxy1whWg1QblnLnjE10dkZez7tcpu2mo0U-sZfvwJbsvqgBGBpAKPOXCyRrE");'></div>
+<div class="size-8 rounded-full bg-primary flex items-center justify-center text-[10px] text-white font-bold border-2 border-white dark:border-slate-900">
+                                        +2.4k
+                                    </div>
+</div>
+<p class="text-sm text-slate-700 dark:text-slate-300 font-medium italic">"Already 2,400+ music lovers have secured their spots!"</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Related Events / Footer Placeholder -->
+<div class="mt-20 pt-10 border-t border-slate-200 dark:border-slate-800">
+<h3 class="text-2xl font-bold text-slate-900 dark:text-white mb-6">You might also like</h3>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+<div class="group cursor-pointer">
+<div class="rounded-xl overflow-hidden aspect-video bg-slate-200 dark:bg-slate-800 mb-3">
+<div class="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500" data-alt="Colorful festival lights at night" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuApa7PRRR7ZRRoiNCTIAIh0SR3gNL4uHnR8mAxO8FTstxW51T9kSQhQkC_1G7Q_VGTGfbeiI9WZ7a0uXh10aw2pRBWGvwwCAryMqzTlqq8hW4xATzCtuQc208KYghjNbKyYQTXSvQsXFLeEqjdO8z2aAZLRIf8qY2x6PMOaLa-0d9eWFJCvwvhs58Y_wzw86l-b8AM5Z88joe05jm8dL6nthwO0bXs-WuLAUoBmwCBZMjK-FZogT4AZuAU8uTy9ErCNhJlHBP9d0x8");'></div>
+</div>
+<p class="text-xs font-bold text-primary uppercase mb-1">Electronic</p>
+<h4 class="font-bold text-slate-900 dark:text-white group-hover:text-primary transition-colors">Neon Night Beats</h4>
+<p class="text-sm text-slate-500 dark:text-slate-400">Nov 12 • Sky High Lounge</p>
+</div>
+<div class="group cursor-pointer">
+<div class="rounded-xl overflow-hidden aspect-video bg-slate-200 dark:bg-slate-800 mb-3">
+<div class="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500" data-alt="DJ performing at a club" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCd__KkS_aVAgez8KBmbtkTJPdcATuJ3zVqHk-I7eqUsLcpPhLH8eTmhAmVOSbV3L0ILZxTikR9lDzzQz-2ELKV70nbiE9N4TrPXAKQA3XdNLmhRSVRNK1CrK5twUO1DkUSWTrUiHW70wt6MWl5Tg5xf5p_Zo2mZUepw80hHK_Rs2f0HYGB6BppmnvVSIldHA9Tm57F2mRYCkw88wJWovscs-VqFvwCMT9nXQmGjlb24gAnccvtzGvTEvN85A-7QwZk_kU8Y-fge6Y");'></div>
+</div>
+<p class="text-xs font-bold text-primary uppercase mb-1">Jazz &amp; Soul</p>
+<h4 class="font-bold text-slate-900 dark:text-white group-hover:text-primary transition-colors">Autumn Jazz Sessions</h4>
+<p class="text-sm text-slate-500 dark:text-slate-400">Oct 30 • Blue Note Hall</p>
+</div>
+<div class="hidden lg:block group cursor-pointer">
+<div class="rounded-xl overflow-hidden aspect-video bg-slate-200 dark:bg-slate-800 mb-3">
+<div class="w-full h-full bg-cover bg-center group-hover:scale-105 transition-transform duration-500" data-alt="Rock band performing on stage" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCfUgwcGwBbpbD1_LiKyz-v830rrTMBDUMu2OyoIR8ggzJVo1jv8-BkVhVvDteyidWkNc-iLiInJoZJuWq9lXaHKVKrmUxwPkyQGPwu4TibpXNTz71xmaw_yZhbtylaBATi1Qqn2YhYC8ePQjAIKS1MtPPmUcQURuUfw2NJ8YV2dauRFjYtQTYw2_HP8baZvnbf_DGPebvScFFfd9tZMW0sNoM6Y24YvG7eDZwJmglAuzCL9Ge5tbnNYaJ8NaZSVyxhBYzThiH0Xq4");'></div>
+</div>
+<p class="text-xs font-bold text-primary uppercase mb-1">Rock</p>
+<h4 class="font-bold text-slate-900 dark:text-white group-hover:text-primary transition-colors">Echoes of Rock</h4>
+<p class="text-sm text-slate-500 dark:text-slate-400">Dec 05 • Arena West</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<footer class="bg-white dark:bg-slate-900 py-10 border-t border-slate-200 dark:border-slate-800">
+<div class="max-w-[1200px] mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="flex items-center gap-3">
+<div class="flex items-center justify-center bg-slate-200 dark:bg-slate-800 rounded-lg p-1.5 text-slate-600 dark:text-slate-400">
+<span class="material-symbols-outlined text-xl">confirmation_number</span>
+</div>
+<h2 class="text-lg font-bold text-slate-400 uppercase tracking-widest">APNATICKET</h2>
+</div>
+<div class="flex gap-8 text-sm font-medium text-slate-500 dark:text-slate-400">
+<a class="hover:text-primary transition-colors" href="#">Support</a>
+<a class="hover:text-primary transition-colors" href="#">Privacy</a>
+<a class="hover:text-primary transition-colors" href="#">Terms</a>
+</div>
+<p class="text-xs text-slate-400">© 2024 APNATICKET. All rights reserved.</p>
+</div>
+</footer>
+</div>
+</body></html>

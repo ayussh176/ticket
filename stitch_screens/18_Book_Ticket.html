@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Book Tickets - APNATICKET</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 transition-colors duration-200">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<!-- Top Navigation Bar -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-primary/10 bg-white dark:bg-background-dark px-6 md:px-10 py-3 sticky top-0 z-50">
+<div class="flex items-center gap-4">
+<div class="size-8 bg-primary rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined">confirmation_number</span>
+</div>
+<h2 class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-tight">APNATICKET</h2>
+</div>
+<div class="hidden md:flex flex-1 justify-center gap-8">
+<div class="flex items-center gap-8">
+<a class="text-slate-600 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors" href="#">Movies</a>
+<a class="text-slate-600 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors" href="#">Events</a>
+<a class="text-slate-600 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors" href="#">Plays</a>
+<a class="text-slate-600 dark:text-slate-300 text-sm font-medium hover:text-primary transition-colors" href="#">Sports</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="flex items-center justify-center rounded-lg h-10 w-10 bg-primary/10 text-primary hover:bg-primary/20 transition-all">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+</button>
+<div class="h-10 w-10 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden border-2 border-primary/20">
+<img class="w-full h-full object-cover" data-alt="User profile avatar with neutral features" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDodG27Jm6lACJNn9derNMIxHqiltl5Oft8lEugWAjoaPzyouG7Y7elmk6AJddIgu34O6w0MEH4oBs0R_M5zBVTw6KBumlKZOFYBIVnSl-XTjYXkKUITPU6qlPybl7fIASheXNSFb_zEs8uXbU6gqQbPlkegaWAtFRtH_wt_y90ehpUrD-GMAvGnxkIgojrVscp7DvOVutQMOug8Fas3O0QuMhf9cBE4IE67axSIjfsxI87kUQKLJF_u3jaU8Ev7pzwAQfn08fR4k8"/>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-1 max-w-7xl mx-auto w-full px-4 py-6 md:px-8 flex flex-col lg:flex-row gap-8">
+<!-- Left Side: Seat Selection -->
+<div class="flex-1 flex flex-col bg-white dark:bg-slate-900/50 rounded-xl shadow-sm border border-primary/5 p-6">
+<!-- Breadcrumbs -->
+<nav class="flex items-center gap-2 text-sm font-medium mb-6">
+<a class="text-slate-500 hover:text-primary" href="#">Home</a>
+<span class="material-symbols-outlined text-sm text-slate-400">chevron_right</span>
+<a class="text-slate-500 hover:text-primary" href="#">Movies</a>
+<span class="material-symbols-outlined text-sm text-slate-400">chevron_right</span>
+<span class="text-primary">Avengers: Endgame</span>
+</nav>
+<div class="mb-8">
+<h1 class="text-2xl font-bold text-slate-900 dark:text-white">Select Your Seats</h1>
+<p class="text-slate-500 dark:text-slate-400">Screen 2 | 7:30 PM, Friday Oct 25</p>
+</div>
+<!-- Screen Indicator -->
+<div class="w-full flex flex-col items-center mb-12">
+<div class="w-3/4 h-2 bg-slate-200 dark:bg-slate-700 rounded-full shadow-[0_10px_20px_-5px_rgba(80,72,229,0.3)] mb-2"></div>
+<span class="text-[10px] uppercase tracking-[0.2em] font-bold text-slate-400">Screen This Way</span>
+</div>
+<!-- Seat Grid -->
+<div class="flex flex-col gap-4 overflow-x-auto pb-4">
+<!-- Rows A-F -->
+<div class="flex flex-col gap-3 min-w-[600px] items-center">
+<!-- Row A -->
+<div class="flex items-center gap-2">
+<span class="w-6 text-xs font-bold text-slate-400">A</span>
+<div class="flex gap-2">
+<button class="w-8 h-8 rounded bg-primary text-white flex items-center justify-center text-xs font-bold transition-transform hover:scale-110">1</button>
+<button class="w-8 h-8 rounded bg-primary text-white flex items-center justify-center text-xs font-bold transition-transform hover:scale-110">2</button>
+<div class="w-8"></div>
+<button class="w-8 h-8 rounded bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 text-slate-400 flex items-center justify-center text-xs font-bold hover:border-primary">3</button>
+<button class="w-8 h-8 rounded bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 text-slate-400 flex items-center justify-center text-xs font-bold hover:border-primary">4</button>
+<button class="w-8 h-8 rounded bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 text-slate-400 flex items-center justify-center text-xs font-bold hover:border-primary">5</button>
+<button class="w-8 h-8 rounded bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 text-slate-400 flex items-center justify-center text-xs font-bold hover:border-primary">6</button>
+<div class="w-8"></div>
+<button class="w-8 h-8 rounded bg-slate-200 dark:bg-slate-700 text-slate-400 cursor-not-allowed flex items-center justify-center text-xs font-bold">7</button>
+<button class="w-8 h-8 rounded bg-slate-200 dark:bg-slate-700 text-slate-400 cursor-not-allowed flex items-center justify-center text-xs font-bold">8</button>
+</div>
+</div>
+<!-- Row B -->
+<div class="flex items-center gap-2">
+<span class="w-6 text-xs font-bold text-slate-400">B</span>
+<div class="flex gap-2">
+<button class="w-8 h-8 rounded bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 text-slate-400 flex items-center justify-center text-xs font-bold hover:border-primary">1</button>
+<button class="w-8 h-8 rounded bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 text-slate-400 flex items-center justify-center text-xs font-bold hover:border-primary">2</button>
+<div class="w-8"></div>
+<button class="w-8 h-8 rounded bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 text-slate-400 flex items-center justify-center text-xs font-bold hover:border-primary">3</button>
+<button class="w-8 h-8 rounded bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 text-slate-400 flex items-center justify-center text-xs font-bold hover:border-primary">4</button>
+<button class="w-8 h-8 rounded bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 text-slate-400 flex items-center justify-center text-xs font-bold hover:border-primary">5</button>
+<button class="w-8 h-8 rounded bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 text-slate-400 flex items-center justify-center text-xs font-bold hover:border-primary">6</button>
+<div class="w-8"></div>
+<button class="w-8 h-8 rounded bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 text-slate-400 flex items-center justify-center text-xs font-bold hover:border-primary">7</button>
+<button class="w-8 h-8 rounded bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 text-slate-400 flex items-center justify-center text-xs font-bold hover:border-primary">8</button>
+</div>
+</div>
+<!-- Row C -->
+<div class="flex items-center gap-2">
+<span class="w-6 text-xs font-bold text-slate-400">C</span>
+<div class="flex gap-2">
+<button class="w-8 h-8 rounded bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 text-slate-400 flex items-center justify-center text-xs font-bold hover:border-primary">1</button>
+<button class="w-8 h-8 rounded bg-slate-200 dark:bg-slate-700 text-slate-400 cursor-not-allowed flex items-center justify-center text-xs font-bold">2</button>
+<div class="w-8"></div>
+<button class="w-8 h-8 rounded bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 text-slate-400 flex items-center justify-center text-xs font-bold hover:border-primary">3</button>
+<button class="w-8 h-8 rounded bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 text-slate-400 flex items-center justify-center text-xs font-bold hover:border-primary">4</button>
+<button class="w-8 h-8 rounded bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 text-slate-400 flex items-center justify-center text-xs font-bold hover:border-primary">5</button>
+<button class="w-8 h-8 rounded bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 text-slate-400 flex items-center justify-center text-xs font-bold hover:border-primary">6</button>
+<div class="w-8"></div>
+<button class="w-8 h-8 rounded bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 text-slate-400 flex items-center justify-center text-xs font-bold hover:border-primary">7</button>
+<button class="w-8 h-8 rounded bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 text-slate-400 flex items-center justify-center text-xs font-bold hover:border-primary">8</button>
+</div>
+</div>
+<!-- Row D -->
+<div class="flex items-center gap-2">
+<span class="w-6 text-xs font-bold text-slate-400">D</span>
+<div class="flex gap-2">
+<button class="w-8 h-8 rounded bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 text-slate-400 flex items-center justify-center text-xs font-bold hover:border-primary">1</button>
+<button class="w-8 h-8 rounded bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 text-slate-400 flex items-center justify-center text-xs font-bold hover:border-primary">2</button>
+<div class="w-8"></div>
+<button class="w-8 h-8 rounded bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 text-slate-400 flex items-center justify-center text-xs font-bold hover:border-primary">3</button>
+<button class="w-8 h-8 rounded bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 text-slate-400 flex items-center justify-center text-xs font-bold hover:border-primary">4</button>
+<button class="w-8 h-8 rounded bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 text-slate-400 flex items-center justify-center text-xs font-bold hover:border-primary">5</button>
+<button class="w-8 h-8 rounded bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 text-slate-400 flex items-center justify-center text-xs font-bold hover:border-primary">6</button>
+<div class="w-8"></div>
+<button class="w-8 h-8 rounded bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 text-slate-400 flex items-center justify-center text-xs font-bold hover:border-primary">7</button>
+<button class="w-8 h-8 rounded bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 text-slate-400 flex items-center justify-center text-xs font-bold hover:border-primary">8</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Legend -->
+<div class="mt-12 flex flex-wrap justify-center gap-6 border-t border-slate-100 dark:border-slate-800 pt-8">
+<div class="flex items-center gap-2">
+<div class="w-4 h-4 rounded-sm bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700"></div>
+<span class="text-xs font-medium text-slate-500">Available</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-4 h-4 rounded-sm bg-slate-200 dark:bg-slate-700"></div>
+<span class="text-xs font-medium text-slate-500">Occupied</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-4 h-4 rounded-sm bg-primary"></div>
+<span class="text-xs font-medium text-slate-500">Selected</span>
+</div>
+</div>
+</div>
+<!-- Right Side: Booking Summary Panel -->
+<aside class="w-full lg:w-96 flex flex-col gap-6">
+<!-- Movie Preview Card -->
+<div class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-primary/5 overflow-hidden">
+<div class="h-32 bg-primary/20 relative">
+<img class="w-full h-full object-cover" data-alt="Dynamic movie poster landscape version" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRZWlqhUyhPPNygKdCAUOr3ITXf1lVCsVELE798jKvv4bCvD0wL4knm4kvNs8ci9McueM93dXdEdYMeejMp6w9hvMEdIXu4Quxe5XaN9xswOPvyANtMkHPHDCJ76dJbmIWtclJ-9GlQwIsWM1o24C8N4qSqgy2VKKTdXZZwgvh_Y66SV1IZu-d8HWWLrDJw-ZjwyEFLx1P9sfHcO7gqwSHkn572z7UUO4rOOG7JUu_k8pY9W_6HYMSOf5ZkudbDCqeDq94SStE8OY"/>
+<div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent"></div>
+</div>
+<div class="p-6">
+<div class="flex items-center gap-3 mb-4 px-3 py-2 rounded-lg bg-primary/10">
+<span class="material-symbols-outlined text-primary">confirmation_number</span>
+<p class="text-primary text-sm font-semibold">Ticket Summary</p>
+</div>
+<div class="space-y-4 mb-6">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-bold text-slate-900 dark:text-white">Avengers: Endgame</h3>
+<p class="text-xs text-slate-500">IMAX 3D | English</p>
+</div>
+<span class="bg-slate-100 dark:bg-slate-800 text-[10px] font-bold px-2 py-1 rounded text-slate-600 dark:text-slate-400">U/A</span>
+</div>
+<!-- Quantity Selector -->
+<div class="flex items-center justify-between py-4 border-y border-slate-100 dark:border-slate-800">
+<span class="text-sm font-medium text-slate-600 dark:text-slate-400">Total Seats</span>
+<div class="flex items-center gap-3">
+<button class="w-8 h-8 rounded-full border border-slate-200 dark:border-slate-700 flex items-center justify-center hover:bg-slate-50 dark:hover:bg-slate-800">
+<span class="material-symbols-outlined text-sm">remove</span>
+</button>
+<span class="text-lg font-bold w-4 text-center">2</span>
+<button class="w-8 h-8 rounded-full border border-slate-200 dark:border-slate-700 flex items-center justify-center hover:bg-slate-50 dark:hover:bg-slate-800">
+<span class="material-symbols-outlined text-sm">add</span>
+</button>
+</div>
+</div>
+<!-- Pricing Breakdown -->
+<div class="space-y-2">
+<div class="flex justify-between text-sm">
+<span class="text-slate-500">Price (2 x $12.00)</span>
+<span class="font-medium text-slate-900 dark:text-white">$24.00</span>
+</div>
+<div class="flex justify-between text-sm">
+<span class="text-slate-500">Service Fee</span>
+<span class="font-medium text-slate-900 dark:text-white">$2.50</span>
+</div>
+<div class="pt-4 border-t border-dashed border-slate-200 dark:border-slate-700 flex justify-between items-center">
+<span class="font-bold text-slate-900 dark:text-white">Total Amount</span>
+<span class="text-xl font-black text-primary">$26.50</span>
+</div>
+</div>
+</div>
+<button class="w-full bg-primary hover:bg-primary/90 text-white font-bold py-4 rounded-xl transition-all shadow-lg shadow-primary/25 flex items-center justify-center gap-2 group">
+<span>Proceed to Payment</span>
+<span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Info Cards -->
+<div class="space-y-3">
+<div class="flex items-center gap-3 p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800">
+<div class="size-10 rounded-full bg-amber-50 dark:bg-amber-900/20 flex items-center justify-center text-amber-600">
+<span class="material-symbols-outlined">receipt_long</span>
+</div>
+<div>
+<p class="text-xs font-bold text-slate-900 dark:text-white">Price Details</p>
+<p class="text-[10px] text-slate-500">Taxes and convenience fees included</p>
+</div>
+</div>
+<div class="flex items-center gap-3 p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800">
+<div class="size-10 rounded-full bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-blue-600">
+<span class="material-symbols-outlined">verified_user</span>
+</div>
+<div>
+<p class="text-xs font-bold text-slate-900 dark:text-white">Secure Booking</p>
+<p class="text-[10px] text-slate-500">256-bit SSL encrypted connection</p>
+</div>
+</div>
+<div class="flex items-center gap-3 p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800">
+<div class="size-10 rounded-full bg-green-50 dark:bg-green-900/20 flex items-center justify-center text-green-600">
+<span class="material-symbols-outlined">help</span>
+</div>
+<div>
+<p class="text-xs font-bold text-slate-900 dark:text-white">Need Help?</p>
+<p class="text-[10px] text-slate-500">Contact our 24/7 support team</p>
+</div>
+</div>
+</div>
+</aside>
+</main>
+<!-- Footer Footer -->
+<footer class="mt-auto border-t border-primary/5 bg-white dark:bg-slate-900/50 px-6 py-6 text-center">
+<p class="text-slate-400 text-xs">© 2024 APNATICKET - Your Premium Movie Experience Platform</p>
+</footer>
+</div>
+</div>
+</body></html>

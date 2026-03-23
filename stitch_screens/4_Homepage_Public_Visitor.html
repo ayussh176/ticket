@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>APNATICKET - Find Your Next Experience</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#4F46E5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 antialiased">
+<!-- Navigation -->
+<header class="sticky top-0 z-50 w-full border-b border-primary/10 bg-white/80 dark:bg-background-dark/80 backdrop-blur-md">
+<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+<div class="flex h-16 items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-white">
+<span class="material-symbols-outlined text-xl">confirmation_number</span>
+</div>
+<span class="text-xl font-extrabold tracking-tight text-slate-900 dark:text-white uppercase">ApnaTicket</span>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-sm font-medium text-slate-600 hover:text-primary dark:text-slate-300 dark:hover:text-white transition-colors" href="#">Explore</a>
+<a class="text-sm font-medium text-slate-600 hover:text-primary dark:text-slate-300 dark:hover:text-white transition-colors" href="#">About Us</a>
+<a class="text-sm font-medium text-slate-600 hover:text-primary dark:text-slate-300 dark:hover:text-white transition-colors" href="#">Contact</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="hidden sm:inline-flex items-center justify-center rounded-lg bg-primary px-5 py-2.5 text-sm font-bold text-white transition-all hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary/20">
+                        Login/Register
+                    </button>
+<button class="md:hidden text-slate-600 dark:text-slate-300">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</div>
+</div>
+</header>
+<main>
+<!-- Hero Section -->
+<section class="relative py-20 lg:py-32 overflow-hidden">
+<div class="absolute inset-0 -z-10 bg-[radial-gradient(45%_45%_at_50%_50%,rgba(79,70,229,0.1)_0%,rgba(255,255,255,0)_100%)]"></div>
+<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+<div class="text-center max-w-3xl mx-auto mb-12">
+<h1 class="text-4xl font-black tracking-tight text-slate-900 dark:text-white sm:text-6xl mb-6">
+                        Find Your Next <span class="text-primary">Experience</span>
+</h1>
+<p class="text-lg text-slate-600 dark:text-slate-400">
+                        Discover and book tickets for the best events, travel, and shows happening near you. Instant booking, zero hassle.
+                    </p>
+</div>
+<!-- Search Bar Component -->
+<div class="mx-auto max-w-5xl rounded-2xl border border-primary/10 bg-white dark:bg-slate-900 p-4 shadow-xl shadow-primary/5">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+<div class="relative">
+<label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1 ml-1">Location</label>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-slate-400">location_on</span>
+<input class="w-full rounded-xl border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 py-3 pl-10 pr-4 text-sm focus:border-primary focus:ring-primary" placeholder="Where are you going?" type="text"/>
+</div>
+</div>
+<div class="relative">
+<label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1 ml-1">Category</label>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-slate-400">category</span>
+<select class="w-full rounded-xl border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 py-3 pl-10 pr-4 text-sm focus:border-primary focus:ring-primary appearance-none">
+<option>All Events</option>
+<option>Music</option>
+<option>Travel</option>
+<option>Sports</option>
+<option>Concerts</option>
+</select>
+</div>
+</div>
+<div class="relative">
+<label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1 ml-1">Date</label>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-slate-400">calendar_today</span>
+<input class="w-full rounded-xl border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 py-3 pl-10 pr-4 text-sm focus:border-primary focus:ring-primary" type="date"/>
+</div>
+</div>
+<div class="flex items-end">
+<button class="w-full h-[46px] rounded-xl bg-primary text-white font-bold transition-transform active:scale-95 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">search</span>
+                                Search Tickets
+                            </button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Featured Section -->
+<section class="py-16 bg-white dark:bg-slate-900/50">
+<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+<div class="flex items-end justify-between mb-10">
+<div>
+<h2 class="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">Featured Experiences</h2>
+<p class="text-slate-500 dark:text-slate-400 mt-2">Handpicked events and travel deals for you</p>
+</div>
+<a class="hidden sm:flex items-center gap-1 text-sm font-bold text-primary hover:underline" href="#">
+                        View All
+                        <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- Ticket Card 1 -->
+<div class="group overflow-hidden rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm transition-all hover:shadow-xl">
+<div class="relative aspect-[16/9] overflow-hidden">
+<div class="absolute inset-0 bg-slate-200 animate-pulse" data-alt="Vibrant concert crowd with colorful stage lighting"></div>
+<img alt="" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Vibrant concert crowd with colorful stage lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnQukke2jy2r5EXCf_ypzvPoFo8_ZCxmvlpwYZ6zOc5V01X57H3g3rKjvgIt_dasKDSopse-CzHeSZJ5Pzv2nbXhMAZJy1VgYRHqBfLsoogZzB5luYlp-VflTy43H6mdaVSeZ4M29Nr0Unx4dIQ-IOxPkTR-Ov-FDtwftlERODYU0vwr72PusSULflTDIqV4FyTdsuMrgg0dvxiKa3IgWrr_yzo1tkDltv9bbHEyw4XVM33JFSQOm0Tk-rXLq5aM63__gBPqHHfPs"/>
+<div class="absolute top-4 left-4 rounded-lg bg-white/90 dark:bg-slate-900/90 px-2 py-1 text-xs font-bold uppercase tracking-wide text-primary shadow-sm backdrop-blur">
+                                Concert
+                            </div>
+</div>
+<div class="p-6">
+<div class="mb-2 flex items-center justify-between">
+<span class="text-xs font-medium text-slate-500 flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">calendar_month</span> Oct 24, 2024
+                                </span>
+<span class="text-xs font-bold text-green-600 bg-green-50 dark:bg-green-900/20 px-2 py-0.5 rounded">Available</span>
+</div>
+<h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Midnight Symphony Tour</h3>
+<div class="flex items-center gap-1 text-sm text-slate-500 dark:text-slate-400 mb-4">
+<span class="material-symbols-outlined text-sm">location_on</span>
+                                Grand Arena, New York
+                            </div>
+<div class="flex items-center justify-between pt-4 border-t border-slate-50 dark:border-slate-800">
+<div class="text-2xl font-black text-slate-900 dark:text-white">$89.00</div>
+<button class="rounded-lg bg-primary/10 px-4 py-2 text-sm font-bold text-primary transition-colors hover:bg-primary hover:text-white">Book Now</button>
+</div>
+</div>
+</div>
+<!-- Ticket Card 2 -->
+<div class="group overflow-hidden rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm transition-all hover:shadow-xl">
+<div class="relative aspect-[16/9] overflow-hidden">
+<div class="absolute inset-0 bg-slate-200 animate-pulse" data-alt="High speed train moving through a beautiful landscape"></div>
+<img alt="" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="High speed train moving through a beautiful landscape" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBDCC9kgKCrCG2Oq4P1vVvyTGGHnSlTzo_CTVEdj557N4PB9RgBbQg8M1xGoSb5bwMsSCqKq7o4DByCt0BSGn-lWb1foHpvyGfSgNfbcgx0t6iaJLSuLLhIs-o2jG2XjaYfwZnxvbaSZoOMZR6sykF7BszDb58-21zw8MqnmD52YcLl6jsH31HEdKVQ4TPFmOs7KndI4laRBbgEyqMbhQj_NOaQ5MMAq87xXfD--ZOb_wFQQgMvx1V7U8vfPq4aKjWAM-nISRW-ljA"/>
+<div class="absolute top-4 left-4 rounded-lg bg-white/90 dark:bg-slate-900/90 px-2 py-1 text-xs font-bold uppercase tracking-wide text-primary shadow-sm backdrop-blur">
+                                Travel
+                            </div>
+</div>
+<div class="p-6">
+<div class="mb-2 flex items-center justify-between">
+<span class="text-xs font-medium text-slate-500 flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">calendar_month</span> Everyday
+                                </span>
+<span class="text-xs font-bold text-blue-600 bg-blue-50 dark:bg-blue-900/20 px-2 py-0.5 rounded">Express</span>
+</div>
+<h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">Inter-City Express Pass</h3>
+<div class="flex items-center gap-1 text-sm text-slate-500 dark:text-slate-400 mb-4">
+<span class="material-symbols-outlined text-sm">location_on</span>
+                                Central Station, Chicago
+                            </div>
+<div class="flex items-center justify-between pt-4 border-t border-slate-50 dark:border-slate-800">
+<div class="text-2xl font-black text-slate-900 dark:text-white">$45.00</div>
+<button class="rounded-lg bg-primary/10 px-4 py-2 text-sm font-bold text-primary transition-colors hover:bg-primary hover:text-white">Book Now</button>
+</div>
+</div>
+</div>
+<!-- Ticket Card 3 -->
+<div class="group overflow-hidden rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm transition-all hover:shadow-xl">
+<div class="relative aspect-[16/9] overflow-hidden">
+<div class="absolute inset-0 bg-slate-200 animate-pulse" data-alt="Aerial view of a packed sports stadium at night"></div>
+<img alt="" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Aerial view of a packed sports stadium at night" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnVmtoFXOqz-WZIx10nHTW5XGl5hR3gPqD6BuB-Ac5YWUI35YfX3SuD9yv2kr0-5a87f5W1sVy45lxGp0K6PB0iXoc8lONFfyV5UjXrWG25DljY5Y6JuZX2ujm4rRUudDdqHzVtVGQX3r9qTEO8CDrl8eAFukmUWeIUr62XdjzREDtOsq1RhxddYM2w_jdoNrH-O1PZhiMxFvftVPIjAFkQhe6YCHN1vMnOWSh5rJSZECNky1tiy1nZ6gFCglIypMyQ7ho8HHbxLI"/>
+<div class="absolute top-4 left-4 rounded-lg bg-white/90 dark:bg-slate-900/90 px-2 py-1 text-xs font-bold uppercase tracking-wide text-primary shadow-sm backdrop-blur">
+                                Sports
+                            </div>
+</div>
+<div class="p-6">
+<div class="mb-2 flex items-center justify-between">
+<span class="text-xs font-medium text-slate-500 flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">calendar_month</span> Nov 12, 2024
+                                </span>
+<span class="text-xs font-bold text-red-600 bg-red-50 dark:bg-red-900/20 px-2 py-0.5 rounded">Fast Filling</span>
+</div>
+<h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">National Cup Finals</h3>
+<div class="flex items-center gap-1 text-sm text-slate-500 dark:text-slate-400 mb-4">
+<span class="material-symbols-outlined text-sm">location_on</span>
+                                Stadium X, London
+                            </div>
+<div class="flex items-center justify-between pt-4 border-t border-slate-50 dark:border-slate-800">
+<div class="text-2xl font-black text-slate-900 dark:text-white">$120.00</div>
+<button class="rounded-lg bg-primary/10 px-4 py-2 text-sm font-bold text-primary transition-colors hover:bg-primary hover:text-white">Book Now</button>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-12 text-center md:hidden">
+<button class="w-full rounded-xl border border-primary/20 py-4 text-sm font-bold text-primary">View All Tickets</button>
+</div>
+</div>
+</section>
+<!-- Newsletter Section -->
+<section class="py-20 bg-primary/5 dark:bg-primary/10">
+<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+<div class="relative overflow-hidden rounded-3xl bg-primary px-8 py-16 shadow-2xl sm:px-16 md:py-24 lg:flex lg:items-center lg:py-20">
+<div class="absolute inset-0 -z-10 bg-[radial-gradient(45%_45%_at_50%_50%,rgba(255,255,255,0.1)_0%,rgba(255,255,255,0)_100%)]"></div>
+<div class="lg:w-0 lg:flex-1">
+<h2 class="text-3xl font-black tracking-tight text-white sm:text-4xl">Get the best deals first.</h2>
+<p class="mt-4 max-w-3xl text-lg text-primary-100 text-slate-100">Sign up for our newsletter to receive exclusive discounts and updates on new event launches.</p>
+</div>
+<div class="mt-12 sm:w-full sm:max-w-md lg:mt-0 lg:ml-8 lg:flex-1">
+<form class="sm:flex">
+<label class="sr-only" for="email-address">Email address</label>
+<input autocomplete="email" class="w-full rounded-xl border-white px-5 py-3 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary" id="email-address" placeholder="Enter your email" required="" type="email"/>
+<button class="mt-3 flex w-full items-center justify-center rounded-xl border border-transparent bg-slate-900 px-5 py-3 text-base font-bold text-white transition-colors hover:bg-slate-800 sm:mt-0 sm:ml-3 sm:w-auto sm:flex-shrink-0" type="submit">Subscribe</button>
+</form>
+<p class="mt-3 text-sm text-primary-100 text-slate-100">We care about your data. Read our <a class="font-medium text-white underline" href="#">Privacy Policy</a>.</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-white dark:bg-background-dark border-t border-slate-100 dark:border-slate-800">
+<div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+<div class="xl:grid xl:grid-cols-3 xl:gap-8">
+<div class="space-y-8 xl:col-span-1">
+<div class="flex items-center gap-2">
+<div class="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-white">
+<span class="material-symbols-outlined text-xl">confirmation_number</span>
+</div>
+<span class="text-xl font-extrabold tracking-tight text-slate-900 dark:text-white uppercase">ApnaTicket</span>
+</div>
+<p class="text-sm text-slate-500 dark:text-slate-400 max-w-xs">
+                        Your one-stop destination for booking tickets to concerts, sports, theater, and travel across the globe.
+                    </p>
+<div class="flex space-x-6">
+<a class="text-slate-400 hover:text-primary transition-colors" href="#">
+<span class="sr-only">Facebook</span>
+<svg class="h-6 w-6" fill="currentColor" viewbox="0 0 24 24"><path clip-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" fill-rule="evenodd"></path></svg>
+</a>
+<a class="text-slate-400 hover:text-primary transition-colors" href="#">
+<span class="sr-only">Twitter</span>
+<svg class="h-6 w-6" fill="currentColor" viewbox="0 0 24 24"><path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"></path></svg>
+</a>
+<a class="text-slate-400 hover:text-primary transition-colors" href="#">
+<span class="sr-only">Instagram</span>
+<svg class="h-6 w-6" fill="currentColor" viewbox="0 0 24 24"><path clip-rule="evenodd" d="M12.315 2c2.43 0 2.784.011 3.807.058 1.02.047 1.535.208 1.904.342.49.19.84.416 1.208.783.367.367.593.717.783 1.208.134.369.295.884.342 1.904.047 1.023.058 1.377.058 3.807 0 2.43-.011 2.784-.058 3.807-.047 1.02-.208 1.535-.342 1.904-.19.49-.416.84-.783 1.208-.367.367-.717.593-1.208.783-.369.134-.884.295-1.904.342-1.023.047-1.377.058-3.807.058-2.43 0-2.784-.011-3.807-.058-1.02-.047-1.535-.208-1.904-.342-.49-.19-.84-.416-1.208-.783-.367-.367-.593-.717-.783-1.208-.134-.369-.295-.884-.342-1.904-.047-1.023-.058-1.377-.058-3.807 0-2.43.011-2.784.058-3.807.047-1.02.208-1.535.342-1.904.19-.49.416-.84.783-1.208.367-.367.717-.593 1.208-.783.369-.134.884-.295 1.904-.342 1.023-.047 1.377-.058 3.807-.058zM12 6.865a5.135 5.135 0 100 10.27 5.135 5.135 0 000-10.27zm0 1.802a3.333 3.333 0 110 6.666 3.333 3.333 0 010-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" fill-rule="evenodd"></path></svg>
+</a>
+</div>
+</div>
+<div class="mt-12 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
+<div class="md:grid md:grid-cols-2 md:gap-8">
+<div>
+<h3 class="text-sm font-bold uppercase tracking-wider text-slate-900 dark:text-white">Quick Links</h3>
+<ul class="mt-4 space-y-4">
+<li><a class="text-sm text-slate-500 hover:text-primary dark:text-slate-400" href="#">Search Tickets</a></li>
+<li><a class="text-sm text-slate-500 hover:text-primary dark:text-slate-400" href="#">Popular Categories</a></li>
+<li><a class="text-sm text-slate-500 hover:text-primary dark:text-slate-400" href="#">New Events</a></li>
+<li><a class="text-sm text-slate-500 hover:text-primary dark:text-slate-400" href="#">Special Offers</a></li>
+</ul>
+</div>
+<div class="mt-12 md:mt-0">
+<h3 class="text-sm font-bold uppercase tracking-wider text-slate-900 dark:text-white">Support</h3>
+<ul class="mt-4 space-y-4">
+<li><a class="text-sm text-slate-500 hover:text-primary dark:text-slate-400" href="#">Help Center</a></li>
+<li><a class="text-sm text-slate-500 hover:text-primary dark:text-slate-400" href="#">Contact Us</a></li>
+<li><a class="text-sm text-slate-500 hover:text-primary dark:text-slate-400" href="#">Ticket Policy</a></li>
+<li><a class="text-sm text-slate-500 hover:text-primary dark:text-slate-400" href="#">Refunds</a></li>
+</ul>
+</div>
+</div>
+<div class="md:grid md:grid-cols-2 md:gap-8">
+<div>
+<h3 class="text-sm font-bold uppercase tracking-wider text-slate-900 dark:text-white">Company</h3>
+<ul class="mt-4 space-y-4">
+<li><a class="text-sm text-slate-500 hover:text-primary dark:text-slate-400" href="#">About Us</a></li>
+<li><a class="text-sm text-slate-500 hover:text-primary dark:text-slate-400" href="#">Careers</a></li>
+<li><a class="text-sm text-slate-500 hover:text-primary dark:text-slate-400" href="#">Partners</a></li>
+<li><a class="text-sm text-slate-500 hover:text-primary dark:text-slate-400" href="#">Newsroom</a></li>
+</ul>
+</div>
+<div class="mt-12 md:mt-0">
+<h3 class="text-sm font-bold uppercase tracking-wider text-slate-900 dark:text-white">Legal</h3>
+<ul class="mt-4 space-y-4">
+<li><a class="text-sm text-slate-500 hover:text-primary dark:text-slate-400" href="#">Privacy Policy</a></li>
+<li><a class="text-sm text-slate-500 hover:text-primary dark:text-slate-400" href="#">Terms of Service</a></li>
+<li><a class="text-sm text-slate-500 hover:text-primary dark:text-slate-400" href="#">Cookie Policy</a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-12 border-t border-slate-100 dark:border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="text-sm text-slate-400">© 2024 APNATICKET Inc. All rights reserved.</p>
+<div class="flex items-center gap-2">
+<span class="text-xs text-slate-400">Secure Payment:</span>
+<span class="material-symbols-outlined text-slate-400 text-xl">payments</span>
+<span class="material-symbols-outlined text-slate-400 text-xl">account_balance_wallet</span>
+<span class="material-symbols-outlined text-slate-400 text-xl">credit_card</span>
+</div>
+</div>
+</div>
+</footer>
+</body></html>

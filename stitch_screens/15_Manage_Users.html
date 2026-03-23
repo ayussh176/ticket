@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>APNATICKET Admin - Manage Users</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light font-display text-slate-900">
+<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<header class="flex items-center justify-between border-b border-slate-200 bg-white px-8 py-3">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3">
+<div class="flex size-10 items-center justify-center rounded-lg bg-primary text-white">
+<span class="material-symbols-outlined">confirmation_number</span>
+</div>
+<h2 class="text-slate-900 text-lg font-bold leading-tight tracking-tight">APNATICKET Admin</h2>
+</div>
+<div class="hidden md:flex flex-col min-w-64">
+<div class="flex w-full items-stretch rounded-lg h-10 bg-slate-100 border border-slate-200 focus-within:border-primary">
+<div class="text-slate-500 flex items-center justify-center pl-3">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="w-full border-none bg-transparent focus:ring-0 text-slate-900 placeholder:text-slate-500 px-3 text-sm" placeholder="Search users, tickets..." value=""/>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="flex size-10 items-center justify-center rounded-full bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="flex size-10 items-center justify-center rounded-full bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<div class="h-8 w-[1px] bg-slate-200 mx-2"></div>
+<div class="flex items-center gap-3 cursor-pointer">
+<div class="text-right hidden sm:block">
+<p class="text-sm font-semibold text-slate-900 leading-none">Alex Rivera</p>
+<p class="text-xs text-slate-500 mt-1">Super Admin</p>
+</div>
+<div class="size-10 rounded-full bg-primary/20 flex items-center justify-center border-2 border-primary/10 overflow-hidden" data-alt="User profile avatar placeholder">
+<span class="material-symbols-outlined text-primary">person</span>
+</div>
+</div>
+</div>
+</header>
+<div class="flex flex-1 flex-col lg:flex-row">
+<aside class="w-full lg:w-64 bg-white border-r border-slate-200 flex flex-col p-4 gap-2">
+<div class="px-3 py-2 text-xs font-bold text-slate-400 uppercase tracking-widest">Main Menu</div>
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-slate-50 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-sm font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-slate-50 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">confirmation_number</span>
+<span class="text-sm font-medium">Tickets</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 bg-primary text-white rounded-lg shadow-sm shadow-primary/30 transition-colors" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="text-sm font-medium">Users</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-slate-50 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="text-sm font-medium">Payments</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-slate-600 hover:bg-slate-50 rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="text-sm font-medium">Reports</span>
+</a>
+</nav>
+</aside>
+<main class="flex-1 p-6 md:p-10 max-w-[1440px] mx-auto w-full">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+<div>
+<h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">Manage Users</h1>
+<p class="text-slate-500 mt-1">Review and manage registration requests and active accounts.</p>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-2 px-4 py-2 border border-slate-200 bg-white text-slate-700 rounded-lg text-sm font-semibold hover:bg-slate-50 transition-colors">
+<span class="material-symbols-outlined text-[18px]">download</span>
+                            Export
+                        </button>
+<button class="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg text-sm font-semibold hover:bg-primary/90 transition-colors shadow-sm shadow-primary/20">
+<span class="material-symbols-outlined text-[18px]">person_add</span>
+                            Add New User
+                        </button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+<div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+<div class="flex items-center justify-between mb-2">
+<p class="text-sm font-medium text-slate-500">Total Users</p>
+<span class="flex items-center text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full">+12.5%</span>
+</div>
+<p class="text-3xl font-bold text-slate-900">12,840</p>
+<div class="mt-4 w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 75%"></div>
+</div>
+</div>
+<div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+<div class="flex items-center justify-between mb-2">
+<p class="text-sm font-medium text-slate-500">Active Sessions</p>
+<span class="flex items-center text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full">+5.2%</span>
+</div>
+<p class="text-3xl font-bold text-slate-900">1,204</p>
+<div class="mt-4 w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
+<div class="bg-emerald-500 h-full rounded-full" style="width: 40%"></div>
+</div>
+</div>
+<div class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+<div class="flex items-center justify-between mb-2">
+<p class="text-sm font-medium text-slate-500">New Registrations</p>
+<span class="flex items-center text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full">+8.1%</span>
+</div>
+<p class="text-3xl font-bold text-slate-900">156</p>
+<div class="mt-4 w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
+<div class="bg-orange-500 h-full rounded-full" style="width: 25%"></div>
+</div>
+</div>
+</div>
+<div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+<div class="px-6 py-4 border-b border-slate-100 flex flex-wrap items-center justify-between gap-4">
+<div class="flex items-center gap-4">
+<button class="text-sm font-semibold text-primary border-b-2 border-primary pb-4 -mb-4">All Users</button>
+<button class="text-sm font-semibold text-slate-500 hover:text-slate-700 pb-4 -mb-4">Active</button>
+<button class="text-sm font-semibold text-slate-500 hover:text-slate-700 pb-4 -mb-4">Blocked</button>
+</div>
+<div class="flex items-center gap-2">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[18px]">filter_list</span>
+<select class="pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm font-medium text-slate-600 appearance-none focus:ring-primary focus:border-primary">
+<option>Filter by Status</option>
+<option>Active</option>
+<option>Pending</option>
+<option>Blocked</option>
+</select>
+</div>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-slate-50 border-b border-slate-100">
+<tr>
+<th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">User</th>
+<th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Email Address</th>
+<th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Phone Number</th>
+<th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Status</th>
+<th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100">
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center gap-3">
+<div class="size-9 rounded-full bg-slate-200 flex items-center justify-center font-bold text-slate-600" data-alt="User avatar for John Doe">JD</div>
+<div class="text-sm font-semibold text-slate-900">John Doe</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600">john.doe@example.com</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600">+1 234 567 890</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-700">
+<span class="size-1.5 rounded-full bg-emerald-500"></span>
+                                            Active
+                                        </span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="p-2 text-slate-400 hover:text-orange-500 hover:bg-orange-50 rounded-lg transition-colors group" title="Block User">
+<span class="material-symbols-outlined text-[20px]">block</span>
+</button>
+<button class="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors" title="Delete User">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+<button class="p-2 text-slate-400 hover:text-primary hover:bg-primary/5 rounded-lg transition-colors">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center gap-3">
+<div class="size-9 rounded-full bg-slate-200 flex items-center justify-center font-bold text-slate-600" data-alt="User avatar for Jane Smith">JS</div>
+<div class="text-sm font-semibold text-slate-900">Jane Smith</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600">jane.smith@corporate.com</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600">+1 987 654 321</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-700">
+<span class="size-1.5 rounded-full bg-amber-500"></span>
+                                            Pending
+                                        </span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="p-2 text-slate-400 hover:text-orange-500 hover:bg-orange-50 rounded-lg transition-colors" title="Block User">
+<span class="material-symbols-outlined text-[20px]">block</span>
+</button>
+<button class="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors" title="Delete User">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+<button class="p-2 text-slate-400 hover:text-primary hover:bg-primary/5 rounded-lg transition-colors">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center gap-3">
+<div class="size-9 rounded-full bg-slate-200 flex items-center justify-center font-bold text-slate-600" data-alt="User avatar for Mike Ross">MR</div>
+<div class="text-sm font-semibold text-slate-900">Mike Ross</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600">mike.ross@pearson.com</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600">+1 555 019 827</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-100 text-slate-600">
+<span class="size-1.5 rounded-full bg-slate-400"></span>
+                                            Blocked
+                                        </span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="p-2 text-primary hover:bg-primary/5 rounded-lg transition-colors font-medium text-xs flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">lock_open</span>
+                                                Unblock
+                                            </button>
+<button class="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors" title="Delete User">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+<button class="p-2 text-slate-400 hover:text-primary hover:bg-primary/5 rounded-lg transition-colors">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center gap-3">
+<div class="size-9 rounded-full bg-slate-200 flex items-center justify-center font-bold text-slate-600" data-alt="User avatar for Sarah Connor">SC</div>
+<div class="text-sm font-semibold text-slate-900">Sarah Connor</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600">sarah.c@tech.io</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600">+1 444 222 333</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-700">
+<span class="size-1.5 rounded-full bg-emerald-500"></span>
+                                            Active
+                                        </span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="p-2 text-slate-400 hover:text-orange-500 hover:bg-orange-50 rounded-lg transition-colors" title="Block User">
+<span class="material-symbols-outlined text-[20px]">block</span>
+</button>
+<button class="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors" title="Delete User">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+<button class="p-2 text-slate-400 hover:text-primary hover:bg-primary/5 rounded-lg transition-colors">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 transition-colors">
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center gap-3">
+<div class="size-9 rounded-full bg-slate-200 flex items-center justify-center font-bold text-slate-600" data-alt="User avatar for David Miller">DM</div>
+<div class="text-sm font-semibold text-slate-900">David Miller</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600">d.miller@gmail.com</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600">+1 333 999 000</td>
+<td class="px-6 py-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-700">
+<span class="size-1.5 rounded-full bg-emerald-500"></span>
+                                            Active
+                                        </span>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="p-2 text-slate-400 hover:text-orange-500 hover:bg-orange-50 rounded-lg transition-colors" title="Block User">
+<span class="material-symbols-outlined text-[20px]">block</span>
+</button>
+<button class="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors" title="Delete User">
+<span class="material-symbols-outlined text-[20px]">delete</span>
+</button>
+<button class="p-2 text-slate-400 hover:text-primary hover:bg-primary/5 rounded-lg transition-colors">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="px-6 py-4 bg-slate-50 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+<p class="text-sm text-slate-500">Showing <span class="font-semibold text-slate-900">1 to 5</span> of <span class="font-semibold text-slate-900">12,840</span> users</p>
+<div class="flex items-center gap-1">
+<button class="p-2 text-slate-400 hover:text-primary hover:bg-white rounded-lg transition-colors border border-transparent hover:border-slate-200">
+<span class="material-symbols-outlined text-[20px]">chevron_left</span>
+</button>
+<button class="size-9 flex items-center justify-center rounded-lg bg-primary text-white text-sm font-bold shadow-sm">1</button>
+<button class="size-9 flex items-center justify-center rounded-lg hover:bg-white text-slate-600 text-sm font-bold border border-transparent hover:border-slate-200 transition-colors">2</button>
+<button class="size-9 flex items-center justify-center rounded-lg hover:bg-white text-slate-600 text-sm font-bold border border-transparent hover:border-slate-200 transition-colors">3</button>
+<span class="px-2 text-slate-400">...</span>
+<button class="size-9 flex items-center justify-center rounded-lg hover:bg-white text-slate-600 text-sm font-bold border border-transparent hover:border-slate-200 transition-colors">256</button>
+<button class="p-2 text-slate-400 hover:text-primary hover:bg-white rounded-lg transition-colors border border-transparent hover:border-slate-200">
+<span class="material-symbols-outlined text-[20px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+</div>
+</div>
+</div>
+</body></html>

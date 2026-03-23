@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<title>Booking Confirmation | APNATICKET</title>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<!-- Navigation -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-6 md:px-40 py-3">
+<div class="flex items-center gap-4 text-primary">
+<div class="size-8 flex items-center justify-center">
+<span class="material-symbols-outlined text-3xl">confirmation_number</span>
+</div>
+<h2 class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">APNATICKET</h2>
+</div>
+<div class="flex gap-2">
+<button class="flex cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 px-2.5">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="flex cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 px-2.5">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</header>
+<main class="flex flex-1 justify-center py-10 px-4 md:px-0">
+<div class="layout-content-container flex flex-col max-w-[640px] flex-1">
+<!-- Success Hero Section -->
+<div class="flex flex-col items-center gap-6 py-10 bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800">
+<div class="flex items-center justify-center w-24 h-24 rounded-full bg-primary/10 text-primary">
+<span class="material-symbols-outlined !text-6xl">check_circle</span>
+</div>
+<div class="flex flex-col items-center gap-2 px-6">
+<h1 class="text-slate-900 dark:text-white text-3xl font-bold leading-tight tracking-tight text-center">Booking Confirmed!</h1>
+<p class="text-slate-600 dark:text-slate-400 text-base font-normal leading-normal text-center max-w-md">
+                                Your tickets are ready and secured. We've sent a copy of your e-ticket and receipt to your email address.
+                            </p>
+</div>
+<div class="flex flex-col sm:flex-row gap-3 w-full px-10">
+<button class="flex-1 flex min-w-[140px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-5 bg-primary text-white text-sm font-bold leading-normal tracking-[0.015em] transition-opacity hover:opacity-90">
+<span class="material-symbols-outlined mr-2">download</span>
+<span class="truncate">Download Ticket</span>
+</button>
+<button class="flex-1 flex min-w-[140px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-5 bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-sm font-bold leading-normal tracking-[0.015em] hover:bg-slate-200 dark:hover:bg-slate-700">
+<span class="material-symbols-outlined mr-2">list_alt</span>
+<span class="truncate">View All Bookings</span>
+</button>
+</div>
+</div>
+<!-- Ticket Summary Card -->
+<h2 class="text-slate-900 dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] pb-3 pt-10">Ticket Details</h2>
+<div class="bg-white dark:bg-slate-900 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 overflow-hidden">
+<div class="flex flex-col md:flex-row items-stretch gap-0">
+<div class="w-full md:w-1/3 bg-center bg-no-repeat bg-cover min-h-[180px]" data-alt="Crowd at a vibrant music festival stage" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDdG3KDGagkz-zGOuPRPO-I5Cp02DGMTD1y477BHrSr6Qa2tFuCh2Q3px_8r1wpLq424nYzidynh1MjZIUvWrK3U4rhRlmShbKeiMpzMiYr9vmExdWp44b82i9paXuIwqki5jNFxxfBLqSARfU8Bf9KSqYJAYvH8bvhB0GMu24vOcdULB3Flietr7peJYMw-yNWWbofIrVET3khO-BhFRSYPY8jFF6j0YE1wRZ5fEfbCevd79n3QuI182tmcmBs6HX1tVBjOU2_29o");'>
+</div>
+<div class="flex flex-1 flex-col p-6 justify-between">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2 mb-1">
+<span class="px-2 py-0.5 rounded bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs font-bold uppercase tracking-wider">Confirmed</span>
+</div>
+<h3 class="text-slate-900 dark:text-white text-xl font-bold leading-tight">Neon Nights Music Festival 2024</h3>
+<div class="flex items-center gap-2 text-slate-600 dark:text-slate-400 text-sm mt-2">
+<span class="material-symbols-outlined text-sm">calendar_today</span>
+<span>Friday, 25th Oct, 2024</span>
+</div>
+<div class="flex items-center gap-2 text-slate-600 dark:text-slate-400 text-sm">
+<span class="material-symbols-outlined text-sm">schedule</span>
+<span>07:00 PM - 11:30 PM</span>
+</div>
+<div class="flex items-center gap-2 text-slate-600 dark:text-slate-400 text-sm">
+<span class="material-symbols-outlined text-sm">location_on</span>
+<span>Skyline Arena, Downtown Metropolis</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Details List -->
+<div class="border-t border-slate-100 dark:border-slate-800 p-6 bg-slate-50/50 dark:bg-slate-800/30">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-12">
+<div class="flex justify-between items-center py-1">
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Order ID</p>
+<p class="text-slate-900 dark:text-white text-sm font-bold tracking-tight">#AT-992834</p>
+</div>
+<div class="flex justify-between items-center py-1">
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Seats</p>
+<p class="text-slate-900 dark:text-white text-sm font-bold">VIP Section - B21, B22</p>
+</div>
+<div class="flex justify-between items-center py-1">
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Total Amount</p>
+<p class="text-slate-900 dark:text-white text-sm font-bold">$150.00</p>
+</div>
+<div class="flex justify-between items-center py-1">
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Payment Method</p>
+<p class="text-slate-900 dark:text-white text-sm font-bold">Visa ending in 4242</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Secondary Navigation -->
+<div class="mt-10 flex flex-col items-center gap-4">
+<a class="flex items-center gap-2 text-primary font-semibold text-sm hover:underline underline-offset-4" href="/">
+<span class="material-symbols-outlined text-sm">arrow_back</span>
+                            Back to Homepage
+                        </a>
+<p class="text-slate-500 dark:text-slate-500 text-xs text-center mt-4">
+                            Need help with your booking? <a class="text-primary hover:underline" href="#">Contact Support</a>
+</p>
+</div>
+</div>
+</main>
+<!-- Footer Small -->
+<footer class="py-10 flex flex-col items-center justify-center gap-4 text-slate-400 dark:text-slate-600">
+<div class="flex gap-6">
+<a class="hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">share</span></a>
+<a class="hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">mail</span></a>
+<a class="hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">print</span></a>
+</div>
+<p class="text-xs">© 2024 APNATICKET. All rights reserved.</p>
+</footer>
+</div>
+</div>
+</body></html>

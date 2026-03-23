@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Search Events | APNATICKET</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #e2e8f0;
+            border-radius: 10px;
+        }
+    </style>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 transition-colors duration-300">
+<div class="relative flex h-auto min-h-screen w-full flex-col">
+<!-- Top Navigation Bar -->
+<header class="sticky top-0 z-50 w-full border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-background-dark/80 backdrop-blur-md px-4 md:px-10 py-3">
+<div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-3xl font-bold">confirmation_number</span>
+<h2 class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-tight">APNATICKET</h2>
+</div>
+<div class="hidden md:flex items-center flex-1 min-w-[300px]">
+<label class="relative w-full">
+<span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+<span class="material-symbols-outlined text-xl">search</span>
+</span>
+<input class="block w-full rounded-lg border-none bg-slate-100 dark:bg-slate-800 py-2 pl-10 pr-3 text-sm placeholder-slate-500 focus:ring-2 focus:ring-primary dark:text-slate-200" placeholder="Search events, artists, or venues..." type="text"/>
+</label>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="relative p-2 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 flex h-2 w-2 rounded-full bg-primary"></span>
+</button>
+<button class="hidden sm:flex items-center gap-2 px-3 py-2 text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg" onclick="window.location.href='login.html'">
+<span class="material-symbols-outlined">account_circle</span>
+<span>Sign In</span>
+</button>
+<div class="h-8 w-8 rounded-full bg-primary/20 flex items-center justify-center overflow-hidden border border-primary/30">
+<img alt="User Profile" class="h-full w-full object-cover" data-alt="User profile avatar circle" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpyUEStJdxl8tGfqByPWplWPLPP6t-fhldlcsNWIsGq99Ud2aEqx3VDCjeiKLg80HOUG59OGvdqyFq42EC_CYJMBK271gpXxj9G40n0diR5u4Ev50I6vEprZU-S8d44FJuB9_3tgVrXuDNBr_3cFoLh0jUmW0Xe5fHQJhNtGuhVSDYlPjk6CCMGi1tVG3JNJ-tsVl78O03yqTncEoxEwuGobjtAlqixAs0lQFWi-9rPUfxvcCrJ4btzXBTVEfv8vq6eJCSigsZ3PY"/>
+</div>
+</div>
+</div>
+</header>
+<main class="max-w-7xl mx-auto w-full px-4 py-8 flex flex-col lg:flex-row gap-8">
+<!-- Sidebar Filters -->
+<aside class="w-full lg:w-72 flex-shrink-0">
+<div class="sticky top-24 space-y-8">
+<div class="flex items-center justify-between">
+<h2 class="text-xl font-bold">Filters</h2>
+<button class="text-primary text-sm font-medium hover:underline">Clear all</button>
+</div>
+<!-- Category Filter -->
+<div class="space-y-3">
+<h3 class="text-sm font-semibold uppercase tracking-wider text-slate-500">Categories</h3>
+<div class="flex flex-col gap-1">
+<label class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary text-white cursor-pointer">
+<span class="material-symbols-outlined text-xl">grid_view</span>
+<span class="text-sm font-medium">All Events</span>
+</label>
+<label class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer transition-colors">
+<span class="material-symbols-outlined text-xl text-slate-500">music_note</span>
+<span class="text-sm font-medium">Music</span>
+</label>
+<label class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer transition-colors">
+<span class="material-symbols-outlined text-xl text-slate-500">sports_soccer</span>
+<span class="text-sm font-medium">Sports</span>
+</label>
+<label class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer transition-colors">
+<span class="material-symbols-outlined text-xl text-slate-500">palette</span>
+<span class="text-sm font-medium">Arts &amp; Theater</span>
+</label>
+<label class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer transition-colors">
+<span class="material-symbols-outlined text-xl text-slate-500">restaurant</span>
+<span class="text-sm font-medium">Food &amp; Drink</span>
+</label>
+</div>
+</div>
+<!-- Location Filter -->
+<div class="space-y-3">
+<h3 class="text-sm font-semibold uppercase tracking-wider text-slate-500">Location</h3>
+<div class="relative">
+<span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+<span class="material-symbols-outlined text-sm">location_on</span>
+</span>
+<select class="w-full rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 py-2 pl-10 pr-3 text-sm focus:ring-primary">
+<option>New York, USA</option>
+<option>London, UK</option>
+<option>Dubai, UAE</option>
+<option>Mumbai, India</option>
+<option>Tokyo, Japan</option>
+</select>
+</div>
+</div>
+<!-- Date Filter -->
+<div class="space-y-3">
+<h3 class="text-sm font-semibold uppercase tracking-wider text-slate-500">Date</h3>
+<div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-4">
+<div class="flex items-center justify-between mb-4">
+<button class="p-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full"><span class="material-symbols-outlined text-lg">chevron_left</span></button>
+<span class="text-sm font-bold">October 2023</span>
+<button class="p-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full"><span class="material-symbols-outlined text-lg">chevron_right</span></button>
+</div>
+<div class="grid grid-cols-7 gap-1 text-center text-[10px] text-slate-400 mb-2">
+<div>S</div><div>M</div><div>T</div><div>W</div><div>T</div><div>F</div><div>S</div>
+</div>
+<div class="grid grid-cols-7 gap-1">
+<div class="h-7 w-7 flex items-center justify-center text-xs opacity-20">28</div>
+<div class="h-7 w-7 flex items-center justify-center text-xs opacity-20">29</div>
+<div class="h-7 w-7 flex items-center justify-center text-xs opacity-20">30</div>
+<button class="h-7 w-7 flex items-center justify-center text-xs rounded-full hover:bg-primary/10 hover:text-primary">1</button>
+<button class="h-7 w-7 flex items-center justify-center text-xs rounded-full hover:bg-primary/10 hover:text-primary">2</button>
+<button class="h-7 w-7 flex items-center justify-center text-xs rounded-full hover:bg-primary/10 hover:text-primary">3</button>
+<button class="h-7 w-7 flex items-center justify-center text-xs rounded-full hover:bg-primary/10 hover:text-primary">4</button>
+<button class="h-7 w-7 flex items-center justify-center text-xs rounded-full bg-primary text-white font-bold">5</button>
+<button class="h-7 w-7 flex items-center justify-center text-xs rounded-full hover:bg-primary/10 hover:text-primary">6</button>
+<button class="h-7 w-7 flex items-center justify-center text-xs rounded-full hover:bg-primary/10 hover:text-primary">7</button>
+<button class="h-7 w-7 flex items-center justify-center text-xs rounded-full hover:bg-primary/10 hover:text-primary">8</button>
+<button class="h-7 w-7 flex items-center justify-center text-xs rounded-full hover:bg-primary/10 hover:text-primary">9</button>
+<button class="h-7 w-7 flex items-center justify-center text-xs rounded-full hover:bg-primary/10 hover:text-primary">10</button>
+<button class="h-7 w-7 flex items-center justify-center text-xs rounded-full hover:bg-primary/10 hover:text-primary">11</button>
+<button class="h-7 w-7 flex items-center justify-center text-xs rounded-full hover:bg-primary/10 hover:text-primary">12</button>
+</div>
+</div>
+</div>
+<!-- Price Range -->
+<div class="space-y-3">
+<div class="flex items-center justify-between">
+<h3 class="text-sm font-semibold uppercase tracking-wider text-slate-500">Price Range</h3>
+<span class="text-xs font-bold text-primary">$0 - $500+</span>
+</div>
+<input class="w-full h-1.5 bg-slate-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-primary" max="1000" min="0" step="10" type="range"/>
+<div class="flex justify-between text-[10px] text-slate-400">
+<span>$0</span>
+<span>$1000</span>
+</div>
+</div>
+</div>
+</aside>
+<!-- Search Results -->
+<section class="flex-1">
+<div class="flex flex-col sm:flex-row items-center justify-between mb-8 gap-4">
+<div>
+<h1 class="text-2xl font-bold">Events in New York</h1>
+<p class="text-slate-500 dark:text-slate-400 text-sm">Showing 124 upcoming events</p>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-sm text-slate-500">Sort by:</span>
+<select class="rounded-lg border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-sm py-1 px-3 focus:ring-primary">
+<option>Most Relevant</option>
+<option>Date: Soonest</option>
+<option>Price: Low to High</option>
+<option>Price: High to Low</option>
+</select>
+</div>
+</div>
+<!-- Event Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+<!-- Event Card 1 -->
+<div class="group bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 hover:shadow-xl transition-all duration-300 flex flex-col">
+<div class="relative aspect-[16/10] overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Crowded music concert with colorful stage lights" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqXIVwNQ3NvNbhfR02HbBrQzGbtRpMcT3sA_OmiUt2hKriXTUDOpl3tA-CQYmOueDlv-afxToQysdzePro_W28Aeu6ePDkucPLTOK1L2fzML52prDkplDEa-LobTvV0n2JXEH3S8BZPQGdOu1sKGu4XlnlnedgYjM1X7KUUhw7rEztzq-mGmxi_PLV3MyVsWME_j9QwJQQ6ogRoOE7rTZtmxOfa5qlz-ULYKHI8I3GrL2nmLufkPnPxh4Mi1hgzfeTmM3-oYvyfiA"/>
+<div class="absolute top-3 left-3 bg-white/90 dark:bg-slate-900/90 backdrop-blur px-2 py-1 rounded text-[10px] font-bold uppercase tracking-widest text-primary">Music</div>
+<button class="absolute top-3 right-3 h-8 w-8 rounded-full bg-black/20 backdrop-blur text-white flex items-center justify-center hover:bg-primary transition-colors">
+<span class="material-symbols-outlined text-lg">favorite</span>
+</button>
+</div>
+<div class="p-5 flex flex-col flex-1">
+<div class="flex items-center gap-2 text-slate-500 dark:text-slate-400 text-xs mb-2">
+<span class="material-symbols-outlined text-sm">calendar_today</span>
+<span>Oct 24 • 8:00 PM</span>
+</div>
+<h3 class="text-lg font-bold mb-2 group-hover:text-primary transition-colors leading-snug">Neon Echoes World Tour: Live at Madison Square Garden</h3>
+<div class="flex items-center gap-1 text-slate-500 dark:text-slate-400 text-xs mb-4">
+<span class="material-symbols-outlined text-sm">location_on</span>
+<span>Madison Square Garden, NYC</span>
+</div>
+<div class="mt-auto pt-4 flex items-center justify-between border-t border-slate-100 dark:border-slate-800">
+<div class="flex flex-col">
+<span class="text-xs text-slate-400 uppercase">From</span>
+<span class="text-lg font-bold text-slate-900 dark:text-white">$89.00</span>
+</div>
+<button class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-colors">View Details</button>
+</div>
+</div>
+</div>
+<!-- Event Card 2 -->
+<div class="group bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 hover:shadow-xl transition-all duration-300 flex flex-col">
+<div class="relative aspect-[16/10] overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Classic movie theater interior with red seats" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8sHJEu5hVsIqppSjxDNsMC1eMvl4MvauRzVtTzStJlgfm3bdZT9oLn9DMQwlw1nLfqINglaxnpvUnFUKhTAFErfSsGj7amdiBZcCKcNX_aJA3WvFtgOANlhAoIlw0YrIunLHqrcnIe3tfMPcnovQ0Hr6hXUprV4T_LquhijtUiGiN8lW1ag5YIANwZ0e5dR-bgKvDyMExn1PEIiy0MilJKohOanTqmYSi68A3GgRPQTaZjnySStGDf10aqEULfq-BYFp3eL4OyjY"/>
+<div class="absolute top-3 left-3 bg-white/90 dark:bg-slate-900/90 backdrop-blur px-2 py-1 rounded text-[10px] font-bold uppercase tracking-widest text-primary">Theater</div>
+<button class="absolute top-3 right-3 h-8 w-8 rounded-full bg-black/20 backdrop-blur text-white flex items-center justify-center hover:bg-primary transition-colors">
+<span class="material-symbols-outlined text-lg">favorite</span>
+</button>
+</div>
+<div class="p-5 flex flex-col flex-1">
+<div class="flex items-center gap-2 text-slate-500 dark:text-slate-400 text-xs mb-2">
+<span class="material-symbols-outlined text-sm">calendar_today</span>
+<span>Oct 26 • 7:30 PM</span>
+</div>
+<h3 class="text-lg font-bold mb-2 group-hover:text-primary transition-colors leading-snug">The Phantom of the Opera - Broadway Original</h3>
+<div class="flex items-center gap-1 text-slate-500 dark:text-slate-400 text-xs mb-4">
+<span class="material-symbols-outlined text-sm">location_on</span>
+<span>Majestic Theatre, NYC</span>
+</div>
+<div class="mt-auto pt-4 flex items-center justify-between border-t border-slate-100 dark:border-slate-800">
+<div class="flex flex-col">
+<span class="text-xs text-slate-400 uppercase">From</span>
+<span class="text-lg font-bold text-slate-900 dark:text-white">$125.00</span>
+</div>
+<button class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-colors">View Details</button>
+</div>
+</div>
+</div>
+<!-- Event Card 3 -->
+<div class="group bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 hover:shadow-xl transition-all duration-300 flex flex-col">
+<div class="relative aspect-[16/10] overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="High speed basketball game in action indoors" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDgbnoygs2yo5kgXsv55Ma56qkbn6iesQCLy6Q56u-ed3zUIt2gLfW4CHy7okHMbxoNTWheQTg0sZvB4rFc1euC5-lVdyLZjO30evJXD1KszmYog4ktxxgxvtn7ycwt5IXcCf-qnCYkPpkiF6V_QbZB3GWVgKTUmApw55iMrohl_qKO1ZyDIEA-Hn3goGMUqSeOuW0lRgnGSfXWWzznOPYIuWlJkAqoh5IUIkXaaZ0y8_Fwf9QKl4iHRlwLy1nqBimmeXuncFH7Vcg"/>
+<div class="absolute top-3 left-3 bg-white/90 dark:bg-slate-900/90 backdrop-blur px-2 py-1 rounded text-[10px] font-bold uppercase tracking-widest text-primary">Sports</div>
+<button class="absolute top-3 right-3 h-8 w-8 rounded-full bg-black/20 backdrop-blur text-white flex items-center justify-center hover:bg-primary transition-colors">
+<span class="material-symbols-outlined text-lg">favorite</span>
+</button>
+</div>
+<div class="p-5 flex flex-col flex-1">
+<div class="flex items-center gap-2 text-slate-500 dark:text-slate-400 text-xs mb-2">
+<span class="material-symbols-outlined text-sm">calendar_today</span>
+<span>Oct 28 • 5:00 PM</span>
+</div>
+<h3 class="text-lg font-bold mb-2 group-hover:text-primary transition-colors leading-snug">NBA Regular Season: Knicks vs. Celtics</h3>
+<div class="flex items-center gap-1 text-slate-500 dark:text-slate-400 text-xs mb-4">
+<span class="material-symbols-outlined text-sm">location_on</span>
+<span>Barclays Center, Brooklyn</span>
+</div>
+<div class="mt-auto pt-4 flex items-center justify-between border-t border-slate-100 dark:border-slate-800">
+<div class="flex flex-col">
+<span class="text-xs text-slate-400 uppercase">From</span>
+<span class="text-lg font-bold text-slate-900 dark:text-white">$55.00</span>
+</div>
+<button class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-colors">View Details</button>
+</div>
+</div>
+</div>
+<!-- Event Card 4 -->
+<div class="group bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 hover:shadow-xl transition-all duration-300 flex flex-col">
+<div class="relative aspect-[16/10] overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Gourmet food festival with various stalls outdoors" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjaJ0Z4b-oJgUhJHg1T76JK5SGGTJ3Qjwk-V78MeGiNRSty-ydKLYnxKuHZBUNF_t8S5zhUUu9uf8FYsc6M1YC8vhusE4U7jCq-MdOQ83IwlGnoUBaFyNMG8jaRS44RCEav-jK8Tl5kmciJHe78IYodueipyux-o2g_Cirli_lHT-6O4SZu7qRc8CcJKNDGJUY7HO5muKyyGgtcRID31rmjIeZelWZt6pgVt6R9UhE2lPbhU4KcD63FeHUdG1MJyzCrCIfuTzxcaU"/>
+<div class="absolute top-3 left-3 bg-white/90 dark:bg-slate-900/90 backdrop-blur px-2 py-1 rounded text-[10px] font-bold uppercase tracking-widest text-primary">Food</div>
+<button class="absolute top-3 right-3 h-8 w-8 rounded-full bg-black/20 backdrop-blur text-white flex items-center justify-center hover:bg-primary transition-colors">
+<span class="material-symbols-outlined text-lg">favorite</span>
+</button>
+</div>
+<div class="p-5 flex flex-col flex-1">
+<div class="flex items-center gap-2 text-slate-500 dark:text-slate-400 text-xs mb-2">
+<span class="material-symbols-outlined text-sm">calendar_today</span>
+<span>Nov 02 • 12:00 PM</span>
+</div>
+<h3 class="text-lg font-bold mb-2 group-hover:text-primary transition-colors leading-snug">Brooklyn Wine &amp; Tapas Festival 2023</h3>
+<div class="flex items-center gap-1 text-slate-500 dark:text-slate-400 text-xs mb-4">
+<span class="material-symbols-outlined text-sm">location_on</span>
+<span>Waterfront Park, Brooklyn</span>
+</div>
+<div class="mt-auto pt-4 flex items-center justify-between border-t border-slate-100 dark:border-slate-800">
+<div class="flex flex-col">
+<span class="text-xs text-slate-400 uppercase">From</span>
+<span class="text-lg font-bold text-slate-900 dark:text-white">$45.00</span>
+</div>
+<button class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-colors">View Details</button>
+</div>
+</div>
+</div>
+<!-- Event Card 5 -->
+<div class="group bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 hover:shadow-xl transition-all duration-300 flex flex-col">
+<div class="relative aspect-[16/10] overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Art gallery exhibition with modern paintings" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6tOcwljTDuwNWbRE-TmhRXnWo9zZcX14kmi2XF06xhPA6K3kkzSKgTeXSdwnscVq5B_76Ic7fiNJht9sNfLfpaPAbTJGKWMKYz-6Wf9YGm3eMAXcTimIZ_D0HAIUWgtDDycowpMFXDgfDlTdXIQB1Fr_Npiv-9FxxRVytrXwzv9hiOpI-iVmxAtwp6M3_xg8xpfE6C8Wz-tFoctokkq4OcKIg1Al6OVl8CSkF0776XUrV9O5UvdTlDhrNWl2dFeXQWeoODVhm_Kw"/>
+<div class="absolute top-3 left-3 bg-white/90 dark:bg-slate-900/90 backdrop-blur px-2 py-1 rounded text-[10px] font-bold uppercase tracking-widest text-primary">Arts</div>
+<button class="absolute top-3 right-3 h-8 w-8 rounded-full bg-black/20 backdrop-blur text-white flex items-center justify-center hover:bg-primary transition-colors">
+<span class="material-symbols-outlined text-lg">favorite</span>
+</button>
+</div>
+<div class="p-5 flex flex-col flex-1">
+<div class="flex items-center gap-2 text-slate-500 dark:text-slate-400 text-xs mb-2">
+<span class="material-symbols-outlined text-sm">calendar_today</span>
+<span>Nov 05 • 10:00 AM</span>
+</div>
+<h3 class="text-lg font-bold mb-2 group-hover:text-primary transition-colors leading-snug">Contemporary Art Fair: Modern Perspectives</h3>
+<div class="flex items-center gap-1 text-slate-500 dark:text-slate-400 text-xs mb-4">
+<span class="material-symbols-outlined text-sm">location_on</span>
+<span>The Met, 5th Ave, NYC</span>
+</div>
+<div class="mt-auto pt-4 flex items-center justify-between border-t border-slate-100 dark:border-slate-800">
+<div class="flex flex-col">
+<span class="text-xs text-slate-400 uppercase">From</span>
+<span class="text-lg font-bold text-primary">FREE</span>
+</div>
+<button class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-colors" onclick="window.location.href='book-ticket.html'">Book Now</button>
+</div>
+</div>
+</div>
+<!-- Event Card 6 -->
+<div class="group bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-800 hover:shadow-xl transition-all duration-300 flex flex-col">
+<div class="relative aspect-[16/10] overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Large audience at a professional technology conference" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCcF1zZgJ_sQXzTQKBPWM1aCY0zjg9GOlCLBnMN8SYh0Oy8NaxfO1yrebUh5B2sLVUpGeTiV4QYGsJr24YKtGoeX0hu-99uRxqkNcf6oSdge3ZojHzabT1jSLW9GR3MGyxRKYUesFbhHbsyRk_VpQZIKxXDXmXuyUqQ5mrz8nZV8KQdaBaACYfccOlImZxsiPvqkSy1dq7nCmc3rHz1YE8qSt5NHQPhRCwnPkMd9h3da1ZEqABms0eNfGqfgf3p6puxKzGulMxLolE"/>
+<div class="absolute top-3 left-3 bg-white/90 dark:bg-slate-900/90 backdrop-blur px-2 py-1 rounded text-[10px] font-bold uppercase tracking-widest text-primary">Business</div>
+<button class="absolute top-3 right-3 h-8 w-8 rounded-full bg-black/20 backdrop-blur text-white flex items-center justify-center hover:bg-primary transition-colors">
+<span class="material-symbols-outlined text-lg">favorite</span>
+</button>
+</div>
+<div class="p-5 flex flex-col flex-1">
+<div class="flex items-center gap-2 text-slate-500 dark:text-slate-400 text-xs mb-2">
+<span class="material-symbols-outlined text-sm">calendar_today</span>
+<span>Nov 10 • 9:00 AM</span>
+</div>
+<h3 class="text-lg font-bold mb-2 group-hover:text-primary transition-colors leading-snug">TechSummit 2023: AI &amp; The Future of Design</h3>
+<div class="flex items-center gap-1 text-slate-500 dark:text-slate-400 text-xs mb-4">
+<span class="material-symbols-outlined text-sm">location_on</span>
+<span>Javits Center, NYC</span>
+</div>
+<div class="mt-auto pt-4 flex items-center justify-between border-t border-slate-100 dark:border-slate-800">
+<div class="flex flex-col">
+<span class="text-xs text-slate-400 uppercase">From</span>
+<span class="text-lg font-bold text-slate-900 dark:text-white">$299.00</span>
+</div>
+<button class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-colors">View Details</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Pagination -->
+<div class="mt-12 flex items-center justify-center gap-2">
+<button class="h-10 w-10 flex items-center justify-center rounded-lg border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined text-xl">chevron_left</span>
+</button>
+<button class="h-10 w-10 flex items-center justify-center rounded-lg bg-primary text-white font-bold">1</button>
+<button class="h-10 w-10 flex items-center justify-center rounded-lg border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">2</button>
+<button class="h-10 w-10 flex items-center justify-center rounded-lg border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">3</button>
+<span class="px-2">...</span>
+<button class="h-10 w-10 flex items-center justify-center rounded-lg border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">12</button>
+<button class="h-10 w-10 flex items-center justify-center rounded-lg border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined text-xl">chevron_right</span>
+</button>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 py-12 px-4 md:px-10 mt-12">
+<div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
+<div class="space-y-4">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-3xl font-bold">confirmation_number</span>
+<h2 class="text-slate-900 dark:text-white text-xl font-bold">APNATICKET</h2>
+</div>
+<p class="text-slate-500 text-sm leading-relaxed">Your ultimate destination for secure and fast event ticketing across the globe. Experience the best moments with us.</p>
+</div>
+<div>
+<h4 class="font-bold mb-4">Quick Links</h4>
+<ul class="space-y-2 text-sm text-slate-500 dark:text-slate-400">
+<li><a class="hover:text-primary" href="index.html">Home</a></li>
+<li><a class="hover:text-primary" href="#">All Events</a></li>
+<li><a class="hover:text-primary" href="#">Sell Tickets</a></li>
+<li><a class="hover:text-primary" href="about.html">About Us</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold mb-4">Help &amp; Support</h4>
+<ul class="space-y-2 text-sm text-slate-500 dark:text-slate-400">
+<li><a class="hover:text-primary" href="contact.html">FAQ</a></li>
+<li><a class="hover:text-primary" href="contact.html">Contact Support</a></li>
+<li><a class="hover:text-primary" href="#">Privacy Policy</a></li>
+<li><a class="hover:text-primary" href="#">Terms of Service</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold mb-4">Subscribe to Newsletter</h4>
+<div class="flex gap-2">
+<input class="flex-1 rounded-lg border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800 text-sm focus:ring-primary" placeholder="Email address" type="email"/>
+<button class="bg-primary text-white p-2 rounded-lg"><span class="material-symbols-outlined">send</span></button>
+</div>
+</div>
+</div>
+<div class="max-w-7xl mx-auto mt-12 pt-8 border-t border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-slate-400">
+<p>© 2023 APNATICKET. All rights reserved.</p>
+<div class="flex gap-6">
+<a class="hover:text-primary" href="book-ticket.html">Facebook</a>
+<a class="hover:text-primary" href="#">Twitter</a>
+<a class="hover:text-primary" href="#">Instagram</a>
+</div>
+</div>
+</footer>
+</div>
+    <script src="js/api.js"></script><script src="js/main.js"></script>
+    <script src="js/app.js"></script>
+</body></html>

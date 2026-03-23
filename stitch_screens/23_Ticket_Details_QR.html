@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Ticket Details - APNATICKET</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                    },
+                    fontFamily: {
+                        "display": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .ticket-cutout {
+            position: relative;
+        }
+        .ticket-cutout::before, .ticket-cutout::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #f6f6f8;
+            border-radius: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+        }
+        .ticket-cutout::before { left: -10px; }
+        .ticket-cutout::after { right: -10px; }
+        
+        .dark .ticket-cutout::before, .dark .ticket-cutout::after {
+            background-color: #121121;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<!-- Navigation Bar -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-primary/10 bg-white dark:bg-slate-900 px-6 md:px-10 py-3 sticky top-0 z-50">
+<div class="flex items-center gap-4">
+<div class="text-primary size-8 flex items-center justify-center">
+<span class="material-symbols-outlined text-3xl">confirmation_number</span>
+</div>
+<h2 class="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-tight">APNATICKET</h2>
+</div>
+<div class="flex gap-3">
+<button class="flex items-center justify-center rounded-lg h-10 w-10 bg-primary/10 text-primary hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined text-[20px]">share</span>
+</button>
+<button class="flex items-center justify-center rounded-lg h-10 w-10 bg-primary/10 text-primary hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined text-[20px]">more_horiz</span>
+</button>
+</div>
+</header>
+<main class="flex flex-1 justify-center py-8 px-4 sm:px-6 md:px-10">
+<div class="layout-content-container flex flex-col max-w-[500px] flex-1 gap-6">
+<!-- Breadcrumbs -->
+<div class="flex items-center gap-2 px-2">
+<a class="text-primary/70 dark:text-primary/50 text-sm font-medium hover:text-primary" href="#">My Bookings</a>
+<span class="material-symbols-outlined text-slate-400 text-sm">chevron_right</span>
+<span class="text-slate-900 dark:text-white text-sm font-semibold">Ticket Details</span>
+</div>
+<!-- Digital Ticket View -->
+<div class="flex flex-col rounded-xl overflow-hidden shadow-xl bg-white dark:bg-slate-900 border border-primary/10">
+<!-- Event Image Header -->
+<div class="relative h-48 w-full bg-cover bg-center" data-alt="Vibrant concert stage with colorful lights and crowd" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC7KsNEAX6PZr6RsRHpdYBUcsj1lxUMTGEl4vbmogYIksf7yNb4j6-knovPN1Q_j0EnrcUAjWdz-m5wQ9FyERc0zIG68JM8c20bEn2YndRpIvWbwIiJbGAA0kpJOCpxrLhu6nlUrfersqA8Rdd0itPXM9Rd2ZPjA9OD3BrVU9BCj9LPKdz9G7HLmKo9HgfoU9E6K3QH1xifMydx-qvD6R7d5mpy28aE3GTnAOILO7zfIGiMG02b0tuC_PBD4wZAGr3dH3RSK-99Lf8')">
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+<div class="absolute bottom-4 left-4 right-4 flex justify-between items-end">
+<div>
+<span class="bg-green-500 text-white text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full mb-2 inline-block">Confirmed</span>
+<h1 class="text-white text-2xl font-bold leading-tight">Neon Nights Music Fest</h1>
+</div>
+</div>
+</div>
+<!-- Event Details -->
+<div class="p-6 flex flex-col gap-4 border-b border-dashed border-slate-200 dark:border-slate-700 ticket-cutout">
+<div class="flex items-start gap-4">
+<div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary shrink-0">
+<span class="material-symbols-outlined">calendar_month</span>
+</div>
+<div class="flex flex-col">
+<p class="text-slate-500 dark:text-slate-400 text-xs font-medium uppercase tracking-wider">Date &amp; Time</p>
+<p class="text-slate-900 dark:text-white font-bold">Friday, Dec 20, 2024</p>
+<p class="text-slate-600 dark:text-slate-400 text-sm">Starts at 07:00 PM (IST)</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10 text-primary shrink-0">
+<span class="material-symbols-outlined">location_on</span>
+</div>
+<div class="flex flex-col">
+<p class="text-slate-500 dark:text-slate-400 text-xs font-medium uppercase tracking-wider">Venue</p>
+<p class="text-slate-900 dark:text-white font-bold">Royal Opera House</p>
+<p class="text-slate-600 dark:text-slate-400 text-sm">Mama Parmanand Marg, Mumbai</p>
+</div>
+</div>
+</div>
+<!-- Seat & Booking Info -->
+<div class="p-6 grid grid-cols-2 gap-y-6">
+<div class="flex flex-col">
+<p class="text-slate-500 dark:text-slate-400 text-xs font-medium uppercase tracking-wider">Section</p>
+<p class="text-slate-900 dark:text-white font-bold text-lg">VIP Lounge</p>
+</div>
+<div class="flex flex-col">
+<p class="text-slate-500 dark:text-slate-400 text-xs font-medium uppercase tracking-wider">Seat Number</p>
+<p class="text-slate-900 dark:text-white font-bold text-lg">Row 4, Seat 12</p>
+</div>
+<div class="flex flex-col">
+<p class="text-slate-500 dark:text-slate-400 text-xs font-medium uppercase tracking-wider">Gate</p>
+<p class="text-slate-900 dark:text-white font-bold text-lg">North Gate 3</p>
+</div>
+<div class="flex flex-col">
+<p class="text-slate-500 dark:text-slate-400 text-xs font-medium uppercase tracking-wider">Booking ID</p>
+<p class="text-slate-900 dark:text-white font-bold text-lg">#AT-982341</p>
+</div>
+</div>
+<!-- QR Code Section -->
+<div class="bg-primary/5 dark:bg-primary/10 p-8 flex flex-col items-center justify-center border-t border-slate-100 dark:border-slate-800">
+<div class="bg-white p-4 rounded-xl shadow-inner mb-4">
+<img alt="Ticket Entry QR Code" class="w-40 h-40" data-alt="High quality QR code for digital entry scan" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCy-Flu51iEkEJvKj4se437N_Cod00tbcoF-6dJOe9Nk5Z_cbjYjs44QUxY_LooqF7g0_ARPA7_dz2CL2YDFX9jJFsLwFc_i1Lkg_9Naz3bwesqytPw2z717zvMNtnpJpuNtHadapzOZr0maOzibsgeKFEEQo64wZ-j342GJJlKd5QQ3bC2AdpAxAs9PvfL_liSha6JLQEM21Q5No2FqZSVdxaKIS69NGfCZL5mKZ1qf7d4NwbUBf1OrK265Ewk3edZ35ybZnCrxuY"/>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-[10px] uppercase tracking-[0.2em] font-bold">Scan at entrance for entry</p>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="flex flex-col gap-3 mt-2">
+<button class="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl h-14 bg-primary text-white text-base font-bold shadow-lg shadow-primary/30 hover:bg-primary/90 transition-all">
+<span class="material-symbols-outlined">picture_as_pdf</span>
+<span>Download PDF Ticket</span>
+</button>
+<button class="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl h-14 bg-white dark:bg-slate-900 border border-primary/20 text-slate-900 dark:text-white text-base font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-all">
+<span class="material-symbols-outlined">calendar_add_on</span>
+<span>Add to Google Wallet</span>
+</button>
+</div>
+<!-- Information Section -->
+<div class="mt-6">
+<h3 class="text-slate-900 dark:text-white text-lg font-bold mb-4 px-2">Important Instructions</h3>
+<div class="bg-white dark:bg-slate-900 rounded-xl p-6 border border-primary/5 flex flex-col gap-4">
+<div class="flex gap-3">
+<span class="material-symbols-outlined text-primary text-xl">info</span>
+<p class="text-sm text-slate-600 dark:text-slate-400">Please arrive at least 45 minutes before the event starts for security screening.</p>
+</div>
+<div class="flex gap-3">
+<span class="material-symbols-outlined text-primary text-xl">no_photography</span>
+<p class="text-sm text-slate-600 dark:text-slate-400">Professional cameras and recording equipment are not allowed inside the venue.</p>
+</div>
+<div class="flex gap-3">
+<span class="material-symbols-outlined text-primary text-xl">qr_code_scanner</span>
+<p class="text-sm text-slate-600 dark:text-slate-400">Ensure your phone brightness is at maximum when presenting the QR code at the gate.</p>
+</div>
+</div>
+</div>
+<!-- Price Breakdown (Subtle) -->
+<div class="p-4 border border-dashed border-primary/20 rounded-xl bg-primary/5">
+<div class="flex justify-between items-center">
+<span class="text-slate-600 dark:text-slate-400 text-sm">Total Paid</span>
+<span class="text-slate-900 dark:text-white font-bold text-lg">₹2,499.00</span>
+</div>
+</div>
+<!-- Footer Support -->
+<footer class="text-center py-6">
+<p class="text-slate-500 text-xs">Need help? <a class="text-primary font-bold" href="#">Contact Support</a></p>
+<p class="text-slate-400 text-[10px] mt-2">© 2024 APNATICKET - Your Gateway to Experiences</p>
+</footer>
+</div>
+</main>
+</div>
+</div>
+</body></html>

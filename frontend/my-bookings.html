@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5048e5",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#121121",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<title>My Bookings - ApnaTicket</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100">
+<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<!-- Top Navigation Bar -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-6 md:px-10 py-3 sticky top-0 z-50">
+<div class="flex items-center gap-4">
+<div class="text-primary">
+<span class="material-symbols-outlined text-3xl">confirmation_number</span>
+</div>
+<h2 class="text-slate-900 dark:text-slate-100 text-lg font-bold leading-tight tracking-tight">ApnaTicket</h2>
+</div>
+<div class="flex flex-1 justify-end gap-4 md:gap-8 items-center">
+<div class="flex gap-2">
+<button class="flex items-center justify-center rounded-lg h-10 w-10 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-xl">notifications</span>
+</button>
+<button class="flex items-center justify-center rounded-lg h-10 w-10 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-primary/10 transition-colors" onclick="window.location.href='user-profile.html'">
+<span class="material-symbols-outlined text-xl">account_circle</span>
+</button>
+</div>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-primary/20" data-alt="User profile picture showing a professional male portrait" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBELyi7FzE2ETX2xbhKqOblKmApIB1gXOFQaQCeRJmKmv38aNWr7nv5vzWalbqtuK3FSZF3fYDTqh9mLLpncGNLSn55onraSYBP_qUFzGLMNZZ_s0aMDUDm09vqeCT7uSOfTaPBTOOYu-yNhNo6wjzShCnxgneiXi9S9eYaSmq5HvOKYas7rjJG8JGGvb9UXBMqoxuFjxPCMi_3I-nrL1ylyk1o8--rkKh3jCURcpm-6s0gtlT7F5Lc-lwMr3EqTU_7OcpYIcWoZ2k");'>
+</div>
+</div>
+</header>
+<main class="flex flex-1 justify-center py-8 px-4 md:px-0">
+<div class="layout-content-container flex flex-col max-w-[1000px] flex-1 gap-6">
+<!-- Profile Header -->
+<div class="flex flex-col md:flex-row md:items-center justify-between bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm gap-4">
+<div class="flex gap-4 items-center">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-14 border-2 border-primary" data-alt="Premium user profile avatar circular image" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDOGJ0LewOF0J3Qge0WFXmjJxvBeZYwUsH08X0Z1A4qbov8yNwdPOiOHo_0RBPSgSHnFMmECMVS0B-seb_Q-7aCOC_Oh3Uy_y5Q1g20GQanHh_8B6YDLzbiLiXu3llFUrohJsRUVFTaXiV4TMK8rLnWJcDZWwbXyVlePYIMpLchEnB7EnjVobhJMIvONZdEHMYOmblr6fIWsPN3NbU8ygIpC8Zv645wngPSWTrXpSGJcEnJIMVJSgiSZex53KcWCsuJub8WsyZDMyE");'>
+</div>
+<div class="flex flex-col">
+<h1 class="text-slate-900 dark:text-slate-100 text-xl font-bold">ApnaTicket User</h1>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-sm">verified</span>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Premium Member</p>
+</div>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-sm font-semibold hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined text-lg">settings</span>
+<span>Settings</span>
+</button>
+</div>
+</div>
+<!-- Navigation Tabs -->
+<div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+<div class="flex border-b border-slate-200 dark:border-slate-800 px-6">
+<a class="flex items-center gap-2 border-b-2 border-primary text-primary pb-4 pt-4 px-2 transition-all" href="book-ticket.html">
+<span class="material-symbols-outlined text-lg">event_upcoming</span>
+<p class="text-sm font-bold leading-normal">Upcoming Bookings</p>
+</a>
+<a class="flex items-center gap-2 border-b-2 border-transparent text-slate-500 dark:text-slate-400 pb-4 pt-4 px-6 hover:text-slate-700 dark:hover:text-slate-200 transition-all" href="book-ticket.html">
+<span class="material-symbols-outlined text-lg">history</span>
+<p class="text-sm font-bold leading-normal">Past Bookings</p>
+</a>
+</div>
+<!-- Bookings List -->
+<div class="p-6 flex flex-col gap-6">
+<!-- Booking Card 1 -->
+<div class="group flex flex-col lg:flex-row items-stretch border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden hover:shadow-md transition-shadow bg-background-light/30 dark:bg-background-dark/30">
+<div class="lg:w-64 h-48 lg:h-auto bg-center bg-no-repeat bg-cover" data-alt="Scenic view of London tower bridge and city skyline" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDAI1B2JRmfehKJ2T0wIxOW4vfHP_q2EmX9JDR6sDACJ_RlbAGd5ET3gebZxPpEoo0_rllRVrzJljbD9x0y-fmNIz_uc_CxzkU6LsmuYiyDQzM18b5K-iUrXDRMsihSPDvNYPnRx43Hp57avvJ8-IWOdhNmO11cuuUW_uBn8tRfBbhSTxSLPvMkxC4Ns5Ukn7XXwWikIpmpFGqTjPkvgx-DgakSPh00ubwaf1d4hwPZwGz-hOXITRy7wAWrMcpki24LoXzTv_alSxY");'>
+</div>
+<div class="flex-1 p-5 flex flex-col justify-between gap-4">
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 uppercase tracking-wider">
+                                                Confirmed
+                                            </span>
+<span class="text-slate-400 text-xs font-medium">May 24, 2024</span>
+</div>
+<h3 class="text-slate-900 dark:text-slate-100 text-lg font-bold">London to Paris - Eurostar High Speed</h3>
+<p class="text-slate-500 dark:text-slate-400 text-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">confirmation_number</span>
+                                            Booking ID: <span class="font-mono">AT-99283</span>
+</p>
+</div>
+<div class="flex flex-wrap items-center justify-between gap-4 mt-auto">
+<div class="flex items-center gap-4">
+<div class="flex flex-col">
+<span class="text-[10px] uppercase text-slate-400 font-bold">Seat</span>
+<span class="text-sm font-bold text-slate-700 dark:text-slate-300">12A (Coach 4)</span>
+</div>
+<div class="flex flex-col border-l border-slate-200 dark:border-slate-700 pl-4">
+<span class="text-[10px] uppercase text-slate-400 font-bold">Class</span>
+<span class="text-sm font-bold text-slate-700 dark:text-slate-300">Standard Premier</span>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="flex items-center gap-2 h-9 px-4 rounded-lg bg-primary text-white text-sm font-bold hover:bg-primary/90 transition-colors">
+<span class="material-symbols-outlined text-lg">download</span>
+<span>Ticket</span>
+</button>
+<button class="flex items-center justify-center h-9 w-9 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Booking Card 2 -->
+<div class="group flex flex-col lg:flex-row items-stretch border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden hover:shadow-md transition-shadow bg-background-light/30 dark:bg-background-dark/30">
+<div class="lg:w-64 h-48 lg:h-auto bg-center bg-no-repeat bg-cover" data-alt="Tokyo city lights at night with buildings and busy streets" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDK3pGwE5igH2dNR3hDTGlEu6DrTcV6ocaPONm9Yw1iFexh3jD3qjGDresgV5dtz6WX2K4D1Avk3o2Cnx8Kbdsw2qn6Hmw2Kh3LU1V1PaT8Z7Khwr-u5ZHMoxin8ZhkL0ERS30Cp5TjEO_lQY7mIbEyRkSYMeZ9rLYHS5rJ8Tz7zHu3fntRJ3BlNS4XZSSR7ixik7nhRuMneIZtXggUfcrUDXe0w2i_iFJyBaKrmD2tUksG2MQDY6VLSAOKE6V3oFfgAtKq-SLl4M8");'>
+</div>
+<div class="flex-1 p-5 flex flex-col justify-between gap-4">
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 uppercase tracking-wider">
+                                                Processing
+                                            </span>
+<span class="text-slate-400 text-xs font-medium">June 12, 2024</span>
+</div>
+<h3 class="text-slate-900 dark:text-slate-100 text-lg font-bold">NYC to Tokyo - Flight JL003</h3>
+<p class="text-slate-500 dark:text-slate-400 text-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">confirmation_number</span>
+                                            Booking ID: <span class="font-mono">AT-88172</span>
+</p>
+</div>
+<div class="flex flex-wrap items-center justify-between gap-4 mt-auto">
+<div class="flex items-center gap-4">
+<div class="flex flex-col">
+<span class="text-[10px] uppercase text-slate-400 font-bold">Terminal</span>
+<span class="text-sm font-bold text-slate-700 dark:text-slate-300">T4 - JFK</span>
+</div>
+<div class="flex flex-col border-l border-slate-200 dark:border-slate-700 pl-4">
+<span class="text-[10px] uppercase text-slate-400 font-bold">Flight</span>
+<span class="text-sm font-bold text-slate-700 dark:text-slate-300">Boeing 777</span>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="flex items-center gap-2 h-9 px-4 rounded-lg bg-primary/20 text-primary text-sm font-bold cursor-not-allowed">
+<span class="material-symbols-outlined text-lg">pending</span>
+<span>Awaiting Issuance</span>
+</button>
+<button class="flex items-center justify-center h-9 w-9 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Booking Card 3 (Cancelled Example) -->
+<div class="group flex flex-col lg:flex-row items-stretch border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden opacity-75 grayscale-[0.5]">
+<div class="lg:w-64 h-48 lg:h-auto bg-center bg-no-repeat bg-cover" data-alt="Luxury hotel lobby with modern furniture and warm lighting" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBKSBHZ65RlyI3Wj477PXV9z9ycJxo-q3iYvhwRdtVT3rSYKLq6om5sykV10VmT75I8d6crMQ4Sy291abpJGGZJwJBkZGvuaRhrVCDnN7Ggew9Hml69esTyIt28HCap6tv49hcQ8uwVBNiQaBQhCuhVUoQo4N383xSjRdlENQ2EXx-G-86xWobKwmyRYA-Me9LD1nOh-8uHmsYJohQ_IaRSRqBM4SS9_5MszZ09SuvyrVLdqci30yNKGJVVfwgGGb7cVKzz6PHUbEw");'>
+</div>
+<div class="flex-1 p-5 flex flex-col justify-between gap-4">
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400 uppercase tracking-wider">
+                                                Cancelled
+                                            </span>
+<span class="text-slate-400 text-xs font-medium">May 05, 2024</span>
+</div>
+<h3 class="text-slate-900 dark:text-slate-100 text-lg font-bold">Grand Plaza Resort - 3 Nights</h3>
+<p class="text-slate-500 dark:text-slate-400 text-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">confirmation_number</span>
+                                            Booking ID: <span class="font-mono">AT-77161</span>
+</p>
+</div>
+<div class="flex flex-wrap items-center justify-between gap-4 mt-auto">
+<div class="flex items-center gap-4">
+<div class="flex flex-col">
+<span class="text-[10px] uppercase text-slate-400 font-bold">Refund Status</span>
+<span class="text-sm font-bold text-slate-700 dark:text-slate-300">Processed</span>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="flex items-center gap-2 h-9 px-4 rounded-lg bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-sm font-bold">
+<span class="material-symbols-outlined text-lg">receipt_long</span>
+<span>Refund Receipt</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Support Section -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<div class="flex items-center gap-4 p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex items-center justify-center size-10 rounded-full bg-primary/10 text-primary">
+<span class="material-symbols-outlined">headset_mic</span>
+</div>
+<div>
+<h4 class="text-sm font-bold text-slate-900 dark:text-slate-100">24/7 Support</h4>
+<p class="text-xs text-slate-500 dark:text-slate-400">Get help with bookings</p>
+</div>
+</div>
+<div class="flex items-center gap-4 p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex items-center justify-center size-10 rounded-full bg-primary/10 text-primary">
+<span class="material-symbols-outlined">history_edu</span>
+</div>
+<div>
+<h4 class="text-sm font-bold text-slate-900 dark:text-slate-100">Booking History</h4>
+<p class="text-xs text-slate-500 dark:text-slate-400">Access all past travels</p>
+</div>
+</div>
+<div class="flex items-center gap-4 p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex items-center justify-center size-10 rounded-full bg-primary/10 text-primary">
+<span class="material-symbols-outlined">shield_with_heart</span>
+</div>
+<div>
+<h4 class="text-sm font-bold text-slate-900 dark:text-slate-100">Travel Insurance</h4>
+<p class="text-xs text-slate-500 dark:text-slate-400">Manage your coverage</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation for Mobile -->
+<footer class="md:hidden sticky bottom-0 z-50 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 flex justify-around py-3 px-2">
+<button class="flex flex-col items-center gap-1 text-slate-400" onclick="window.location.href='index.html'">
+<span class="material-symbols-outlined">home</span>
+<span class="text-[10px] font-bold">Home</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-primary" onclick="window.location.href='book-ticket.html'">
+<span class="material-symbols-outlined">confirmation_number</span>
+<span class="text-[10px] font-bold">Bookings</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-slate-400" onclick="window.location.href='contact.html'">
+<span class="material-symbols-outlined">support_agent</span>
+<span class="text-[10px] font-bold">Support</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-slate-400" onclick="window.location.href='user-profile.html'">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px] font-bold">Account</span>
+</button>
+</footer>
+</div>
+</div>
+    <script src="js/api.js"></script><script src="js/main.js"></script>
+    <script src="js/app.js"></script>
+</body></html>

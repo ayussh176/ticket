@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#5048e5",
+              "background-light": "#f6f6f8",
+              "background-dark": "#121121",
+            },
+            fontFamily: {
+              "display": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<title>Profile Settings - APNATICKET</title>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100">
+<div class="relative flex min-h-screen w-full flex-col">
+<!-- Top Navigation Bar -->
+<header class="sticky top-0 z-50 w-full border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-background-dark/80 backdrop-blur-md">
+<div class="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8 py-4">
+<div class="flex items-center gap-2">
+<div class="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-white">
+<span class="material-symbols-outlined">flight_takeoff</span>
+</div>
+<h2 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">APNATICKET</h2>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-sm font-medium text-slate-600 hover:text-primary dark:text-slate-400 dark:hover:text-primary" href="#">Home</a>
+<a class="text-sm font-medium text-slate-600 hover:text-primary dark:text-slate-400 dark:hover:text-primary" href="#">My Bookings</a>
+<a class="text-sm font-medium text-slate-600 hover:text-primary dark:text-slate-400 dark:hover:text-primary" href="#">Support</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="relative rounded-full p-2 text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 flex h-2 w-2 rounded-full bg-primary"></span>
+</button>
+<div class="h-10 w-10 overflow-hidden rounded-full border-2 border-primary/20">
+<img alt="User Profile" class="h-full w-full object-cover" data-alt="Professional male user profile portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmfjoNn6qv0gr0NXDQ4qna1WDj2KJKSlE8V1tcQM173AFpq73xJkKL0VCCb7r3b5dtAOpfV85PzBCoBx4cwUIrGaXiohSMbn-lyPP4lRhxK23qhW4DkbhepBaji_zz3_CqBsF2LJJS-VgkA_ljuyk_afpnITZsj5-HDgzTie1Kg2fFATtYbxeoogUcdaayyYSGwU8wpvY5HrUDuYIUL4btcVSlim_f5wkuXBlV0hnxxyPPxGR1b67nk6fdng_TzxjZyXMGYmkWOmA"/>
+</div>
+</div>
+</div>
+</header>
+<div class="mx-auto w-full max-w-7xl flex-1 px-4 sm:px-6 lg:px-8 py-8">
+<div class="flex flex-col lg:flex-row gap-8">
+<!-- Sidebar Navigation -->
+<aside class="w-full lg:w-64 flex-shrink-0">
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+                        Dashboard
+                    </a>
+<a class="flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800" href="#">
+<span class="material-symbols-outlined">confirmation_number</span>
+                        My Tickets
+                    </a>
+<a class="flex items-center gap-3 rounded-lg bg-primary/10 px-4 py-3 text-sm font-bold text-primary" href="#">
+<span class="material-symbols-outlined">person</span>
+                        Profile
+                    </a>
+<a class="flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800" href="#">
+<span class="material-symbols-outlined">payments</span>
+                        Billing
+                    </a>
+<hr class="my-4 border-slate-200 dark:border-slate-800"/>
+<a class="flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-red-500 hover:bg-red-50 dark:hover:bg-red-900/10" href="#">
+<span class="material-symbols-outlined">logout</span>
+                        Logout
+                    </a>
+</nav>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 min-w-0">
+<div class="mb-8">
+<h1 class="text-3xl font-black tracking-tight text-slate-900 dark:text-white">Profile Settings</h1>
+<p class="mt-2 text-slate-600 dark:text-slate-400">Manage your account details and preferences across the platform.</p>
+</div>
+<!-- Tabs -->
+<div class="mb-8 border-b border-slate-200 dark:border-slate-800">
+<div class="flex gap-8">
+<button class="border-b-2 border-primary pb-4 text-sm font-bold text-primary">Personal Info</button>
+<button class="border-b-2 border-transparent pb-4 text-sm font-medium text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200">Security</button>
+<button class="border-b-2 border-transparent pb-4 text-sm font-medium text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200">Notifications</button>
+</div>
+</div>
+<div class="space-y-10">
+<!-- Personal Info Section -->
+<section class="rounded-xl bg-white p-6 shadow-sm ring-1 ring-slate-200 dark:bg-background-dark dark:ring-slate-800" id="personal-info">
+<h2 class="text-lg font-bold text-slate-900 dark:text-white mb-6">Personal Information</h2>
+<form class="grid grid-cols-1 gap-6 md:grid-cols-2">
+<div class="col-span-1">
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">First Name</label>
+<input class="w-full rounded-lg border-slate-300 bg-white px-4 py-2.5 text-slate-900 focus:border-primary focus:ring-primary dark:border-slate-700 dark:bg-slate-900 dark:text-white" type="text" value="John"/>
+</div>
+<div class="col-span-1">
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Last Name</label>
+<input class="w-full rounded-lg border-slate-300 bg-white px-4 py-2.5 text-slate-900 focus:border-primary focus:ring-primary dark:border-slate-700 dark:bg-slate-900 dark:text-white" type="text" value="Doe"/>
+</div>
+<div class="col-span-1">
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Email Address</label>
+<input class="w-full rounded-lg border-slate-300 bg-white px-4 py-2.5 text-slate-900 focus:border-primary focus:ring-primary dark:border-slate-700 dark:bg-slate-900 dark:text-white" type="email" value="john.doe@example.com"/>
+</div>
+<div class="col-span-1">
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Phone Number</label>
+<input class="w-full rounded-lg border-slate-300 bg-white px-4 py-2.5 text-slate-900 focus:border-primary focus:ring-primary dark:border-slate-700 dark:bg-slate-900 dark:text-white" type="tel" value="+1 (555) 000-0000"/>
+</div>
+<div class="col-span-full">
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Bio</label>
+<textarea class="w-full rounded-lg border-slate-300 bg-white px-4 py-2.5 text-slate-900 focus:border-primary focus:ring-primary dark:border-slate-700 dark:bg-slate-900 dark:text-white" rows="3">Frequent traveler and aviation enthusiast.</textarea>
+</div>
+<div class="col-span-full flex justify-end">
+<button class="rounded-lg bg-primary px-6 py-2.5 text-sm font-bold text-white hover:bg-primary/90" type="submit">Save Changes</button>
+</div>
+</form>
+</section>
+<!-- Password Change Section -->
+<section class="rounded-xl bg-white p-6 shadow-sm ring-1 ring-slate-200 dark:bg-background-dark dark:ring-slate-800" id="password">
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-primary">lock</span>
+<h2 class="text-lg font-bold text-slate-900 dark:text-white">Change Password</h2>
+</div>
+<form class="max-w-md space-y-6">
+<div>
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Current Password</label>
+<input class="w-full rounded-lg border-slate-300 bg-white px-4 py-2.5 text-slate-900 focus:border-primary focus:ring-primary dark:border-slate-700 dark:bg-slate-900 dark:text-white" placeholder="••••••••" type="password"/>
+</div>
+<div>
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">New Password</label>
+<input class="w-full rounded-lg border-slate-300 bg-white px-4 py-2.5 text-slate-900 focus:border-primary focus:ring-primary dark:border-slate-700 dark:bg-slate-900 dark:text-white" placeholder="••••••••" type="password"/>
+<p class="mt-2 text-xs text-slate-500">Must be at least 8 characters with one number and one special symbol.</p>
+</div>
+<div>
+<label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Confirm New Password</label>
+<input class="w-full rounded-lg border-slate-300 bg-white px-4 py-2.5 text-slate-900 focus:border-primary focus:ring-primary dark:border-slate-700 dark:bg-slate-900 dark:text-white" placeholder="••••••••" type="password"/>
+</div>
+<button class="rounded-lg bg-primary/20 px-6 py-2.5 text-sm font-bold text-primary hover:bg-primary/30" type="submit">Update Password</button>
+</form>
+</section>
+<!-- Notification Preferences Section -->
+<section class="rounded-xl bg-white p-6 shadow-sm ring-1 ring-slate-200 dark:bg-background-dark dark:ring-slate-800" id="notifications">
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-primary">notifications_active</span>
+<h2 class="text-lg font-bold text-slate-900 dark:text-white">Notification Preferences</h2>
+</div>
+<div class="space-y-6">
+<div class="flex items-start justify-between">
+<div>
+<h3 class="text-sm font-bold text-slate-900 dark:text-white">Booking Updates</h3>
+<p class="text-sm text-slate-500">Receive alerts about flight status, delays, and confirmations.</p>
+</div>
+<div class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-primary transition-colors duration-200 focus:outline-none">
+<span class="translate-x-5 pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200"></span>
+</div>
+</div>
+<div class="flex items-start justify-between border-t border-slate-100 pt-6 dark:border-slate-800">
+<div>
+<h3 class="text-sm font-bold text-slate-900 dark:text-white">Marketing Emails</h3>
+<p class="text-sm text-slate-500">Get notified about seasonal deals, coupons and new routes.</p>
+</div>
+<div class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-slate-200 transition-colors duration-200 focus:outline-none dark:bg-slate-700">
+<span class="translate-x-0 pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200"></span>
+</div>
+</div>
+<div class="flex items-start justify-between border-t border-slate-100 pt-6 dark:border-slate-800">
+<div>
+<h3 class="text-sm font-bold text-slate-900 dark:text-white">SMS Alerts</h3>
+<p class="text-sm text-slate-500">Direct text messages for urgent travel changes.</p>
+</div>
+<div class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent bg-primary transition-colors duration-200 focus:outline-none">
+<span class="translate-x-5 pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200"></span>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+</div>
+</div>
+<!-- Simple Footer -->
+<footer class="mt-auto border-t border-slate-200 dark:border-slate-800 py-8">
+<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+<div class="flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="text-sm text-slate-500">© 2024 APNATICKET. All rights reserved.</p>
+<div class="flex gap-6">
+<a class="text-xs text-slate-500 hover:text-primary" href="#">Privacy Policy</a>
+<a class="text-xs text-slate-500 hover:text-primary" href="#">Terms of Service</a>
+<a class="text-xs text-slate-500 hover:text-primary" href="#">Cookie Settings</a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+</body></html>

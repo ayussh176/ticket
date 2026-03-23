@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>APNATICKET | Customer Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "primary": "#4F46E5",
+                "background-light": "#F9FAFB",
+                "background-dark": "#111827",
+              },
+              fontFamily: {
+                "display": ["Inter", "sans-serif"]
+              },
+              borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+            },
+          },
+        }
+    </script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100">
+<div class="flex h-screen overflow-hidden">
+<!-- Sidebar -->
+<aside class="hidden md:flex flex-col w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800">
+<div class="p-6 flex items-center gap-3">
+<div class="h-8 w-8 bg-primary rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-xl">confirmation_number</span>
+</div>
+<h1 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">APNATICKET</h1>
+</div>
+<nav class="flex-1 px-4 space-y-1 mt-4">
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-primary/10 text-primary font-semibold" href="user-dashboard.html">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Overview</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="my-bookings.html">
+<span class="material-symbols-outlined">confirmation_number</span>
+<span>My Bookings</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="user-profile.html">
+<span class="material-symbols-outlined">person</span>
+<span>Profile</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" href="contact.html">
+<span class="material-symbols-outlined">support_agent</span>
+<span>Support</span>
+</a>
+</nav>
+<div class="p-4 border-t border-slate-200 dark:border-slate-800">
+<div class="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer">
+<div class="h-10 w-10 rounded-full bg-slate-200" data-alt="User profile picture of John Doe" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDC-iiclTjEDrjkj76SCeWxDWKeJvhBawWAIBkft2w4lrRyKQwxZst2k_gsAH8zhk8X7ZYANaYcGoelzw_VRqSUcw7Dsh4jqXkHjR_c4-huTbo8HIy7QkqlJrrgK8fEDjgtHm2yNIslLfXdUnqwg0a80v52ApClP4lbi2eGjuFnrlV-cwZYQ_hIiF6-TmBW0VmVZgxvd_4gqMdi8xKqkvk-2_AKTOWqZ7jY4sPIyewYJtXjauJm0a6o9UrkxJPEz1wTFmz2ZRB51OQ')"></div>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-medium truncate">John Doe</p>
+<p class="text-xs text-slate-500 truncate">Premium Member</p>
+</div>
+<span class="material-symbols-outlined text-slate-400 text-sm">logout</span>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 overflow-y-auto bg-background-light dark:bg-background-dark">
+<!-- Header -->
+<header class="sticky top-0 z-10 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-8 py-4">
+<div class="flex items-center justify-between">
+<h2 class="text-xl font-bold">Dashboard</h2>
+<div class="flex items-center gap-4">
+<div class="relative max-w-md hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-lg">search</span>
+<input class="w-64 pl-10 pr-4 py-2 bg-slate-100 dark:bg-slate-800 border-none rounded-lg text-sm focus:ring-2 focus:ring-primary/20" placeholder="Search bookings..." type="text"/>
+</div>
+<button class="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg relative">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 h-2 w-2 bg-red-500 rounded-full border-2 border-white dark:border-slate-900"></span>
+</button>
+<div class="h-10 w-10 md:hidden rounded-full bg-slate-200" data-alt="Mobile view profile avatar" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAxLlS7j72FqEHmowR4fPuZnNmrwQcNHLv6Aij3AzkxAHvVY9A2DmXta6dWrN4AWYvU5INDiEHhINhK2YSpWSY8ZYX3qCvkxjOwDLUDPyyhepwLgns2gl11QY1mx15pkkqLEKjNTOGekdZo7BeWoVW0hGjqXKr7bv2YqGoMBOk2pxVUiAR3_x1-ZHz2am1RPOX6MDNoRAB66evREqzBt7HgYB2NP14e_6m8y9Oo_RTCGlNLtcM02ajP4f-7s7p8T8uZz4XYRGsUXGI')"></div>
+</div>
+</div>
+</header>
+<div class="p-8 max-w-7xl mx-auto space-y-8">
+<!-- Profile Header Section -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="flex items-center gap-6">
+<div class="h-24 w-24 rounded-full border-4 border-primary/10 shadow-lg bg-cover bg-center" data-alt="Main profile banner avatar" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA_2AmzkhmcvDMvCckaXhbHzdQkMLhFuMbktGPwvn84uDRjyz8OrNdj5MhKOvr1xRa0pp61oNExGtqAMTW7hlT6UHNbXfwTYdwEYLeFI21XE2NyB5Gqs_WRB_TkJuruJiimRB6PPucDiSbyYTBvdHNOqB8zPyi1tntC0fHZZDV-MivjIGsebN9OpquVVcf36VNvoRCYh3L4U3Jp9dtJmsDp4DlPUfGwBWmBJ0eCP3QMIs0q2qcXuJyRcRf3DEdSCKQBUxlvEqzG64k')"></div>
+<div>
+<h3 class="text-2xl font-bold">Welcome back, John!</h3>
+<p class="text-slate-500 dark:text-slate-400 flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">verified</span>
+                            Member since January 2024
+                        </p>
+</div>
+</div>
+<div class="flex gap-3">
+<button class="px-4 py-2 bg-primary text-white font-semibold rounded-lg hover:bg-primary/90 transition-all flex items-center gap-2" onclick="window.location.href='book-ticket.html'">
+<span class="material-symbols-outlined text-lg">add_circle</span>
+                        New Booking
+                    </button>
+<button class="px-4 py-2 border border-slate-200 dark:border-slate-700 font-semibold rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 transition-all" onclick="window.location.href='user-profile.html'">
+                        Edit Profile
+                    </button>
+</div>
+</div>
+<!-- Summary Cards -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow">
+<div class="flex items-center justify-between mb-4">
+<div class="p-3 bg-blue-100 dark:bg-blue-900/30 text-blue-600 rounded-lg">
+<span class="material-symbols-outlined">event_available</span>
+</div>
+<span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300">Active</span>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Upcoming Bookings</p>
+<h4 class="text-3xl font-bold mt-1">02</h4>
+</div>
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow">
+<div class="flex items-center justify-between mb-4">
+<div class="p-3 bg-green-100 dark:bg-green-900/30 text-green-600 rounded-lg">
+<span class="material-symbols-outlined">history</span>
+</div>
+<span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-400">Archived</span>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Past Bookings</p>
+<h4 class="text-3xl font-bold mt-1">15</h4>
+</div>
+<div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow">
+<div class="flex items-center justify-between mb-4">
+<div class="p-3 bg-purple-100 dark:bg-purple-900/30 text-purple-600 rounded-lg">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+</div>
+<span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-purple-100 text-purple-800 dark:bg-purple-900/40 dark:text-purple-300">Active</span>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">Wallet Balance</p>
+<h4 class="text-3xl font-bold mt-1" data-wallet-balance>₹0 e-INR</h4>
+</div>
+</div>
+<!-- Recent Transactions Table -->
+<div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+<div class="px-6 py-5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+<h3 class="text-lg font-bold">Recent Transactions</h3>
+<button class="text-sm font-semibold text-primary hover:underline" onclick="window.location.href='events.html'">View all</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-slate-50 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 text-xs uppercase font-semibold">
+<tr>
+<th class="px-6 py-4">Transaction ID</th>
+<th class="px-6 py-4">Event / Ticket</th>
+<th class="px-6 py-4">Date</th>
+<th class="px-6 py-4">Amount</th>
+<th class="px-6 py-4">Status</th>
+<th class="px-6 py-4"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-200 dark:divide-slate-800">
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+<td class="px-6 py-4 text-sm font-mono text-slate-500">#TX-98421</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="h-8 w-8 rounded bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-lg">theater_comedy</span>
+</div>
+<span class="text-sm font-medium">Music Festival 2024</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-500">Oct 24, 2024</td>
+<td class="px-6 py-4 text-sm font-bold">$120.00</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300">
+<span class="h-1.5 w-1.5 rounded-full bg-green-600"></span>
+                                        Paid
+                                    </span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-slate-400 hover:text-primary"><span class="material-symbols-outlined">more_vert</span></button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+<td class="px-6 py-4 text-sm font-mono text-slate-500">#TX-98419</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="h-8 w-8 rounded bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-lg">local_movies</span>
+</div>
+<span class="text-sm font-medium">Avatar: Fire and Ash</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-500">Oct 22, 2024</td>
+<td class="px-6 py-4 text-sm font-bold">$15.50</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900/40 dark:text-yellow-300">
+<span class="h-1.5 w-1.5 rounded-full bg-yellow-600"></span>
+                                        Pending
+                                    </span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-slate-400 hover:text-primary"><span class="material-symbols-outlined">more_vert</span></button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+<td class="px-6 py-4 text-sm font-mono text-slate-500">#TX-98390</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="h-8 w-8 rounded bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-lg">sports_soccer</span>
+</div>
+<span class="text-sm font-medium">Champions League Final</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-500">Oct 15, 2024</td>
+<td class="px-6 py-4 text-sm font-bold">$250.00</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300">
+<span class="h-1.5 w-1.5 rounded-full bg-green-600"></span>
+                                        Paid
+                                    </span>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="text-slate-400 hover:text-primary"><span class="material-symbols-outlined">more_vert</span></button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Promotion / Saved Section (New Component Integration) -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+<div class="bg-primary rounded-xl p-8 text-white relative overflow-hidden group">
+<div class="relative z-10">
+<h4 class="text-2xl font-bold mb-2">Upgrade to VIP Status</h4>
+<p class="text-primary-100 mb-6 max-w-sm">Get early access to tickets and 15% discount on all bookings for just $9.99/mo.</p>
+<button class="bg-white text-primary px-6 py-2 rounded-lg font-bold hover:shadow-lg transition-all">Get Started</button>
+</div>
+<div class="absolute -right-8 -bottom-8 opacity-10 rotate-12 group-hover:rotate-0 transition-transform duration-500">
+<span class="material-symbols-outlined !text-[200px]">loyalty</span>
+</div>
+</div>
+<div class="bg-white dark:bg-slate-900 p-8 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-center gap-6">
+<div class="flex-1">
+<h4 class="text-xl font-bold mb-1">Need help?</h4>
+<p class="text-slate-500 dark:text-slate-400 mb-4">Our support team is available 24/7 to assist with your bookings.</p>
+<a class="text-primary font-bold inline-flex items-center gap-1 group" href="contact.html">
+                            Contact Support
+                            <span class="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</a>
+</div>
+<div class="hidden sm:block h-24 w-24 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined !text-5xl text-slate-300">chat_bubble</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+    <script src="js/api.js"></script><script src="js/main.js"></script>
+    <script src="js/app.js"></script>
+</body></html>
