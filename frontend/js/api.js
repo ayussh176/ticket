@@ -304,6 +304,45 @@ function requireAdmin() {
   return true;
 }
 
+// --- Trains API (IRCTC Integration) ---
+const TrainsAPI = {
+  // Search trains between stations
+  async searchTrainsBetweenStations(source, destination, date) {
+    try {
+      const resp = await fetch(`/api/trains/betweenStations?fromStationCode=${source}&toStationCode=${destination}&dateOfJourney=${date}`);
+      if (!resp.ok) throw new Error('Failed to fetch trains');
+      return await resp.json();
+    } catch (e) {
+      console.error(e);
+      throw e;
+    }
+  },
+
+  // Get live tracking
+  async getLiveStation(stationCode, hours = 2) {
+    try {
+      const resp = await fetch(`/api/trains/liveStation?stationCode=${stationCode}&hours=${hours}`);
+      if (!resp.ok) throw new Error('Failed to fetch live trains');
+      return await resp.json();
+    } catch (e) {
+      console.error(e);
+      throw e;
+    }
+  },
+
+  // Get PNR status
+  async getPNRStatus(pnr) {
+    try {
+      const resp = await fetch(`/api/trains/pnr?pnrNumber=${pnr}`);
+      if (!resp.ok) throw new Error('Failed to fetch PNR');
+      return await resp.json();
+    } catch (e) {
+      console.error(e);
+      throw e;
+    }
+  }
+};
+
 // Update UI based on login state (nav buttons, user name, etc.)
 function updateAuthUI() {
   const user = getUser();

@@ -17,6 +17,7 @@ const bookingRoutes = require('./routes/bookings');
 const walletRoutes = require('./routes/wallet');
 const ticketRoutes = require('./routes/tickets');
 const adminRoutes = require('./routes/admin');
+const trainRoutes = require('./routes/trains');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -62,6 +63,7 @@ app.use('/api/bookings', bookingRoutes);
 app.use('/api/wallet', walletRoutes);
 app.use('/api/tickets', ticketRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/trains', trainRoutes);
 
 // --- Health Check ---
 app.get('/api/health', (req, res) => {
