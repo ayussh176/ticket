@@ -1,6 +1,6 @@
-// routes/bookings.js - Booking engine with hardened rule enforcement
 const express = require('express');
 const router = express.Router();
+const crypto = require('crypto');
 const { getDb, isUsingMock } = require('../config/firebase');
 const { authenticate } = require('../middleware/auth');
 const { mockBookings, mockEvents, mockUsers } = require('../data/mockData');
@@ -111,11 +111,11 @@ router.post('/', authenticate, async (req, res) => {
       });
     }
 
-    // Rule 2: Each passenger must have mandatory ID
-    for (const p of passengers) {
+    // Rule 2: Each passenger must have mandatory ID format and we secure it immediately
+    for (let p of passengers) {
       if (!p.name || !p.idType || !p.idHash) {
         return res.status(400).json({
-          error: 'Each passenger must have name, idType (PAN/Aadhaar), and idHash.',
+          error: 'Each passenger must have name, idType (PAN/Aadhaar), and ID number.',
         });
       }
       if (!['PAN', 'Aadhaar'].includes(p.idType)) {
@@ -123,6 +123,20 @@ router.post('/', authenticate, async (req, res) => {
           error: 'Passenger idType must be "PAN" or "Aadhaar".',
         });
       }
+      
+      const rawId = p.idHash; // Frontend currently sends plaintext in idHash
+      if (p.idType === 'PAN' && !/^[A-Z]{5}[0-9]{4}[A-Z]$/.test(rawId)) {
+        return res.status(400).json({ error: `Invalid PAN format for passenger ${p.name}` });
+      }
+      if (p.idType === 'Aadhaar' && !/^\d{12}$/.test(rawId)) {
+        return res.status(400).json({ error: `Invalid Aadhaar format for passenger ${p.name}` });
+      }
+      
+      // Cryptographically abstract the ID
+      p.idMasked = p.idType === 'PAN' 
+          ? rawId.substring(0, 4) + '****' + rawId.substring(8)
+          : 'xxxxxxxx' + rawId.substring(8);
+      p.idHash = crypto.createHash('sha256').update(rawId).digest('hex');
     }
 
     // Rule 3: ID verification gate — user must have verified ID
@@ -134,13 +148,13 @@ router.post('/', authenticate, async (req, res) => {
       });
     }
 
-    // Rule 4: Daily booking cap per PAN
+    // Rule 4: Daily booking cap per PAN (which is now a SHA-256 hash string)
     const userPAN = await getUserPAN(req.user.uid);
     if (userPAN) {
       const todayCount = await countTodayBookingsByPAN(userPAN);
       if (todayCount >= MAX_BOOKINGS_PER_DAY_PER_PAN) {
         return res.status(400).json({
-          error: `Daily booking limit reached (max ${MAX_BOOKINGS_PER_DAY_PER_PAN} bookings per day per PAN).`,
+          error: `Daily booking limit reached (max ${MAX_BOOKINGS_PER_DAY_PER_PAN} bookings per day per your registered identity).`,
         });
       }
     }

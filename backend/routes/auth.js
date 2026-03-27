@@ -1,5 +1,6 @@
 // routes/auth.js - Authentication routes with PAN/Aadhaar identity verification
 const express = require('express');
+const crypto = require('crypto');
 const router = express.Router();
 const { getDb, getAuth, isUsingMock } = require('../config/firebase');
 const { authenticate, adminOnly, generateToken } = require('../middleware/auth');
@@ -41,6 +42,14 @@ function maskAadhaar(aadhaar) {
 }
 
 /**
+ * Irreversibly hashes identity data using SHA-256
+ */
+function hashIdentityString(str) {
+  if (!str) return '';
+  return crypto.createHash('sha256').update(str).digest('hex');
+}
+
+/**
  * Calculate age from DOB string (YYYY-MM-DD)
  */
 function calculateAge(dob) {
@@ -75,8 +84,12 @@ router.post('/register', async (req, res) => {
 
     const age = calculateAge(dateOfBirth);
     const isMinor = age < 18;
+    
+    let securePanHash = '', securePanMasked = '';
+    let secureAadhaarHash = '', secureAadhaarMasked = '';
+    let secureGuardianPanHash = '', secureGuardianPanMasked = '';
 
-    // Identity verification rules
+    // Identity verification rules & Hashing
     if (isMinor) {
       // Minors need Aadhaar linked to guardian PAN
       if (!aadhaarNumber) {
@@ -91,6 +104,11 @@ router.post('/register', async (req, res) => {
       if (!isValidPAN(guardianPanNumber)) {
         return res.status(400).json({ error: 'Invalid Guardian PAN format. Must be like ABCDE1234F.' });
       }
+      
+      secureAadhaarHash = hashIdentityString(aadhaarNumber);
+      secureAadhaarMasked = maskAadhaar(aadhaarNumber);
+      secureGuardianPanHash = hashIdentityString(guardianPanNumber);
+      secureGuardianPanMasked = maskPAN(guardianPanNumber);
     } else {
       // Majors need PAN
       if (!panNumber) {
@@ -99,6 +117,8 @@ router.post('/register', async (req, res) => {
       if (!isValidPAN(panNumber)) {
         return res.status(400).json({ error: 'Invalid PAN format. Must be like ABCDE1234F.' });
       }
+      securePanHash = hashIdentityString(panNumber);
+      securePanMasked = maskPAN(panNumber);
     }
 
     const userData = {
@@ -109,9 +129,12 @@ router.post('/register', async (req, res) => {
       dateOfBirth,
       age,
       isMinor,
-      panHash: isMinor ? '' : panNumber,
-      aadhaarHash: isMinor ? aadhaarNumber : '',
-      guardianPanHash: isMinor ? guardianPanNumber : '',
+      panHash: securePanHash,
+      panMasked: securePanMasked,
+      aadhaarHash: secureAadhaarHash,
+      aadhaarMasked: secureAadhaarMasked,
+      guardianPanHash: secureGuardianPanHash,
+      guardianPanMasked: secureGuardianPanMasked,
       idDocumentUrl: '',
       idVerificationStatus: 'pending', // pending | verified | rejected
       createdAt: new Date().toISOString(),
@@ -123,9 +146,9 @@ router.post('/register', async (req, res) => {
         return res.status(400).json({ error: 'Email already registered.' });
       }
 
-      // Check duplicate PAN (majors only)
-      if (!isMinor && panNumber) {
-        const panExists = mockUserStore.find(u => u.panHash === panNumber && u.email !== email);
+      // Check duplicate PAN (majors only) via Hash correlation
+      if (!isMinor && securePanHash) {
+        const panExists = mockUserStore.find(u => u.panHash === securePanHash && u.email !== email);
         if (panExists) {
           return res.status(400).json({ error: 'This PAN is already registered with another account.' });
         }
@@ -150,8 +173,8 @@ router.post('/register', async (req, res) => {
     const auth = getAuth();
 
     // Check duplicate PAN in Firestore
-    if (!isMinor && panNumber) {
-      const panSnap = await db.collection('users').where('panHash', '==', panNumber).get();
+    if (!isMinor && securePanHash) {
+      const panSnap = await db.collection('users').where('panHash', '==', securePanHash).get();
       if (!panSnap.empty) {
         return res.status(400).json({ error: 'This PAN is already registered with another account.' });
       }
@@ -424,14 +447,10 @@ router.get('/me', authenticate, async (req, res) => {
       if (!user) {
         return res.status(404).json({ error: 'User not found.' });
       }
-      // Return with masked sensitive data
+      // Return with masked sensitive data (do not send hashes)
+      const { panHash, aadhaarHash, guardianPanHash, password, ...safeUser } = user;
       return res.json({
-        user: {
-          ...user,
-          panHash: user.panHash ? maskPAN(user.panHash) : '',
-          aadhaarHash: user.aadhaarHash ? maskAadhaar(user.aadhaarHash) : '',
-          guardianPanHash: user.guardianPanHash ? maskPAN(user.guardianPanHash) : '',
-        },
+        user: safeUser,
       });
     }
 
@@ -442,13 +461,9 @@ router.get('/me', authenticate, async (req, res) => {
     }
 
     const userData = userDoc.data();
+    const { panHash, aadhaarHash, guardianPanHash, ...safeUserData } = userData;
     res.json({
-      user: {
-        ...userData,
-        panHash: userData.panHash ? maskPAN(userData.panHash) : '',
-        aadhaarHash: userData.aadhaarHash ? maskAadhaar(userData.aadhaarHash) : '',
-        guardianPanHash: userData.guardianPanHash ? maskPAN(userData.guardianPanHash) : '',
-      },
+      user: safeUserData,
     });
   } catch (error) {
     console.error('Get profile error:', error);

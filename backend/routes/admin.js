@@ -5,13 +5,6 @@ const { getDb, isUsingMock } = require('../config/firebase');
 const { authenticate, adminOnly } = require('../middleware/auth');
 const { mockUsers, mockEvents, mockBookings, mockWallets, mockAuditLog } = require('../data/mockData');
 
-// ─── PAN Masking Utility ────────────────────────────────────────
-
-function maskPAN(pan) {
-  if (!pan || pan.length < 10) return pan || '***';
-  return pan.substring(0, 4) + '****' + pan.substring(8);
-}
-
 // ─── DASHBOARD ──────────────────────────────────────────────────
 
 router.get('/dashboard', authenticate, adminOnly, async (req, res) => {
@@ -71,12 +64,14 @@ router.get('/dashboard', authenticate, adminOnly, async (req, res) => {
 router.get('/users', authenticate, adminOnly, async (req, res) => {
   try {
     if (isUsingMock()) {
-      const users = mockUsers.map(u => ({
-        ...u,
-        panHash: maskPAN(u.panHash),
-        aadhaarHash: u.aadhaarHash ? 'xxxxxxxx' + (u.aadhaarHash || '').slice(-4) : '',
-        guardianPanHash: u.guardianPanHash ? maskPAN(u.guardianPanHash) : '',
-      }));
+      const users = mockUsers.map(u => {
+        const { panHash, aadhaarHash, guardianPanHash, ...safeUser } = u;
+        return {
+          ...safeUser,
+          panMasked: u.panMasked || '',
+          aadhaarMasked: u.aadhaarMasked || '',
+        };
+      });
       return res.json({ users, total: users.length });
     }
 
@@ -85,12 +80,12 @@ router.get('/users', authenticate, adminOnly, async (req, res) => {
     const users = [];
     snapshot.forEach(doc => {
       const data = doc.data();
+      const { panHash, aadhaarHash, guardianPanHash, ...safeData } = data;
       users.push({
         id: doc.id,
-        ...data,
-        panHash: maskPAN(data.panHash),
-        aadhaarHash: data.aadhaarHash ? 'xxxxxxxx' + (data.aadhaarHash || '').slice(-4) : '',
-        guardianPanHash: data.guardianPanHash ? maskPAN(data.guardianPanHash) : '',
+        ...safeData,
+        panMasked: data.panMasked || '',
+        aadhaarMasked: data.aadhaarMasked || '',
       });
     });
 
@@ -242,16 +237,17 @@ router.get('/anomalies', authenticate, adminOnly, async (req, res) => {
       mockUsers.forEach(u => {
         if (u.panHash && u.panHash !== '') {
           if (!panMap[u.panHash]) panMap[u.panHash] = [];
-          panMap[u.panHash].push({ uid: u.uid, name: u.name, email: u.email });
+          panMap[u.panHash].push({ uid: u.uid, name: u.name, email: u.email, panMasked: u.panMasked });
         }
       });
-      Object.entries(panMap).forEach(([pan, users]) => {
+      Object.entries(panMap).forEach(([panHash, users]) => {
         if (users.length > 1) {
+          const displayMask = users[0].panMasked || '***';
           anomalies.push({
             type: 'DUPLICATE_PAN',
             severity: 'critical',
-            panMasked: maskPAN(pan),
-            details: `PAN ${maskPAN(pan)} shared by ${users.length} accounts: ${users.map(u => u.name).join(', ')}`,
+            panMasked: displayMask,
+            details: `Identity ${displayMask} shared by ${users.length} accounts: ${users.map(u => u.name).join(', ')}`,
             affectedUsers: users.map(u => ({ uid: u.uid, name: u.name })),
             detectedAt: new Date().toISOString(),
           });
@@ -327,16 +323,17 @@ router.get('/anomalies', authenticate, adminOnly, async (req, res) => {
     users.forEach(u => {
       if (u.panHash && u.panHash !== '') {
         if (!panMap[u.panHash]) panMap[u.panHash] = [];
-        panMap[u.panHash].push({ uid: u.uid, name: u.name, email: u.email });
+        panMap[u.panHash].push({ uid: u.uid, name: u.name, email: u.email, panMasked: u.panMasked });
       }
     });
-    Object.entries(panMap).forEach(([pan, panUsers]) => {
+    Object.entries(panMap).forEach(([panHash, panUsers]) => {
       if (panUsers.length > 1) {
+        const displayMask = panUsers[0].panMasked || '***';
         anomalies.push({
           type: 'DUPLICATE_PAN',
           severity: 'critical',
-          panMasked: maskPAN(pan),
-          details: `PAN ${maskPAN(pan)} shared by ${panUsers.length} accounts`,
+          panMasked: displayMask,
+          details: `Identity ${displayMask} shared by ${panUsers.length} accounts`,
           affectedUsers: panUsers.map(u => ({ uid: u.uid, name: u.name })),
           detectedAt: new Date().toISOString(),
         });
@@ -394,8 +391,8 @@ router.get('/pending-verifications', authenticate, adminOnly, async (req, res) =
           isMinor: u.isMinor || false,
           idDocumentType: u.idDocumentType || 'PAN_CARD',
           idDocumentUrl: u.idDocumentUrl, // Crucial for rendering the image
-          panMasked: u.panHash ? maskPAN(u.panHash) : '',
-          aadhaarMasked: u.aadhaarHash ? maskPAN(u.aadhaarHash) : '', // Use maskPAN or dedicated mask function
+          panMasked: u.panMasked || '',
+          aadhaarMasked: u.aadhaarMasked || '',
           uploadedAt: u.createdAt,
         }));
       return res.json({ users: pending, total: pending.length });
