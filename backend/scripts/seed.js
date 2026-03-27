@@ -1,10 +1,15 @@
-// scripts/seed.js - Seed Firestore with initial data
+// scripts/seed.js - Seed Firestore with initial data (secure — hashed identities)
 // Run: node scripts/seed.js
 
 require('dotenv').config();
 const admin = require('firebase-admin');
+const crypto = require('crypto');
 const path = require('path');
 const { mockEvents, mockAuditLog } = require('../data/mockData');
+
+function sha256(str) {
+  return crypto.createHash('sha256').update(str).digest('hex');
+}
 
 const serviceAccountPath = process.env.FIREBASE_SERVICE_ACCOUNT_PATH;
 if (!serviceAccountPath || serviceAccountPath === 'mock') {
@@ -45,10 +50,22 @@ async function seedDatabase() {
       email: 'admin@apnaticket.com',
       phone: '+919999900000',
       role: 'admin',
-      panHash: 'ADMIN0000A',
+      dateOfBirth: '1990-01-01',
+      age: 36,
+      isMinor: false,
+      panHash: sha256('ADMIN0000A'),
+      panMasked: 'ADMI****0A',
+      aadhaarHash: '',
+      aadhaarMasked: '',
+      guardianPanHash: '',
+      guardianPanMasked: '',
+      idDocumentUrl: '',
+      idDocumentType: 'PAN_CARD',
+      idVerificationStatus: 'verified',
+      walletBalance: 0,
       createdAt: new Date().toISOString(),
     }, { merge: true });
-    console.log('  ✅ Admin Firestore profile set (role: admin)');
+    console.log('  ✅ Admin Firestore profile set (role: admin, PAN hashed)');
 
     // Create wallet for admin
     await db.collection('wallets').doc(adminUser.uid).set({
@@ -82,10 +99,22 @@ async function seedDatabase() {
       email: 'john@example.com',
       phone: '+919876543210',
       role: 'user',
-      panHash: 'ABCDE1234F',
+      dateOfBirth: '1995-06-15',
+      age: 30,
+      isMinor: false,
+      panHash: sha256('ABCDE1234F'),
+      panMasked: 'ABCD****4F',
+      aadhaarHash: '',
+      aadhaarMasked: '',
+      guardianPanHash: '',
+      guardianPanMasked: '',
+      idDocumentUrl: '',
+      idDocumentType: 'PAN_CARD',
+      idVerificationStatus: 'verified',
+      walletBalance: 10000,
       createdAt: new Date().toISOString(),
     }, { merge: true });
-    console.log('  ✅ Demo user Firestore profile set');
+    console.log('  ✅ Demo user Firestore profile set (PAN hashed)');
 
     // Create wallet with initial balance
     await db.collection('wallets').doc(demoUser.uid).set({
@@ -100,7 +129,7 @@ async function seedDatabase() {
     console.error('  ❌ Demo user error:', err.message);
   }
 
-  // 3. Seed events
+  // 3. Seed events (with imageUrl)
   console.log('\n--- Seeding events ---');
   for (const event of mockEvents) {
     try {
@@ -110,7 +139,7 @@ async function seedDatabase() {
         createdAt: new Date().toISOString(),
         createdBy: 'seed_script',
       });
-      console.log(`  ✅ Event: ${event.title}`);
+      console.log(`  ✅ Event: ${event.title} (image: ${event.imageUrl ? 'yes' : 'none'})`);
     } catch (err) {
       console.error(`  ❌ Event ${event.title}:`, err.message);
     }

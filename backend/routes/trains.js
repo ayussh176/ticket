@@ -2,7 +2,6 @@
 const express = require('express');
 const router = express.Router();
 const axios = require('axios');
-const { authenticate } = require('../middleware/auth');
 
 // Helper to make RapidAPI calls
 const rapidApiRequest = async (method, endpoint, params) => {

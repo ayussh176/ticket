@@ -415,8 +415,8 @@ router.get('/pending-verifications', authenticate, adminOnly, async (req, res) =
           isMinor: data.isMinor || false,
           idDocumentType: data.idDocumentType || 'PAN_CARD',
           idDocumentUrl: data.idDocumentUrl, // Crucial for rendering the image
-          panMasked: data.panHash ? maskPAN(data.panHash) : '',
-          aadhaarMasked: data.aadhaarHash ? maskPAN(data.aadhaarHash) : '',
+          panMasked: data.panMasked || '',
+          aadhaarMasked: data.aadhaarMasked || '',
           uploadedAt: data.createdAt,
         });
       }

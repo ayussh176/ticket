@@ -181,7 +181,7 @@ router.post('/', authenticate, async (req, res) => {
       const booking = {
         id: 'bk_' + Date.now(),
         userId: req.user.uid,
-        userPAN: userPAN,
+        userPanHash: userPAN,
         eventId,
         eventTitle: event.title,
         seats,
@@ -241,7 +241,7 @@ router.post('/', authenticate, async (req, res) => {
 
     const bookingData = {
       userId: req.user.uid,
-      userPAN: userPAN,
+      userPanHash: userPAN,
       eventId,
       eventTitle: event.title,
       seats,
@@ -266,7 +266,7 @@ router.post('/', authenticate, async (req, res) => {
       action: 'BOOKING_CREATED',
       userId: req.user.uid,
       panHash: userPAN,
-      details: `Booked ${seats.length} tickets for ${event.title} | PAN: ${userPAN ? userPAN.substring(0, 4) + '****' : 'N/A'}`,
+      details: `Booked ${seats.length} tickets for ${event.title}`,
       timestamp: new Date().toISOString(),
     });
 

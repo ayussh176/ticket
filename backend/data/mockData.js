@@ -1,4 +1,10 @@
-// data/mockData.js - Seed data for mock/demo mode with identity verification fields
+// data/mockData.js - Seed data for mock/demo mode (zero plaintext identity)
+const crypto = require('crypto');
+
+function sha256(str) {
+  return crypto.createHash('sha256').update(str).digest('hex');
+}
+
 const mockUsers = [
   {
     uid: 'user_001',
@@ -9,7 +15,7 @@ const mockUsers = [
     dateOfBirth: '1995-06-15',
     age: 30,
     isMinor: false,
-    panHash: 'hash_ABCDE1234F',
+    panHash: sha256('ABCDE1234F'),
     panMasked: 'ABCD****4F',
     aadhaarHash: '',
     aadhaarMasked: '',
@@ -30,7 +36,7 @@ const mockUsers = [
     dateOfBirth: '1998-03-22',
     age: 27,
     isMinor: false,
-    panHash: 'hash_FGHIJ5678K',
+    panHash: sha256('FGHIJ5678K'),
     panMasked: 'FGHI****8K',
     aadhaarHash: '',
     aadhaarMasked: '',
@@ -53,9 +59,9 @@ const mockUsers = [
     isMinor: true,
     panHash: '',
     panMasked: '',
-    aadhaarHash: 'hash_123456789012',
+    aadhaarHash: sha256('123456789012'),
     aadhaarMasked: 'xxxxxxxx9012',
-    guardianPanHash: 'hash_ABCDE1234F',
+    guardianPanHash: sha256('ABCDE1234F'),
     guardianPanMasked: 'ABCD****4F',
     idDocumentUrl: 'id_doc_user_003_aadhaar.jpg',
     idDocumentType: 'AADHAAR_CARD',
@@ -72,7 +78,7 @@ const mockUsers = [
     dateOfBirth: '2000-11-05',
     age: 25,
     isMinor: false,
-    panHash: 'hash_LMNOP9012Q',
+    panHash: sha256('LMNOP9012Q'),
     panMasked: 'LMNO****2Q',
     aadhaarHash: '',
     aadhaarMasked: '',
@@ -93,7 +99,7 @@ const mockUsers = [
     dateOfBirth: '1990-01-01',
     age: 36,
     isMinor: false,
-    panHash: 'hash_ADMIN0000A',
+    panHash: sha256('ADMIN0000A'),
     panMasked: 'ADMI****0A',
     aadhaarHash: '',
     aadhaarMasked: '',
@@ -184,13 +190,13 @@ const mockBookings = [
   {
     id: 'bk_001',
     userId: 'user_001',
-    userPAN: 'ABCDE1234F',
+    userPanHash: sha256('ABCDE1234F'),
     eventId: 'evt_001',
     eventTitle: 'Midnight Symphony Tour',
     seats: ['A1', 'A2'],
     passengers: [
-      { name: 'John Doe', idType: 'PAN', idHash: 'ABCDE1234F' },
-      { name: 'Jane Doe', idType: 'Aadhaar', idHash: '****5678' },
+      { name: 'John Doe', idType: 'PAN', idHash: sha256('ABCDE1234F'), idMasked: 'ABCD****4F' },
+      { name: 'Jane Doe', idType: 'Aadhaar', idHash: sha256('876543215678'), idMasked: 'xxxxxxxx5678' },
     ],
     totalAmount: 3000,
     status: 'confirmed',
@@ -202,13 +208,13 @@ const mockBookings = [
   {
     id: 'bk_002',
     userId: 'user_001',
-    userPAN: 'ABCDE1234F',
+    userPanHash: sha256('ABCDE1234F'),
     eventId: 'evt_003',
     eventTitle: 'National Cup Finals',
     seats: ['B21', 'B22'],
     passengers: [
-      { name: 'John Doe', idType: 'PAN', idHash: 'ABCDE1234F' },
-      { name: 'Rahul Doe', idType: 'Aadhaar', idHash: '****9012' },
+      { name: 'John Doe', idType: 'PAN', idHash: sha256('ABCDE1234F'), idMasked: 'ABCD****4F' },
+      { name: 'Rahul Doe', idType: 'Aadhaar', idHash: sha256('123456789012'), idMasked: 'xxxxxxxx9012' },
     ],
     totalAmount: 5000,
     status: 'confirmed',
@@ -220,12 +226,12 @@ const mockBookings = [
   {
     id: 'bk_003',
     userId: 'user_002',
-    userPAN: 'FGHIJ5678K',
+    userPanHash: sha256('FGHIJ5678K'),
     eventId: 'evt_004',
     eventTitle: 'Neon Summer Festival',
     seats: ['GA-101'],
     passengers: [
-      { name: 'Priya Sharma', idType: 'PAN', idHash: 'FGHIJ5678K' },
+      { name: 'Priya Sharma', idType: 'PAN', idHash: sha256('FGHIJ5678K'), idMasked: 'FGHI****8K' },
     ],
     totalAmount: 3500,
     status: 'confirmed',
@@ -280,9 +286,9 @@ const mockAuditLog = [
   { action: 'USER_REGISTERED', userId: 'user_003', details: 'Rahul Doe registered (Minor - Aadhaar)', timestamp: '2024-03-10T08:00:00Z' },
   { action: 'ID_VERIFIED', userId: 'admin_001', details: 'Admin verified ID for user user_003', timestamp: '2024-03-10T09:00:00Z' },
   { action: 'USER_REGISTERED', userId: 'user_004', details: 'Sneha Patel registered (Major - PAN)', timestamp: '2024-04-01T12:00:00Z' },
-  { action: 'BOOKING_CREATED', userId: 'user_001', panHash: 'ABCDE1234F', details: 'Booked 2 tickets for Midnight Symphony Tour', timestamp: '2024-10-20T15:30:00Z' },
-  { action: 'BOOKING_CREATED', userId: 'user_001', panHash: 'ABCDE1234F', details: 'Booked 2 tickets for National Cup Finals', timestamp: '2024-10-15T11:00:00Z' },
-  { action: 'BOOKING_CREATED', userId: 'user_002', panHash: 'FGHIJ5678K', details: 'Booked 1 ticket for Neon Summer Festival', timestamp: '2024-10-22T09:15:00Z' },
+  { action: 'BOOKING_CREATED', userId: 'user_001', details: 'Booked 2 tickets for Midnight Symphony Tour', timestamp: '2024-10-20T15:30:00Z' },
+  { action: 'BOOKING_CREATED', userId: 'user_001', details: 'Booked 2 tickets for National Cup Finals', timestamp: '2024-10-15T11:00:00Z' },
+  { action: 'BOOKING_CREATED', userId: 'user_002', details: 'Booked 1 ticket for Neon Summer Festival', timestamp: '2024-10-22T09:15:00Z' },
 ];
 
 module.exports = { mockUsers, mockEvents, mockBookings, mockWallets, mockAuditLog };
