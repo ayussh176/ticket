@@ -265,6 +265,14 @@ function skeletonCards(n) {
     return Array(n).fill('<div class="skeleton h-24 rounded-2xl mb-4"></div>').join('');
 }
 
+// Global state for current search
+let currentSearchFrom = '';
+let currentSearchTo = '';
+let currentSearchDate = '';
+
+// Class name mapping
+const CLASS_NAMES = { 'SL': 'Sleeper', '3A': 'AC 3 Tier', '2A': 'AC 2 Tier', '1A': 'AC First Class', '3E': 'AC 3 Economy', 'CC': 'Chair Car', '2S': 'Second Sitting', 'EC': 'Exec. Chair' };
+
 // --- Tab 1: Search Trains Between Stations ---
 async function searchBetweenStations() {
     const from = document.getElementById('fromStation').value.trim().toUpperCase();
@@ -279,33 +287,103 @@ async function searchBetweenStations() {
     err.classList.add('hidden');
     results.innerHTML = skeletonCards(3);
 
+    currentSearchFrom = from;
+    currentSearchTo = to;
+    currentSearchDate = date;
+
     try {
         const data = await TrainsAPI.searchTrainsBetweenStations(from, to, date);
         results.innerHTML = '';
         if (data && data.status && data.data && data.data.length > 0) {
-            data.data.forEach(t => {
-                results.innerHTML += `
-                <div class="group overflow-hidden rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm transition-all hover:shadow-xl p-6">
-                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                        <div class="flex-1">
-                            <div class="flex items-center gap-3 mb-2">
-                                <span class="bg-primary/10 text-primary px-3 py-1 rounded-lg text-xs font-bold">${t.train_number || t.trainNumber || '—'}</span>
-                                <h3 class="text-lg font-bold text-slate-900 dark:text-white">${t.train_name || t.trainName || 'Unknown'}</h3>
+            let allCardsHTML = '';
+            data.data.forEach((t, idx) => {
+                const trainNo = t.train_number || t.trainNumber || '—';
+                const trainName = t.train_name || t.trainName || 'Unknown';
+                const depTime = t.from_sta || t.departureTime || '—';
+                const arrTime = t.to_sta || t.arrivalTime || '—';
+                const duration = t.duration || t.travelTime || '—';
+                const classes = t.class_type || t.trainType || ['GN'];
+                const classArr = Array.isArray(classes) ? classes : classes.toString().split(',').map(c => c.trim());
+                const runDays = t.run_days || {};
+                const daysStr = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun']
+                  .map(d => { const key = d.toLowerCase().substring(0,3); return runDays[key] ? `<span class="font-bold text-primary">${d[0]}</span>` : `<span class="text-slate-300">${d[0]}</span>`; })
+                  .join(' ');
+
+                const cardId = `train-card-${idx}`;
+                const expandId = `train-expand-${idx}`;
+
+                allCardsHTML += `
+                <div id="${cardId}" class="overflow-hidden rounded-2xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm transition-all hover:shadow-xl">
+                    <!-- Train Header (clickable) -->
+                    <div class="p-6 cursor-pointer train-header" data-expand-id="${expandId}" data-train-no="${trainNo}" data-from="${currentSearchFrom}" data-to="${currentSearchTo}" data-date="${currentSearchDate}">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                            <div class="flex-1">
+                                <div class="flex items-center gap-3 mb-3">
+                                    <span class="bg-primary text-white px-3 py-1 rounded-lg text-xs font-bold">${trainNo}</span>
+                                    <h3 class="text-lg font-bold text-slate-900 dark:text-white">${trainName.replace(/'/g, '&#39;')}</h3>
+                                </div>
+                                <div class="flex items-center gap-6 text-sm text-slate-500 dark:text-slate-400">
+                                    <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">schedule</span> Dep: <strong class="text-slate-900 dark:text-white ml-1">${depTime}</strong></span>
+                                    <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">schedule</span> Arr: <strong class="text-slate-900 dark:text-white ml-1">${arrTime}</strong></span>
+                                    <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">timer</span> ${duration}</span>
+                                </div>
+                                ${Object.keys(runDays).length > 0 ? `<div class="mt-2 text-xs text-slate-400">Runs: ${daysStr}</div>` : ''}
                             </div>
-                            <div class="flex items-center gap-6 text-sm text-slate-500 dark:text-slate-400">
-                                <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">schedule</span> Dep: <strong class="text-slate-900 dark:text-white">${t.from_sta || t.departureTime || '—'}</strong></span>
-                                <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">schedule</span> Arr: <strong class="text-slate-900 dark:text-white">${t.to_sta || t.arrivalTime || '—'}</strong></span>
-                                <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">timer</span> ${t.duration || t.travelTime || '—'}</span>
+                            <div class="text-right">
+                                <span class="block text-xs uppercase font-bold text-slate-400 mb-2">Classes</span>
+                                <div class="flex flex-wrap gap-1.5 justify-end">
+                                    ${classArr.map(c => `<span class="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 px-2.5 py-1 rounded-lg text-xs font-bold">${c}</span>`).join('')}
+                                </div>
+                                <div class="mt-2 flex items-center justify-end gap-1 text-xs text-primary font-bold">
+                                    <span>Check Availability</span>
+                                    <span class="material-symbols-outlined text-sm expand-icon">expand_more</span>
+                                </div>
                             </div>
                         </div>
-                        <div class="text-right">
-                            <span class="block text-xs uppercase font-bold text-slate-400 mb-1">Classes</span>
-                            <div class="flex flex-wrap gap-1 justify-end">
-                                ${(t.class_type || t.trainType || ['GN']).toString().split(',').map(c => `<span class="bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 px-2 py-0.5 rounded text-xs font-bold">${c.trim()}</span>`).join('')}
+                    </div>
+
+                    <!-- Expandable Section -->
+                    <div id="${expandId}" class="hidden border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/30">
+                        <!-- Class Tabs -->
+                        <div class="flex border-b border-slate-200 dark:border-slate-700 overflow-x-auto" id="${expandId}-tabs">
+                            ${classArr.map((c, ci) => `
+                              <button class="class-tab-btn ${ci === 0 ? 'bg-white dark:bg-slate-900 text-primary border-b-2 border-primary' : 'text-slate-500 hover:text-primary hover:bg-white/50'} px-5 py-3 text-sm font-bold whitespace-nowrap transition-colors"
+                                  data-expand-id="${expandId}" data-class="${c}" data-train-no="${trainNo}" data-from="${currentSearchFrom}" data-to="${currentSearchTo}" data-date="${currentSearchDate}"
+                                  id="${expandId}-tab-${c}">
+                                  ${CLASS_NAMES[c] || c} (${c})
+                              </button>
+                            `).join('')}
+                        </div>
+                        <!-- Availability Content -->
+                        <div id="${expandId}-content" class="p-6">
+                            <div class="flex items-center justify-center gap-2 text-sm text-slate-400 py-4">
+                                <span class="material-symbols-outlined animate-spin text-primary">progress_activity</span>
+                                <span>Click a class tab above to check availability</span>
                             </div>
                         </div>
                     </div>
                 </div>`;
+            });
+
+            results.innerHTML = allCardsHTML;
+            results.addEventListener('click', function(e) {
+                const header = e.target.closest('.train-header');
+                if (header) {
+                    toggleTrainExpand(header.dataset.expandId);
+                    return;
+                }
+                const tabBtn = e.target.closest('.class-tab-btn');
+                if (tabBtn) {
+                    selectClass(
+                        tabBtn.dataset.expandId,
+                        tabBtn.dataset.class,
+                        tabBtn.dataset.trainNo,
+                        tabBtn.dataset.from,
+                        tabBtn.dataset.to,
+                        tabBtn.dataset.date
+                    );
+                    return;
+                }
             });
         } else {
             results.innerHTML = '<div class="p-6 bg-yellow-50 dark:bg-yellow-900/20 text-yellow-800 dark:text-yellow-200 rounded-2xl font-bold text-center">No trains found for this route and date.</div>';
@@ -314,6 +392,159 @@ async function searchBetweenStations() {
         err.textContent = 'Failed to fetch: ' + e.message; err.classList.remove('hidden');
         results.innerHTML = '';
     }
+}
+
+function toggleTrainExpand(expandId) {
+    const el = document.getElementById(expandId);
+    if (!el) return;
+    const isHidden = el.classList.contains('hidden');
+    document.querySelectorAll('[id^="train-expand-"]').forEach(e => {
+        e.classList.add('hidden');
+        const header = e.closest('[id^="train-card-"]');
+        if (header) {
+            const icon = header.querySelector('.expand-icon');
+            if (icon) icon.textContent = 'expand_more';
+        }
+    });
+    if (isHidden) {
+        el.classList.remove('hidden');
+        const card = el.closest('[id^="train-card-"]');
+        if (card) {
+            const icon = card.querySelector('.expand-icon');
+            if (icon) icon.textContent = 'expand_less';
+        }
+        const firstTab = el.querySelector('.class-tab-btn');
+        if (firstTab) {
+            selectClass(
+                firstTab.dataset.expandId,
+                firstTab.dataset.class,
+                firstTab.dataset.trainNo,
+                firstTab.dataset.from,
+                firstTab.dataset.to,
+                firstTab.dataset.date
+            );
+        }
+    }
+}
+
+async function selectClass(expandId, classType, trainNo, fromStation, toStation, date) {
+    const tabsContainer = document.getElementById(`${expandId}-tabs`);
+    if (tabsContainer) {
+        tabsContainer.querySelectorAll('.class-tab-btn').forEach(btn => {
+            btn.className = 'class-tab-btn text-slate-500 hover:text-primary hover:bg-white/50 px-5 py-3 text-sm font-bold whitespace-nowrap transition-colors';
+        });
+        const activeTab = document.getElementById(`${expandId}-tab-${classType}`);
+        if (activeTab) {
+            activeTab.className = 'class-tab-btn bg-white dark:bg-slate-900 text-primary border-b-2 border-primary px-5 py-3 text-sm font-bold whitespace-nowrap transition-colors';
+        }
+    }
+
+    const content = document.getElementById(`${expandId}-content`);
+    if (!content) return;
+
+    content.innerHTML = `
+        <div class="flex items-center justify-center gap-2 text-sm text-slate-400 py-6">
+            <span class="material-symbols-outlined animate-spin text-primary">progress_activity</span>
+            <span>Loading ${CLASS_NAMES[classType] || classType} availability...</span>
+        </div>`;
+
+    const dateParts = date.split('-');
+    const irctcDate = dateParts.length === 3 ? `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}` : date;
+
+    let availData = null, fareData = null;
+    try {
+        const [availResp, fareResp] = await Promise.allSettled([
+            TrainsAPI.getSeatAvailability(trainNo, fromStation, toStation, irctcDate, classType),
+            TrainsAPI.getTrainFare(trainNo, fromStation, toStation)
+        ]);
+        if (availResp.status === 'fulfilled') availData = availResp.value;
+        if (fareResp.status === 'fulfilled') fareData = fareResp.value;
+    } catch (e) {
+        console.error('Availability/Fare fetch error', e);
+    }
+
+    let fareAmount = null;
+    if (fareData && fareData.status && fareData.data) {
+        if (Array.isArray(fareData.data)) {
+            const match = fareData.data.find(f => f.classType === classType || f.class_type === classType);
+            if (match) fareAmount = match.fare || match.baseFare || match.totalFare;
+        } else if (fareData.data.general) {
+            fareAmount = fareData.data.general[classType];
+        } else if (fareData.data[classType]) {
+            fareAmount = fareData.data[classType];
+        }
+    }
+    if (!fareAmount && availData && availData.data && Array.isArray(availData.data) && availData.data[0]) {
+        const first = availData.data[0];
+        if (first.fare || first.totalFare) fareAmount = first.fare || first.totalFare;
+    }
+
+    let availHTML = '';
+    if (availData && availData.status && availData.data && Array.isArray(availData.data) && availData.data.length > 0) {
+        availHTML = `
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 mb-6">
+            ${availData.data.map(slot => {
+                const dateStr = slot.availablity_date || slot.date || slot.dateOfJourney || '—';
+                const status = slot.current_status || slot.seat_avl_text || slot.status || slot.availableStatus || '—';
+                const prob = slot.cp_prob || '';
+                const isConfirmed = status.toUpperCase().includes('AVL') || status.toUpperCase().includes('AVAILABLE');
+                const isWaitlist = status.toUpperCase().includes('WL') || status.toUpperCase().includes('WAITING') || status.toUpperCase().includes('WAITLIST');
+                const isRAC = status.toUpperCase().includes('RAC');
+                const isDeparted = status.toUpperCase().includes('DEPARTED') || status.toUpperCase().includes('NOT AVAILABLE');
+                let statusColor = 'bg-slate-100 dark:bg-slate-800 text-slate-600 border-slate-200 dark:border-slate-700';
+                if (isConfirmed) statusColor = 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 border-green-200 dark:border-green-800';
+                if (isWaitlist) statusColor = 'bg-orange-50 dark:bg-orange-900/20 text-orange-700 dark:text-orange-300 border-orange-200 dark:border-orange-800';
+                if (isRAC) statusColor = 'bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-300 border-yellow-200 dark:border-yellow-800';
+                if (isDeparted) statusColor = 'bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-300 border-red-200 dark:border-red-800';
+
+                return `
+                <div class="rounded-xl border ${statusColor} p-3 text-center transition-transform hover:scale-105">
+                    <span class="block text-[11px] font-bold uppercase tracking-wider opacity-70 mb-1">${dateStr}</span>
+                    <span class="block text-sm font-black">${status}</span>
+                    ${prob ? `<span class="block text-[10px] mt-1 opacity-60">Confirm: ${prob}</span>` : ''}
+                </div>`;
+            }).join('')}
+        </div>`;
+    } else if (availData && availData.status === false) {
+        availHTML = `<div class="text-center py-4 text-sm text-amber-600 bg-amber-50 dark:bg-amber-900/20 rounded-xl px-4">${availData.message || 'Availability data not available for this class right now. Try a different date or class.'}</div>`;
+    } else {
+        availHTML = `<div class="text-center py-4 text-sm text-slate-400">Could not retrieve seat availability. The API may not support this class/route combination.</div>`;
+    }
+
+    let fareHTML = '';
+    if (fareAmount) {
+        fareHTML = `
+        <div class="flex items-center justify-between bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700 p-4 mt-4">
+            <div class="flex items-center gap-3">
+                <div class="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-primary">payments</span>
+                </div>
+                <div>
+                    <span class="block text-xs uppercase font-bold text-slate-400 tracking-wider">Fare — ${CLASS_NAMES[classType] || classType}</span>
+                    <span class="text-2xl font-black text-slate-900 dark:text-white">₹ ${Number(fareAmount).toLocaleString('en-IN')}</span>
+                    <span class="text-xs text-slate-400 ml-1">per person</span>
+                </div>
+            </div>
+            <button onclick="alert('Please book through the IRCTC website for now.')" class="px-6 py-2.5 rounded-xl bg-primary text-white text-sm font-bold transition-all hover:bg-primary/90 active:scale-95 flex items-center gap-2 shadow-lg shadow-primary/20">
+                Book Now <span class="material-symbols-outlined text-sm">arrow_forward</span>
+            </button>
+        </div>`;
+    } else if (fareData) {
+        fareHTML = `
+        <div class="flex items-center gap-3 bg-slate-50 dark:bg-slate-800 rounded-xl p-4 mt-4">
+            <span class="material-symbols-outlined text-slate-400">info</span>
+            <span class="text-sm text-slate-500">Fare information not available for ${CLASS_NAMES[classType] || classType}. Check IRCTC for exact pricing.</span>
+        </div>`;
+    }
+
+    content.innerHTML = `
+        <h4 class="text-sm font-bold text-slate-700 dark:text-slate-300 mb-4 flex items-center gap-2">
+            <span class="material-symbols-outlined text-primary text-lg">event_seat</span>
+            ${CLASS_NAMES[classType] || classType} (${classType}) — Seat Availability
+        </h4>
+        ${availHTML}
+        ${fareHTML}
+    `;
 }
 
 // --- Tab 2: Live Station ---

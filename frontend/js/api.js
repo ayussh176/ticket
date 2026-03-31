@@ -308,38 +308,27 @@ function requireAdmin() {
 const TrainsAPI = {
   // Search trains between stations
   async searchTrainsBetweenStations(source, destination, date) {
-    try {
-      const resp = await fetch(`/api/trains/betweenStations?fromStationCode=${source}&toStationCode=${destination}&dateOfJourney=${date}`);
-      if (!resp.ok) throw new Error('Failed to fetch trains');
-      return await resp.json();
-    } catch (e) {
-      console.error(e);
-      throw e;
-    }
+    return await apiRequest(`/trains/betweenStations?fromStationCode=${encodeURIComponent(source)}&toStationCode=${encodeURIComponent(destination)}&dateOfJourney=${encodeURIComponent(date)}`);
   },
 
   // Get live tracking
   async getLiveStation(stationCode, hours = 2) {
-    try {
-      const resp = await fetch(`/api/trains/liveStation?stationCode=${stationCode}&hours=${hours}`);
-      if (!resp.ok) throw new Error('Failed to fetch live trains');
-      return await resp.json();
-    } catch (e) {
-      console.error(e);
-      throw e;
-    }
+    return await apiRequest(`/trains/liveStation?stationCode=${encodeURIComponent(stationCode)}&hours=${hours}`);
   },
 
   // Get PNR status
   async getPNRStatus(pnr) {
-    try {
-      const resp = await fetch(`/api/trains/pnr?pnrNumber=${pnr}`);
-      if (!resp.ok) throw new Error('Failed to fetch PNR');
-      return await resp.json();
-    } catch (e) {
-      console.error(e);
-      throw e;
-    }
+    return await apiRequest(`/trains/pnr?pnrNumber=${encodeURIComponent(pnr)}`);
+  },
+
+  // Get seat availability for a specific class
+  async getSeatAvailability(trainNo, fromStation, toStation, date, classType, quota = 'GN') {
+    return await apiRequest(`/trains/seatAvailability?trainNo=${encodeURIComponent(trainNo)}&fromStationCode=${encodeURIComponent(fromStation)}&toStationCode=${encodeURIComponent(toStation)}&date=${encodeURIComponent(date)}&classType=${encodeURIComponent(classType)}&quota=${encodeURIComponent(quota)}`);
+  },
+
+  // Get train fare
+  async getTrainFare(trainNo, fromStation, toStation) {
+    return await apiRequest(`/trains/fare?trainNo=${encodeURIComponent(trainNo)}&fromStationCode=${encodeURIComponent(fromStation)}&toStationCode=${encodeURIComponent(toStation)}`);
   }
 };
 

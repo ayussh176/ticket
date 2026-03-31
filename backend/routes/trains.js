@@ -147,4 +147,22 @@ router.get('/pnr', async (req, res) => {
   }
 });
 
+/**
+ * GET /api/trains/fare
+ * Query: ?trainNo=12951&fromStationCode=NDLS&toStationCode=BCT
+ */
+router.get('/fare', async (req, res) => {
+  try {
+    const data = await rapidApiRequest('GET', '/api/v2/getFare', {
+      trainNo: req.query.trainNo,
+      fromStationCode: req.query.fromStationCode,
+      toStationCode: req.query.toStationCode
+    });
+    res.json(data);
+  } catch (error) {
+    console.error('RapidAPI Error:', error.response?.data || error.message);
+    res.status(500).json({ error: 'Failed to fetch fare information' });
+  }
+});
+
 module.exports = router;
