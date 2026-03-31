@@ -74,10 +74,10 @@ async function apiRequest(endpoint, options = {}) {
 
 // ─── Auth API ───────────────────────────────────────────────────
 const AuthAPI = {
-  async register({ name, email, phone, password, role, panNumber }) {
+  async register(payload) {
     const data = await apiRequest('/auth/register', {
       method: 'POST',
-      body: JSON.stringify({ name, email, phone, password, role, panNumber }),
+      body: JSON.stringify(payload),
     });
     setToken(data.token);
     setUser(data.user);

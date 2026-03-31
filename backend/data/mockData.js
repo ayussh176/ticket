@@ -181,7 +181,7 @@ const mockEvents = [
     totalSeats: 10000,
     availableSeats: 9500,
     status: 'live',
-    imageUrl: '',
+    imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDRZWlqhUyhPPNygKdCAUOr3ITXf1lVCsVELE798jKvv4bCvD0wL4knm4kvNs8ci9McueM93dXdEdYMeejMp6w9hvMEdIXu4Quxe5XaN9xswOPvyANtMkHPHDCJ76dJbmIWtclJ-9GlQwIsWM1o24C8N4qSqgy2VKKTdXZZwgvh_Y66SV1IZu-d8HWWLrDJw-ZjwyEFLx1P9sfHcO7gqwSHkn572z7UUO4rOOG7JUu_k8pY9W_6HYMSOf5ZkudbDCqeDq94SStE8OY',
     description: 'Unlimited metro rides for one full day across the city network.',
   },
 ];

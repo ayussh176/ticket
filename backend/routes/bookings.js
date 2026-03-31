@@ -387,7 +387,7 @@ router.put('/:id/cancel', authenticate, async (req, res) => {
     await db.collection('auditLog').add({
       action: 'BOOKING_CANCELLED',
       userId: req.user.uid,
-      panHash: booking.userPAN || '',
+      panHash: booking.userPanHash || '',
       details: `Cancelled booking ${id} for ${booking.eventTitle}`,
       timestamp: new Date().toISOString(),
     });
