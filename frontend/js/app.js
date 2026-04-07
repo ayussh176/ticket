@@ -349,7 +349,7 @@ async function handleMyBookings() {
           <td class="px-6 py-4 text-sm font-bold">₹${booking.totalAmount} e-INR</td>
           <td class="px-6 py-4">${statusBadge}</td>
           <td class="px-6 py-4 text-right">
-            ${!isCancelled ? `<button class="text-sm text-red-500 hover:text-red-700 font-semibold" onclick="AuthAPI.cancel('${booking.id}')">Cancel</button>` : ''}
+            ${!isCancelled ? `<button class="text-sm text-red-500 hover:text-red-700 font-semibold" onclick="window.cancelBooking('${booking.id}')">Cancel</button>` : ''}
             <button class="ml-3 text-sm text-primary font-semibold" onclick="window.location.href='ticket-details.html?id=${booking.id}'">View QR</button>
           </td>
         `;
@@ -438,8 +438,9 @@ async function handleUserProfile() {
                 reader.readAsDataURL(file);
                 reader.onload = async () => {
                    try {
+                       const selectedDocType = document.getElementById('kyc-doc-type')?.value || 'PAN_CARD';
                        await AuthAPI.uploadId({
-                           idDocumentType: 'PAN_CARD', // Simplification, hardcoded for now
+                           idDocumentType: selectedDocType,
                            idDocumentBase64: reader.result
                        });
                        showToast('ID Document uploaded successfully! Pending review.');
@@ -479,63 +480,181 @@ function handleBookTicketPage() {
     return;
   }
 
-  // Populate UI
-  const titleEls = document.querySelectorAll('h1, h3', '.font-bold');
-  if (titleEls[1]) titleEls[1].textContent = eventData.title;
-  
-  // Set prices
-  const priceEls = document.querySelectorAll('.font-medium.text-slate-900.dark\\:text-white, .font-black.text-primary');
-  priceEls.forEach(el => {
-    if(el.textContent.includes('$')) {
-        if(el.classList.contains('text-xl')) el.textContent = `₹${eventData.price}`;
-        else el.textContent = `₹${eventData.price}`;
+  const MAX_SEATS = 2; // Hard cap per booking rules
+  let selectedSeats = [];
+
+  // --- Populate event info in the summary panel ---
+  const titleEl = document.getElementById('booking-event-title');
+  const catEl = document.getElementById('booking-event-category');
+  if (titleEl) titleEl.textContent = eventData.title;
+  if (catEl) catEl.textContent = eventData.category || 'Event';
+
+  // Breadcrumb update
+  const breadcrumb = document.querySelector('nav .text-primary');
+  if (breadcrumb) breadcrumb.textContent = eventData.title;
+
+  // --- Generate Interactive Seat Grid ---
+  const gridContainer = document.getElementById('seat-grid-container');
+  if (gridContainer) {
+    const totalSeats = eventData.totalSeats || eventData.availableSeats || 32;
+    const availableCount = eventData.availableSeats || totalSeats;
+    const seatsPerRow = 8;
+    const rows = Math.ceil(totalSeats / seatsPerRow);
+    const rowLabels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+    // Randomly mark some seats as occupied for visual realism
+    const occupiedCount = totalSeats - availableCount;
+    const occupiedSet = new Set();
+    while (occupiedSet.size < occupiedCount) {
+      occupiedSet.add(Math.floor(Math.random() * totalSeats));
     }
-  });
 
-  // Dynamic Passenger Form State
-  // For UI testing, we hardcode to 1 seat 'A1' since the seat map is static
-  let selectedSeats = ['A1']; 
-  const container = document.getElementById('passenger-forms-container');
-  
-  function renderPassengerForms() {
-      if(!container) return;
-      container.innerHTML = '';
-      selectedSeats.forEach((seat, idx) => {
-          const div = document.createElement('div');
-          div.className = 'p-3 bg-slate-50 dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 space-y-3';
-          div.innerHTML = `
-              <p class="text-xs font-bold text-slate-700 dark:text-slate-300">Seat ${seat}</p>
-              <input type="text" id="pass-name-${idx}" placeholder="Full Name" class="w-full text-xs rounded border-slate-300 dark:border-slate-600 dark:bg-slate-700 py-1.5 focus:ring-primary" required>
-              <div class="flex gap-2">
-                  <select id="pass-idType-${idx}" class="w-1/3 text-xs rounded border-slate-300 dark:border-slate-600 dark:bg-slate-700 py-1.5 focus:ring-primary">
-                      <option value="PAN">PAN</option>
-                      <option value="Aadhaar">Aadhaar</option>
-                  </select>
-                  <input type="text" id="pass-idHash-${idx}" placeholder="ID Number" class="w-2/3 text-xs rounded border-slate-300 dark:border-slate-600 dark:bg-slate-700 py-1.5 focus:ring-primary uppercase" required>
-              </div>
-          `;
-          container.appendChild(div);
-      });
+    let gridHTML = '<div class="flex flex-col gap-3 min-w-[600px] items-center">';
+    for (let r = 0; r < rows; r++) {
+      const rowLabel = rowLabels[r] || String(r + 1);
+      gridHTML += `<div class="flex items-center gap-2">
+        <span class="w-6 text-xs font-bold text-slate-400">${rowLabel}</span>
+        <div class="flex gap-2">`;
+
+      for (let c = 1; c <= seatsPerRow; c++) {
+        const seatIndex = r * seatsPerRow + (c - 1);
+        if (seatIndex >= totalSeats) break;
+
+        // Add an aisle gap after seat 2 and before seat 7
+        if (c === 3 || c === 7) {
+          gridHTML += '<div class="w-4"></div>';
+        }
+
+        const seatId = `${rowLabel}${c}`;
+        const isOccupied = occupiedSet.has(seatIndex);
+
+        if (isOccupied) {
+          gridHTML += `<button disabled class="seat-btn w-9 h-9 rounded-lg bg-slate-200 dark:bg-slate-700 text-slate-400 cursor-not-allowed flex items-center justify-center text-xs font-bold" data-seat="${seatId}" data-status="occupied" title="Occupied">${c}</button>`;
+        } else {
+          gridHTML += `<button class="seat-btn w-9 h-9 rounded-lg bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 flex items-center justify-center text-xs font-bold hover:border-primary hover:text-primary transition-all hover:scale-110" data-seat="${seatId}" data-status="available" title="${seatId}">${c}</button>`;
+        }
+      }
+
+      gridHTML += '</div></div>';
+    }
+    gridHTML += '</div>';
+    gridContainer.innerHTML = gridHTML;
+
+    // --- Click handler for seat buttons ---
+    gridContainer.addEventListener('click', (e) => {
+      const btn = e.target.closest('.seat-btn');
+      if (!btn || btn.disabled) return;
+
+      const seatId = btn.dataset.seat;
+      const status = btn.dataset.status;
+
+      if (status === 'selected') {
+        // Deselect
+        selectedSeats = selectedSeats.filter(s => s !== seatId);
+        btn.dataset.status = 'available';
+        btn.className = 'seat-btn w-9 h-9 rounded-lg bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 flex items-center justify-center text-xs font-bold hover:border-primary hover:text-primary transition-all hover:scale-110';
+      } else if (status === 'available') {
+        if (selectedSeats.length >= MAX_SEATS) {
+          showToast(`Maximum ${MAX_SEATS} seats per booking allowed.`, 'error');
+          return;
+        }
+        // Select
+        selectedSeats.push(seatId);
+        btn.dataset.status = 'selected';
+        btn.className = 'seat-btn w-9 h-9 rounded-lg bg-primary text-white flex items-center justify-center text-xs font-bold transition-all scale-110 ring-2 ring-primary/30 shadow-lg shadow-primary/20';
+      }
+
+      updateBookingSummary();
+      renderPassengerForms();
+    });
   }
-  
-  renderPassengerForms();
 
+  // --- Update Booking Summary Panel ---
+  function updateBookingSummary() {
+    const count = selectedSeats.length;
+    const price = eventData.price || 0;
+    const total = count * price;
+
+    const countEl = document.getElementById('seat-count-display');
+    const seatsListEl = document.getElementById('selected-seats-list');
+    const priceLineEl = document.getElementById('booking-price-line');
+    const subtotalEl = document.getElementById('booking-price-subtotal');
+    const totalEl = document.getElementById('booking-total-amount');
+
+    if (countEl) countEl.textContent = count;
+    if (seatsListEl) {
+      seatsListEl.innerHTML = count === 0
+        ? '<span class="text-xs text-slate-400 italic">Click seats on the map to select</span>'
+        : selectedSeats.map(s => `<span class="bg-primary/10 text-primary px-2.5 py-1 rounded-lg text-xs font-bold">${s}</span>`).join('');
+    }
+    if (priceLineEl) priceLineEl.textContent = `Price (${count} × ₹${price})`;
+    if (subtotalEl) subtotalEl.textContent = `₹${total}`;
+    if (totalEl) totalEl.textContent = `₹${total}`;
+  }
+
+  // --- Render Passenger Forms ---
+  const container = document.getElementById('passenger-forms-container');
+  function renderPassengerForms() {
+    if (!container) return;
+    if (selectedSeats.length === 0) {
+      container.innerHTML = '<p class="text-xs text-slate-500 italic">Please select seats first.</p>';
+      return;
+    }
+    container.innerHTML = '';
+    selectedSeats.forEach((seat, idx) => {
+      const div = document.createElement('div');
+      div.className = 'p-3 bg-slate-50 dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 space-y-3';
+      div.innerHTML = `
+        <p class="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-primary text-sm">event_seat</span> Seat ${seat}
+        </p>
+        <input type="text" id="pass-name-${idx}" placeholder="Full Name" class="w-full text-xs rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 py-2 px-3 focus:ring-primary focus:border-primary" required>
+        <div class="flex gap-2">
+            <select id="pass-idType-${idx}" class="w-1/3 text-xs rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 py-2 focus:ring-primary focus:border-primary">
+                <option value="PAN">PAN</option>
+                <option value="Aadhaar">Aadhaar</option>
+            </select>
+            <input type="text" id="pass-idHash-${idx}" placeholder="ID Number" class="w-2/3 text-xs rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 py-2 px-3 focus:ring-primary focus:border-primary uppercase" required>
+        </div>
+      `;
+      container.appendChild(div);
+    });
+  }
+
+  // --- Proceed to Payment ---
   const btn = document.getElementById('proceed-to-pay-btn');
   if (btn) {
-    btn.onclick = (e) => {
+    btn.onclick = async (e) => {
       e.preventDefault();
-      
-      // Collect passengers
+
+      if (selectedSeats.length === 0) {
+        showToast('Please select at least one seat.', 'error');
+        return;
+      }
+
+      // Collect and validate passengers
       const passengers = [];
-      for(let i=0; i<selectedSeats.length; i++) {
-          const name = document.getElementById(`pass-name-${i}`).value.trim();
-          const idType = document.getElementById(`pass-idType-${i}`).value;
-          const idHash = document.getElementById(`pass-idHash-${i}`).value.trim().toUpperCase();
-          if(!name || !idHash) {
-              showToast('Please fill all passenger details', 'error');
-              return;
-          }
-          passengers.push({ name, idType, idHash });
+      for (let i = 0; i < selectedSeats.length; i++) {
+        const name = document.getElementById(`pass-name-${i}`)?.value.trim();
+        const idType = document.getElementById(`pass-idType-${i}`)?.value;
+        const rawId = document.getElementById(`pass-idHash-${i}`)?.value.trim().toUpperCase();
+
+        if (!name || !rawId) {
+          showToast(`Please fill all details for Seat ${selectedSeats[i]}`, 'error');
+          return;
+        }
+
+        // Validate format on the client side
+        if (idType === 'PAN' && !/^[A-Z]{5}[0-9]{4}[A-Z]$/.test(rawId)) {
+          showToast(`Invalid PAN format for ${name}. Expected: ABCDE1234F`, 'error');
+          return;
+        }
+        if (idType === 'Aadhaar' && !/^\d{12}$/.test(rawId)) {
+          showToast(`Invalid Aadhaar format for ${name}. Must be 12 digits.`, 'error');
+          return;
+        }
+
+        passengers.push({ name, idType, idHash: rawId });
       }
 
       sessionStorage.setItem('apna_booking', JSON.stringify({
@@ -646,7 +765,16 @@ async function handlePaymentPage() {
 
         const stopLoading = showLoading(payBtn);
         try {
-          const data = await BookingsAPI.create(bookingState);
+          // Hash passenger IDs before sending to the API
+          const hashedPassengers = await Promise.all(
+            bookingState.passengers.map(async (p) => ({
+              ...p,
+              idHash: await sha256Hash(p.idHash)
+            }))
+          );
+          const secureBooking = { ...bookingState, passengers: hashedPassengers };
+
+          const data = await BookingsAPI.create(secureBooking);
           showToast('Payment successful! Booking confirmed! 🎉');
           sessionStorage.setItem('apna_last_booking', JSON.stringify(data.booking));
           sessionStorage.removeItem('apna_booking');
@@ -766,6 +894,18 @@ window.verifyUser = async function(userId, action) {
         await AuthAPI.verifyId(userId, action);
         showToast(`User ${action === 'approve'? 'approved' : 'rejected'} successfully.`);
         setTimeout(() => handleAdminDashboard(), 1000); // Reload sections
+    } catch(err) {
+        showToast(err.message, 'error');
+    }
+}
+
+// Global cancel booking handler for My Bookings page
+window.cancelBooking = async function(bookingId) {
+    if (!confirm('Are you sure you want to cancel this booking? The e-INR amount will be refunded to your wallet.')) return;
+    try {
+        await BookingsAPI.cancel(bookingId);
+        showToast('Booking cancelled. e-INR refunded to your wallet.');
+        setTimeout(() => window.location.reload(), 1000);
     } catch(err) {
         showToast(err.message, 'error');
     }

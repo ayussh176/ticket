@@ -38,6 +38,18 @@ function isAdmin() {
   return user && user.role === 'admin';
 }
 
+/**
+ * SHA-256 hash using Web Crypto API (browser-native, no dependencies)
+ * Used to hash PAN/Aadhaar on the frontend before sending to the API.
+ */
+async function sha256Hash(str) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(str);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
 // ─── HTTP Helper ────────────────────────────────────────────────
 async function apiRequest(endpoint, options = {}) {
   const url = `${API_BASE}${endpoint}`;
