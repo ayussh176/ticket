@@ -45,30 +45,33 @@ function decrypt(encryptedText) {
 }
 
 /**
- * Generates QR code with encrypted booking metadata.
+ * Generates QR code with plain-text JSON booking metadata.
+ * When scanned with any QR reader, the full ticket details are displayed as JSON.
  * @param {Object} bookingData - { bookingId, eventTitle, passengers, seats }
  * @returns {Promise<string>} Base64 data URL of the QR code image
  */
 async function generateTicketQR(bookingData) {
   const payload = JSON.stringify({
-    id: bookingData.bookingId,
-    event: bookingData.eventTitle,
+    ticketType: 'APNATICKET_E_TICKET',
+    bookingId: bookingData.bookingId,
+    eventTitle: bookingData.eventTitle,
     seats: bookingData.seats,
+    totalSeats: bookingData.seats ? bookingData.seats.length : 0,
     passengers: bookingData.passengers.map(p => ({
       name: p.name,
       idType: p.idType,
     })),
-    validatedAt: null,
+    status: 'CONFIRMED',
     issuedAt: new Date().toISOString(),
-  });
-
-  // Encrypt the payload
-  const encryptedPayload = encrypt(payload);
+    validatedAt: null,
+    issuer: 'APNATICKET Platform',
+  }, null, 2);
 
   try {
-    const qrDataUrl = await QRCode.toDataURL(encryptedPayload, {
-      width: 300,
+    const qrDataUrl = await QRCode.toDataURL(payload, {
+      width: 350,
       margin: 2,
+      errorCorrectionLevel: 'M',
       color: {
         dark: '#1e1b4b',
         light: '#ffffff',
@@ -88,19 +91,33 @@ async function generateTicketQR(bookingData) {
  */
 function validateQRPayload(qrPayload) {
   try {
-    // First try to decrypt (new encrypted format)
+    // First try parsing as plain JSON (new format)
     let jsonString;
     try {
-      jsonString = decrypt(qrPayload);
-    } catch (decryptErr) {
-      // Fallback: try parsing as plain JSON (legacy tickets)
+      const parsed = JSON.parse(qrPayload);
+      // New format uses 'bookingId', convert to internal format
+      if (parsed.bookingId) {
+        return { valid: true, data: { id: parsed.bookingId, ...parsed } };
+      }
+      // Legacy plain JSON format with 'id' field
+      if (parsed.id) {
+        return { valid: true, data: parsed };
+      }
       jsonString = qrPayload;
+    } catch (parseErr) {
+      // Not valid JSON — try decrypting (legacy encrypted format)
+      try {
+        jsonString = decrypt(qrPayload);
+      } catch (decryptErr) {
+        return { valid: false, error: 'Cannot parse QR code data' };
+      }
     }
 
     const data = JSON.parse(jsonString);
-    if (!data.id || !data.event) {
-      return { valid: false, error: 'Invalid QR code format' };
+    if (!data.id && !data.bookingId) {
+      return { valid: false, error: 'Invalid QR code format — missing booking ID' };
     }
+    if (data.bookingId && !data.id) data.id = data.bookingId;
     return { valid: true, data };
   } catch (err) {
     return { valid: false, error: 'Cannot parse QR code data' };

@@ -22,6 +22,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ─── Page-specific logic ──────────────────────────────────────
   switch (page) {
+    case 'index.html':
+    case '':
+      handleHomePage();
+      break;
     case 'login.html':
       handleLoginPage();
       break;
@@ -48,6 +52,12 @@ document.addEventListener('DOMContentLoaded', () => {
       break;
     case 'payment.html':
       handlePaymentPage();
+      break;
+    case 'booking-confirmation.html':
+      handleBookingConfirmationPage();
+      break;
+    case 'ticket-details.html':
+      handleTicketDetailsPage();
       break;
     case 'admin-dashboard.html':
       handleAdminDashboard();
@@ -779,7 +789,7 @@ async function handlePaymentPage() {
           sessionStorage.setItem('apna_last_booking', JSON.stringify(data.booking));
           sessionStorage.removeItem('apna_booking');
           setTimeout(() => {
-            window.location.href = 'user-dashboard.html';
+            window.location.href = 'booking-confirmation.html';
           }, 1500);
         } catch (err) {
           showToast(err.message, 'error');
@@ -1020,4 +1030,269 @@ function handleGenericForms() {
       }
     });
   });
+}
+
+// ─── HOMEPAGE (Auth-aware nav) ──────────────────────────────────
+function handleHomePage() {
+  const authBtn = document.getElementById('header-auth-btn');
+  const authContainer = document.getElementById('header-auth-container');
+  if (!authBtn || !authContainer) return;
+
+  if (isLoggedIn()) {
+    const user = JSON.parse(localStorage.getItem('apnaticket_user') || '{}');
+    const name = user.name?.split(' ')[0] || 'User';
+    const isAdminUser = user.role === 'admin';
+
+    // Replace Login/Register with user dropdown
+    authBtn.outerHTML = `
+      <div class="hidden sm:flex items-center gap-3">
+        <a href="my-bookings.html" class="text-sm font-medium text-slate-600 hover:text-primary transition-colors flex items-center gap-1">
+          <span class="material-symbols-outlined text-lg">confirmation_number</span>My Bookings
+        </a>
+        <div class="relative" id="user-dropdown-wrapper">
+          <button onclick="document.getElementById('user-dropdown').classList.toggle('hidden')" class="flex items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-bold text-white transition-all hover:bg-primary/90">
+            <span class="material-symbols-outlined text-lg">person</span>${name}
+            <span class="material-symbols-outlined text-sm">expand_more</span>
+          </button>
+          <div id="user-dropdown" class="hidden absolute right-0 mt-2 w-56 rounded-xl bg-white dark:bg-slate-900 shadow-2xl border border-slate-100 dark:border-slate-800 py-2 z-50">
+            <a href="user-dashboard.html" class="flex items-center gap-3 px-4 py-2.5 text-sm text-slate-700 dark:text-slate-300 hover:bg-primary/5 hover:text-primary transition-colors">
+              <span class="material-symbols-outlined text-lg">dashboard</span>Dashboard
+            </a>
+            <a href="user-profile.html" class="flex items-center gap-3 px-4 py-2.5 text-sm text-slate-700 dark:text-slate-300 hover:bg-primary/5 hover:text-primary transition-colors">
+              <span class="material-symbols-outlined text-lg">person</span>Profile & KYC
+            </a>
+            <a href="my-bookings.html" class="flex items-center gap-3 px-4 py-2.5 text-sm text-slate-700 dark:text-slate-300 hover:bg-primary/5 hover:text-primary transition-colors">
+              <span class="material-symbols-outlined text-lg">receipt_long</span>My Bookings
+            </a>
+            ${isAdminUser ? `<a href="admin-dashboard.html" class="flex items-center gap-3 px-4 py-2.5 text-sm text-slate-700 dark:text-slate-300 hover:bg-primary/5 hover:text-primary transition-colors">
+              <span class="material-symbols-outlined text-lg">admin_panel_settings</span>Admin Panel
+            </a>` : ''}
+            <div class="border-t border-slate-100 dark:border-slate-800 my-1"></div>
+            <button onclick="AuthAPI.logout(); window.location.reload();" class="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
+              <span class="material-symbols-outlined text-lg">logout</span>Logout
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+      const wrapper = document.getElementById('user-dropdown-wrapper');
+      const dropdown = document.getElementById('user-dropdown');
+      if (wrapper && dropdown && !wrapper.contains(e.target)) {
+        dropdown.classList.add('hidden');
+      }
+    });
+  }
+
+  handleGenericForms();
+}
+
+// ─── BOOKING CONFIRMATION PAGE ──────────────────────────────────
+function handleBookingConfirmationPage() {
+  const lastBooking = JSON.parse(sessionStorage.getItem('apna_last_booking') || 'null');
+  
+  if (lastBooking) {
+    // Populate dynamic data into the confirmation page
+    const titleEl = document.querySelector('h3.text-xl');
+    if (titleEl) titleEl.textContent = lastBooking.eventTitle || 'Event Booking';
+
+    const orderIdEl = document.querySelector('.font-bold.tracking-tight');
+    if (orderIdEl) orderIdEl.textContent = `#${lastBooking.id || 'AT-000000'}`;
+
+    const seatsEl = document.querySelectorAll('.font-bold')[3];
+    if (seatsEl && lastBooking.seats) seatsEl.textContent = lastBooking.seats.join(', ');
+
+    const amountEl = document.querySelectorAll('.font-bold')[4];
+    if (amountEl && lastBooking.totalAmount) amountEl.textContent = `₹${lastBooking.totalAmount} e-INR`;
+    
+    const paymentEl = document.querySelectorAll('.font-bold')[5];
+    if (paymentEl) paymentEl.textContent = 'e-INR Wallet';
+  }
+
+  // Wire up "Download Ticket" button
+  const downloadBtns = document.querySelectorAll('button');
+  downloadBtns.forEach(btn => {
+    if (btn.textContent.includes('Download Ticket')) {
+      btn.addEventListener('click', () => downloadTicketAsPrintable(lastBooking));
+    }
+    if (btn.textContent.includes('View All Bookings')) {
+      btn.onclick = () => window.location.href = 'my-bookings.html';
+    }
+  });
+}
+
+// ─── TICKET DETAILS PAGE ────────────────────────────────────────
+async function handleTicketDetailsPage() {
+  if (!requireAuth()) return;
+
+  // Get booking ID from URL or sessionStorage
+  const urlParams = new URLSearchParams(window.location.search);
+  const bookingId = urlParams.get('id');
+  const lastBooking = JSON.parse(sessionStorage.getItem('apna_last_booking') || 'null');
+
+  if (!bookingId && !lastBooking) {
+    showToast('No booking found. Redirecting...', 'error');
+    setTimeout(() => window.location.href = 'my-bookings.html', 1500);
+    return;
+  }
+
+  const targetId = bookingId || lastBooking?.id;
+
+  try {
+    // Fetch the ticket (QR code) from the API
+    const data = await TicketsAPI.getTicket(targetId);
+    const ticket = data.ticket;
+
+    // Update event title
+    const titleEl = document.querySelector('h1.text-2xl');
+    if (titleEl) titleEl.textContent = ticket.eventTitle || 'Event';
+
+    // Update booking ID
+    const idEl = document.querySelector('.font-bold.text-lg');
+    if (idEl) idEl.textContent = `#${ticket.bookingId}`;
+
+    // Update seat info
+    const seatEls = document.querySelectorAll('.font-bold.text-lg');
+    if (seatEls[0]) seatEls[0].textContent = ticket.seats?.join(', ') || 'N/A';
+
+    // Load the real QR code from the API
+    if (ticket.qrCode) {
+      const qrImg = document.querySelector('img[alt="Ticket Entry QR Code"]');
+      if (qrImg) {
+        qrImg.src = ticket.qrCode;
+        qrImg.alt = 'Scan this QR code for entry — contains full ticket details in JSON';
+      }
+    }
+
+    // Update status badge
+    const statusBadge = document.querySelector('.bg-green-500');
+    if (statusBadge) statusBadge.textContent = ticket.status || 'Confirmed';
+
+    // Wire download button
+    const downloadBtns = document.querySelectorAll('button');
+    downloadBtns.forEach(btn => {
+      if (btn.textContent.includes('Download PDF')) {
+        btn.addEventListener('click', () => downloadTicketAsPrintable({
+          id: ticket.bookingId,
+          eventTitle: ticket.eventTitle,
+          seats: ticket.seats,
+          passengers: ticket.passengers,
+          qrCode: ticket.qrCode,
+        }));
+      }
+    });
+
+  } catch (err) {
+    console.error('Failed to load ticket:', err);
+    // If API fails, try to use sessionStorage data
+    if (lastBooking) {
+      showToast('Loaded from local data. QR may not reflect latest.', 'warning');
+    } else {
+      showToast('Failed to load ticket details: ' + err.message, 'error');
+    }
+  }
+}
+
+// ─── DOWNLOAD TICKET UTILITY ────────────────────────────────────
+function downloadTicketAsPrintable(booking) {
+  if (!booking) {
+    showToast('No booking data available to download.', 'error');
+    return;
+  }
+
+  const ticketHTML = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>APNATICKET - E-Ticket #${booking.id || 'N/A'}</title>
+      <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f8f9fa; padding: 40px; }
+        .ticket { max-width: 600px; margin: 0 auto; background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.1); }
+        .header { background: linear-gradient(135deg, #4F46E5, #7C3AED); color: white; padding: 24px 32px; }
+        .header h1 { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; }
+        .header p { opacity: 0.8; font-size: 12px; margin-top: 4px; text-transform: uppercase; letter-spacing: 2px; }
+        .body { padding: 32px; }
+        .event-title { font-size: 22px; font-weight: 700; color: #1e1b4b; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 2px dashed #e2e8f0; }
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+        .info-item label { display: block; font-size: 10px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700; margin-bottom: 4px; }
+        .info-item value { display: block; font-size: 15px; color: #1e293b; font-weight: 600; }
+        .passengers { margin-top: 20px; }
+        .passengers h3 { font-size: 12px; text-transform: uppercase; letter-spacing: 1.5px; color: #94a3b8; font-weight: 700; margin-bottom: 12px; }
+        .passenger { background: #f8fafc; border-radius: 8px; padding: 12px 16px; margin-bottom: 8px; display: flex; justify-content: space-between; }
+        .passenger .name { font-weight: 600; color: #1e293b; }
+        .passenger .id-type { font-size: 12px; color: #64748b; background: #e2e8f0; padding: 2px 8px; border-radius: 4px; }
+        .qr-section { text-align: center; padding: 24px; background: #f8fafc; border-top: 2px dashed #e2e8f0; }
+        .qr-section img { width: 200px; height: 200px; margin: 0 auto 12px; }
+        .qr-section p { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: #94a3b8; font-weight: 700; }
+        .footer { text-align: center; padding: 16px; font-size: 11px; color: #94a3b8; border-top: 1px solid #f1f5f9; }
+        @media print { body { padding: 0; background: white; } .ticket { box-shadow: none; } }
+      </style>
+    </head>
+    <body>
+      <div class="ticket">
+        <div class="header">
+          <h1>🎫 APNATICKET</h1>
+          <p>Electronic Ticket</p>
+        </div>
+        <div class="body">
+          <div class="event-title">${booking.eventTitle || 'Event'}</div>
+          <div class="info-grid">
+            <div class="info-item">
+              <label>Booking ID</label>
+              <value>${booking.id || 'N/A'}</value>
+            </div>
+            <div class="info-item">
+              <label>Seats</label>
+              <value>${booking.seats?.join(', ') || 'N/A'}</value>
+            </div>
+            <div class="info-item">
+              <label>Total Amount</label>
+              <value>₹${booking.totalAmount || 'N/A'} e-INR</value>
+            </div>
+            <div class="info-item">
+              <label>Status</label>
+              <value>✅ CONFIRMED</value>
+            </div>
+          </div>
+          ${booking.passengers ? `
+          <div class="passengers">
+            <h3>Passengers</h3>
+            ${booking.passengers.map(p => `
+              <div class="passenger">
+                <span class="name">${p.name}</span>
+                <span class="id-type">${p.idType || 'ID'}</span>
+              </div>
+            `).join('')}
+          </div>` : ''}
+        </div>
+        ${booking.qrCode ? `
+        <div class="qr-section">
+          <img src="${booking.qrCode}" alt="Entry QR Code"/>
+          <p>Scan at venue entrance for entry</p>
+        </div>` : ''}
+        <div class="footer">
+          © 2024 APNATICKET Inc. — This is a computer-generated e-ticket. No signature required.
+        </div>
+      </div>
+      <script>window.onload = function() { window.print(); }</script>
+    </body>
+    </html>
+  `;
+
+  const blob = new Blob([ticketHTML], { type: 'text/html' });
+  const url = URL.createObjectURL(blob);
+  const printWindow = window.open(url, '_blank');
+  if (!printWindow) {
+    // Fallback: direct download as HTML file
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `APNATICKET_${booking.id || 'ticket'}.html`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    showToast('Ticket downloaded! Open the file to print.');
+  }
 }

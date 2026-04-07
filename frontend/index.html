@@ -45,11 +45,13 @@
 </div>
 <nav class="hidden md:flex items-center gap-8">
 <a class="text-sm font-medium text-slate-600 hover:text-primary dark:text-slate-300 dark:hover:text-white transition-colors" href="events.html">Explore</a>
+<a class="text-sm font-medium text-slate-600 hover:text-primary dark:text-slate-300 dark:hover:text-white transition-colors" href="trains.html">Live Trains</a>
 <a class="text-sm font-medium text-slate-600 hover:text-primary dark:text-slate-300 dark:hover:text-white transition-colors" href="about.html">About Us</a>
+<a class="text-sm font-medium text-slate-600 hover:text-primary dark:text-slate-300 dark:hover:text-white transition-colors" href="faq.html">FAQ</a>
 <a class="text-sm font-medium text-slate-600 hover:text-primary dark:text-slate-300 dark:hover:text-white transition-colors" href="contact.html">Contact</a>
 </nav>
-<div class="flex items-center gap-4">
-<button class="hidden sm:inline-flex items-center justify-center rounded-lg bg-primary px-5 py-2.5 text-sm font-bold text-white transition-all hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary/20" onclick="window.location.href='login.html'">
+<div class="flex items-center gap-4" id="header-auth-container">
+<button id="header-auth-btn" class="hidden sm:inline-flex items-center justify-center rounded-lg bg-primary px-5 py-2.5 text-sm font-bold text-white transition-all hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary/20" onclick="window.location.href='login.html'">
                         Login/Register
                     </button>
 <button class="md:hidden text-slate-600 dark:text-slate-300">
@@ -110,6 +112,26 @@
 </div>
 </div>
 </div>
+</div>
+</section>
+<!-- Train Search Quick Access -->
+<section class="py-6 bg-white dark:bg-slate-900/50">
+<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+<a href="trains.html" class="group flex flex-col sm:flex-row items-center justify-between gap-6 rounded-2xl border border-primary/10 bg-gradient-to-r from-primary/5 via-white to-primary/5 dark:from-primary/10 dark:via-slate-900 dark:to-primary/10 p-6 shadow-sm hover:shadow-xl transition-all hover:border-primary/30">
+<div class="flex items-center gap-5">
+<div class="flex h-14 w-14 items-center justify-center rounded-xl bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-all">
+<span class="material-symbols-outlined text-3xl">train</span>
+</div>
+<div>
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">Indian Railway Live Tracker</h3>
+<p class="text-sm text-slate-500 dark:text-slate-400">Search trains, check PNR status, live station arrivals — powered by IRCTC</p>
+</div>
+</div>
+<div class="flex items-center gap-2 text-primary font-bold text-sm whitespace-nowrap">
+<span>Search Trains</span>
+<span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</div>
+</a>
 </div>
 </section>
 <!-- Featured Section -->
@@ -269,18 +291,18 @@
 <h3 class="text-sm font-bold uppercase tracking-wider text-slate-900 dark:text-white">Quick Links</h3>
 <ul class="mt-4 space-y-4">
 <li><a class="text-sm text-slate-500 hover:text-primary dark:text-slate-400" href="events.html">Search Tickets</a></li>
-<li><a class="text-sm text-slate-500 hover:text-primary dark:text-slate-400" href="#">Popular Categories</a></li>
-<li><a class="text-sm text-slate-500 hover:text-primary dark:text-slate-400" href="#">New Events</a></li>
-<li><a class="text-sm text-slate-500 hover:text-primary dark:text-slate-400" href="#">Special Offers</a></li>
+<li><a class="text-sm text-slate-500 hover:text-primary dark:text-slate-400" href="trains.html">Live Trains</a></li>
+<li><a class="text-sm text-slate-500 hover:text-primary dark:text-slate-400" href="my-bookings.html">My Bookings</a></li>
+<li><a class="text-sm text-slate-500 hover:text-primary dark:text-slate-400" href="user-dashboard.html">Dashboard</a></li>
 </ul>
 </div>
 <div class="mt-12 md:mt-0">
 <h3 class="text-sm font-bold uppercase tracking-wider text-slate-900 dark:text-white">Support</h3>
 <ul class="mt-4 space-y-4">
-<li><a class="text-sm text-slate-500 hover:text-primary dark:text-slate-400" href="contact.html">Help Center</a></li>
+<li><a class="text-sm text-slate-500 hover:text-primary dark:text-slate-400" href="faq.html">Help Center</a></li>
 <li><a class="text-sm text-slate-500 hover:text-primary dark:text-slate-400" href="contact.html">Contact Us</a></li>
-<li><a class="text-sm text-slate-500 hover:text-primary dark:text-slate-400" href="#">Ticket Policy</a></li>
-<li><a class="text-sm text-slate-500 hover:text-primary dark:text-slate-400" href="#">Refunds</a></li>
+<li><a class="text-sm text-slate-500 hover:text-primary dark:text-slate-400" href="faq.html">Ticket Policy</a></li>
+<li><a class="text-sm text-slate-500 hover:text-primary dark:text-slate-400" href="faq.html">Refunds</a></li>
 </ul>
 </div>
 </div>
@@ -289,17 +311,17 @@
 <h3 class="text-sm font-bold uppercase tracking-wider text-slate-900 dark:text-white">Company</h3>
 <ul class="mt-4 space-y-4">
 <li><a class="text-sm text-slate-500 hover:text-primary dark:text-slate-400" href="about.html">About Us</a></li>
-<li><a class="text-sm text-slate-500 hover:text-primary dark:text-slate-400" href="#">Careers</a></li>
-<li><a class="text-sm text-slate-500 hover:text-primary dark:text-slate-400" href="#">Partners</a></li>
-<li><a class="text-sm text-slate-500 hover:text-primary dark:text-slate-400" href="#">Newsroom</a></li>
+<li><a class="text-sm text-slate-500 hover:text-primary dark:text-slate-400" href="about.html">Careers</a></li>
+<li><a class="text-sm text-slate-500 hover:text-primary dark:text-slate-400" href="about.html">Partners</a></li>
+<li><a class="text-sm text-slate-500 hover:text-primary dark:text-slate-400" href="about.html">Newsroom</a></li>
 </ul>
 </div>
 <div class="mt-12 md:mt-0">
 <h3 class="text-sm font-bold uppercase tracking-wider text-slate-900 dark:text-white">Legal</h3>
 <ul class="mt-4 space-y-4">
-<li><a class="text-sm text-slate-500 hover:text-primary dark:text-slate-400" href="#">Privacy Policy</a></li>
-<li><a class="text-sm text-slate-500 hover:text-primary dark:text-slate-400" href="#">Terms of Service</a></li>
-<li><a class="text-sm text-slate-500 hover:text-primary dark:text-slate-400" href="#">Cookie Policy</a></li>
+<li><a class="text-sm text-slate-500 hover:text-primary dark:text-slate-400" href="about.html">Privacy Policy</a></li>
+<li><a class="text-sm text-slate-500 hover:text-primary dark:text-slate-400" href="about.html">Terms of Service</a></li>
+<li><a class="text-sm text-slate-500 hover:text-primary dark:text-slate-400" href="about.html">Cookie Policy</a></li>
 </ul>
 </div>
 </div>
