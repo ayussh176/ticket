@@ -1284,15 +1284,12 @@ function downloadTicketAsPrintable(booking) {
 
   const blob = new Blob([ticketHTML], { type: 'text/html' });
   const url = URL.createObjectURL(blob);
-  const printWindow = window.open(url, '_blank');
-  if (!printWindow) {
-    // Fallback: direct download as HTML file
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `APNATICKET_${booking.id || 'ticket'}.html`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    showToast('Ticket downloaded! Open the file to print.');
-  }
+  // Direct download as HTML file
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `APNATICKET_${booking.id || 'ticket'}.html`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  showToast('Ticket downloaded! Open the file to view or print.');
 }
