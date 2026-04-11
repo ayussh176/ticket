@@ -100,7 +100,7 @@ router.post('/', authenticate, adminOnly, async (req, res) => {
   try {
     const { title, category, date, time, location, price, totalSeats, description, imageUrl } = req.body;
 
-    if (!title || !category || !date || !price || !totalSeats) {
+    if (!title || !category || !date || price === undefined || !totalSeats) {
       return res.status(400).json({ error: 'Title, category, date, price, and totalSeats are required.' });
     }
 

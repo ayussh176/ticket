@@ -218,7 +218,7 @@ router.get('/anomalies', authenticate, adminOnly, async (req, res) => {
         bookingsByUserAndDay[key] = (bookingsByUserAndDay[key] || 0) + 1;
       });
       Object.entries(bookingsByUserAndDay).forEach(([key, count]) => {
-        if (count > 3) {
+        if (count > MAX_BOOKINGS_PER_DAY_PER_PAN) {
           const [userId, day] = key.split('_');
           const user = mockUsers.find(u => u.uid === userId);
           anomalies.push({
@@ -303,7 +303,7 @@ router.get('/anomalies', authenticate, adminOnly, async (req, res) => {
       }
     });
     Object.entries(bookingsByUserAndDay).forEach(([key, count]) => {
-      if (count > 3) {
+      if (count > 2) {
         const userId = key.split('_')[0];
         const day = key.substring(userId.length + 1);
         const user = users.find(u => u.uid === userId);

@@ -113,30 +113,47 @@ router.post('/', authenticate, async (req, res) => {
 
     // Rule 2: Each passenger must have mandatory ID format and we secure it immediately
     for (let p of passengers) {
-      if (!p.name || !p.idType || !p.idHash) {
+      if (!p.name || !p.idType || !p.idHash || !p.dateOfBirth) {
         return res.status(400).json({
-          error: 'Each passenger must have name, idType (PAN/Aadhaar), and ID number.',
-        });
-      }
-      if (!['PAN', 'Aadhaar'].includes(p.idType)) {
-        return res.status(400).json({
-          error: 'Passenger idType must be "PAN" or "Aadhaar".',
+          error: 'Each passenger must have name, dateOfBirth, idType (PAN/Aadhaar), and ID number.',
         });
       }
       
-      const rawId = p.idHash; // Frontend currently sends plaintext in idHash
-      if (p.idType === 'PAN' && !/^[A-Z]{5}[0-9]{4}[A-Z]$/.test(rawId)) {
-        return res.status(400).json({ error: `Invalid PAN format for passenger ${p.name}` });
+      // Strict rule: Majors must provide PAN, Minors must provide Aadhaar
+      const age = (new Date() - new Date(p.dateOfBirth)) / (1000 * 60 * 60 * 24 * 365.25);
+      if (age >= 18 && p.idType !== 'PAN') {
+        return res.status(400).json({ error: `Passenger ${p.name} is a major (18+), PAN is required.` });
       }
-      if (p.idType === 'Aadhaar' && !/^\d{12}$/.test(rawId)) {
-        return res.status(400).json({ error: `Invalid Aadhaar format for passenger ${p.name}` });
+      if (age < 18 && p.idType !== 'Aadhaar') {
+        return res.status(400).json({ error: `Passenger ${p.name} is a minor, Aadhaar is required.` });
       }
+
+      const rawId = p.idHash; // Frontend currently sends plaintext in idHash (before hashing in payment handler)
+      // Note: In a real system, the frontend hashes before sending, but here we might get plaintext if they didn't.
+      // Actually, app.js hashes before sending. Wait, let's check app.js again.
+      // In app.js: idHash: await sha256Hash(p.idHash).
+      // If it's already hashed, regex validation will fail.
+      // I should check if the rawId looks like a hash or plaintext.
       
-      // Cryptographically abstract the ID
-      p.idMasked = p.idType === 'PAN' 
-          ? rawId.substring(0, 4) + '****' + rawId.substring(8)
-          : 'xxxxxxxx' + rawId.substring(8);
-      p.idHash = crypto.createHash('sha256').update(rawId).digest('hex');
+      const isPlaintext = rawId.length < 32; // Simple heuristic
+
+      if (isPlaintext) {
+        if (p.idType === 'PAN' && !/^[A-Z]{5}[0-9]{4}[A-Z]$/.test(rawId)) {
+          return res.status(400).json({ error: `Invalid PAN format for passenger ${p.name}` });
+        }
+        if (p.idType === 'Aadhaar' && !/^\d{12}$/.test(rawId)) {
+          return res.status(400).json({ error: `Invalid Aadhaar format for passenger ${p.name}` });
+        }
+        
+        // Final secure transformation
+        p.idMasked = p.idType === 'PAN' 
+            ? rawId.substring(0, 4) + '****' + rawId.substring(8)
+            : 'xxxxxxxx' + rawId.substring(8);
+        p.idHash = crypto.createHash('sha256').update(rawId).digest('hex');
+      } else {
+          // Already hashed by frontend, use as is but we can't mask it properly now
+          p.idMasked = '********';
+      }
     }
 
     // Rule 3: ID verification gate — user must have verified ID
@@ -173,7 +190,9 @@ router.post('/', authenticate, async (req, res) => {
 
       // Debit wallet (e-INR only, no UPI/card fallback)
       try {
-        await walletRouter.debitWallet(req.user.uid, totalAmount, 'bk_' + Date.now());
+        if (totalAmount > 0) {
+          await walletRouter.debitWallet(req.user.uid, totalAmount, 'bk_' + Date.now());
+        }
       } catch (walletErr) {
         return res.status(400).json({ error: walletErr.message });
       }
@@ -226,7 +245,9 @@ router.post('/', authenticate, async (req, res) => {
     // Debit wallet
     const bookingId = 'bk_' + Date.now();
     try {
-      await walletRouter.debitWallet(req.user.uid, totalAmount, bookingId);
+      if (totalAmount > 0) {
+        await walletRouter.debitWallet(req.user.uid, totalAmount, bookingId);
+      }
     } catch (walletErr) {
       return res.status(400).json({ error: walletErr.message });
     }

@@ -51,24 +51,25 @@ function decrypt(encryptedText) {
  * @returns {Promise<string>} Base64 data URL of the QR code image
  */
 async function generateTicketQR(bookingData) {
-  const payload = JSON.stringify({
-    ticketType: 'APNATICKET_E_TICKET',
-    bookingId: bookingData.bookingId,
-    eventTitle: bookingData.eventTitle,
-    seats: bookingData.seats,
-    totalSeats: bookingData.seats ? bookingData.seats.length : 0,
-    passengers: bookingData.passengers.map(p => ({
-      name: p.name,
-      idType: p.idType,
-    })),
-    status: 'CONFIRMED',
-    issuedAt: new Date().toISOString(),
-    validatedAt: null,
-    issuer: 'APNATICKET Platform',
-  }, null, 2);
-
   try {
-    const qrDataUrl = await QRCode.toDataURL(payload, {
+    const payload = JSON.stringify({
+      ticketType: 'APNATICKET_E_TICKET',
+      bookingId: bookingData.bookingId,
+      eventTitle: bookingData.eventTitle,
+      seats: bookingData.seats,
+      totalSeats: bookingData.seats ? bookingData.seats.length : 0,
+      passengers: bookingData.passengers.map(p => ({
+        name: p.name,
+        idType: p.idType,
+      })),
+      status: 'CONFIRMED',
+      issuedAt: new Date().toISOString(),
+      validatedAt: null,
+      issuer: 'APNATICKET Platform',
+    }, null, 2);
+
+    const encryptedPayload = encrypt(payload);
+    const qrDataUrl = await QRCode.toDataURL(encryptedPayload, {
       width: 350,
       margin: 2,
       errorCorrectionLevel: 'M',

@@ -86,6 +86,15 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+// --- Hashing Helper ---
+async function sha256Hash(text) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(text);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
 // ─── LOGIN PAGE ─────────────────────────────────────────────────
 function handleLoginPage() {
   // Redirect if already logged in
@@ -613,16 +622,19 @@ function handleBookTicketPage() {
     container.innerHTML = '';
     selectedSeats.forEach((seat, idx) => {
       const div = document.createElement('div');
-      div.className = 'p-3 bg-slate-50 dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 space-y-3';
+      div.className = 'p-3 bg-white dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700 space-y-3';
       div.innerHTML = `
         <p class="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
             <span class="material-symbols-outlined text-primary text-sm">event_seat</span> Seat ${seat}
         </p>
-        <input type="text" id="pass-name-${idx}" placeholder="Full Name" class="w-full text-xs rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 py-2 px-3 focus:ring-primary focus:border-primary" required>
+        <div class="grid grid-cols-2 gap-2">
+            <input type="text" id="pass-name-${idx}" placeholder="Full Name" class="w-full text-xs rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 py-2 px-3 focus:ring-primary focus:border-primary" required>
+            <input type="date" id="pass-dob-${idx}" class="w-full text-xs rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 py-2 px-3 focus:ring-primary focus:border-primary" required title="Date of Birth">
+        </div>
         <div class="flex gap-2">
             <select id="pass-idType-${idx}" class="w-1/3 text-xs rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 py-2 focus:ring-primary focus:border-primary">
-                <option value="PAN">PAN</option>
-                <option value="Aadhaar">Aadhaar</option>
+                <option value="PAN">PAN (Major)</option>
+                <option value="Aadhaar">Aadhaar (Minor/Alt)</option>
             </select>
             <input type="text" id="pass-idHash-${idx}" placeholder="ID Number" class="w-2/3 text-xs rounded-lg border-slate-300 dark:border-slate-600 dark:bg-slate-700 py-2 px-3 focus:ring-primary focus:border-primary uppercase" required>
         </div>
@@ -636,35 +648,47 @@ function handleBookTicketPage() {
   if (btn) {
     btn.onclick = async (e) => {
       e.preventDefault();
+      const passengers = []; // Fix ReferenceError
+      
+      const price = eventData.price || 0;
 
       if (selectedSeats.length === 0) {
         showToast('Please select at least one seat.', 'error');
         return;
       }
 
-      // Collect and validate passengers
-      const passengers = [];
       for (let i = 0; i < selectedSeats.length; i++) {
         const name = document.getElementById(`pass-name-${i}`)?.value.trim();
+        const dateOfBirth = document.getElementById(`pass-dob-${i}`)?.value;
         const idType = document.getElementById(`pass-idType-${i}`)?.value;
         const rawId = document.getElementById(`pass-idHash-${i}`)?.value.trim().toUpperCase();
 
-        if (!name || !rawId) {
+        if (!name || !dateOfBirth || !rawId) {
           showToast(`Please fill all details for Seat ${selectedSeats[i]}`, 'error');
           return;
         }
 
-        // Validate format on the client side
-        if (idType === 'PAN' && !/^[A-Z]{5}[0-9]{4}[A-Z]$/.test(rawId)) {
-          showToast(`Invalid PAN format for ${name}. Expected: ABCDE1234F`, 'error');
+        // Validate formats
+        const age = (new Date() - new Date(dateOfBirth)) / (1000 * 60 * 60 * 24 * 365.25);
+        if (age >= 18 && idType !== 'PAN') {
+          showToast(`${name} is a major (18+), PAN is required.`, 'error');
           return;
         }
-        if (idType === 'Aadhaar' && !/^\d{12}$/.test(rawId)) {
-          showToast(`Invalid Aadhaar format for ${name}. Must be 12 digits.`, 'error');
+        if (age < 18 && idType !== 'Aadhaar') {
+          showToast(`${name} is a minor, Aadhaar is required.`, 'error');
           return;
         }
 
-        passengers.push({ name, idType, idHash: rawId });
+        if (idType === 'PAN' && !/^[A-Z]{5}[0-9]{4}[A-Z]$/.test(rawId)) {
+          showToast(`Invalid PAN format for ${name}.`, 'error');
+          return;
+        }
+        if (idType === 'Aadhaar' && !/^\d{12}$/.test(rawId)) {
+          showToast(`Invalid Aadhaar format for ${name}.`, 'error');
+          return;
+        }
+
+        passengers.push({ name, dateOfBirth, idType, idHash: rawId });
       }
 
       sessionStorage.setItem('apna_booking', JSON.stringify({
@@ -692,13 +716,16 @@ async function handlePaymentPage() {
 
   const total = bookingState.price * bookingState.seats.length;
   
-  // Update order summary amounts (fallback for template classes)
-  const amountEls = document.querySelectorAll('.font-bold.text-slate-900, .text-xl.font-black, .text-3xl.font-black');
-  amountEls.forEach(el => {
-    if(el.textContent.includes('$') || el.textContent.includes('Amount')) {
-      el.textContent = `₹${total} e-INR`;
-    }
-  });
+  // Update order summary with actual event and booking data
+  const summaryTitle = document.getElementById('summary-event-title');
+  const summarySeats = document.getElementById('summary-seat-count');
+  const summaryPrice = document.getElementById('summary-ticket-price');
+  const summaryTotal = document.getElementById('summary-total-amount');
+
+  if (summaryTitle) summaryTitle.textContent = bookingState.eventTitle;
+  if (summarySeats) summarySeats.textContent = `${bookingState.seats.length} Seat(s)`;
+  if (summaryPrice) summaryPrice.textContent = `₹${bookingState.price}`;
+  if (summaryTotal) summaryTotal.textContent = `₹${total}`;
 
   // Set the big pay button amount
   const payBtnAmount = document.getElementById('pay-btn-amount');
@@ -799,9 +826,59 @@ async function handlePaymentPage() {
   }
 }
 
+// ─── ADMIN HELPERS ──────────────────────────────────────────────
+function setupAdminSidebar() {
+  const sidebar = document.querySelector('aside nav');
+  if (!sidebar) return;
+
+  const links = [
+    { text: 'Dashboard', icon: 'dashboard', href: 'admin-dashboard.html' },
+    { text: 'Bookings', icon: 'transit_ticket', href: 'admin-bookings.html' },
+    { text: 'Users', icon: 'group', href: 'admin-users.html' },
+    { text: 'Events', icon: 'calendar_month', href: 'admin-events.html' },
+    { text: 'Analytics', icon: 'analytics', href: 'admin-analytics.html' }
+  ];
+
+  const currentPath = window.location.pathname.split('/').pop();
+  
+  sidebar.innerHTML = links.map(link => {
+    const isActive = currentPath === link.href;
+    const activeClass = isActive ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800';
+    return `
+      <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all ${activeClass}" href="${link.href}">
+        <span class="material-symbols-outlined text-[20px]">${link.icon}</span>
+        <span class="font-medium text-sm">${link.text}</span>
+      </a>
+    `;
+  }).join('');
+
+  // Logout button
+  const logoutBtn = document.querySelector('[data-action="admin-logout"]');
+  if (logoutBtn) {
+    logoutBtn.onclick = (e) => {
+      e.preventDefault();
+      AuthAPI.logout();
+      window.location.href = 'admin-login.html';
+    };
+  }
+}
+
+function fixAdminHeader() {
+  const logoutLink = Array.from(document.querySelectorAll('a, button')).find(el => el.textContent.toLowerCase().includes('logout'));
+  if (logoutLink) {
+    logoutLink.onclick = (e) => {
+        e.preventDefault();
+        AuthAPI.logout();
+        window.location.href = 'admin-login.html';
+    };
+  }
+}
+
 // ─── ADMIN DASHBOARD ────────────────────────────────────────────
 async function handleAdminDashboard() {
   if (!requireAdmin()) return;
+  setupAdminSidebar();
+  fixAdminHeader();
 
   try {
     const data = await AdminAPI.getDashboard();
@@ -922,12 +999,84 @@ window.cancelBooking = async function(bookingId) {
 }
 
 // ─── ADMIN EVENTS ───────────────────────────────────────────────
+// ─── ADMIN EVENTS ───────────────────────────────────────────────
 async function handleAdminEvents() {
   if (!requireAdmin()) return;
+  setupAdminSidebar();
+  fixAdminHeader();
+
+  const tbody = document.querySelector('tbody');
+  if (!tbody) return;
+
+  // Link the "Create New Event" button
+  const createBtn = document.querySelector('button.bg-primary');
+  if (createBtn && createBtn.textContent.includes('Create')) {
+    createBtn.onclick = () => window.location.href = 'admin-create-event.html';
+  }
 
   try {
     const data = await EventsAPI.list();
     console.log('Admin events loaded:', data.total, 'events');
+    
+    tbody.innerHTML = '';
+    if (data.events.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="5" class="px-6 py-4 text-center text-slate-500">No events found.</td></tr>';
+      return;
+    }
+
+    data.events.forEach(event => {
+      const tr = document.createElement('tr');
+      tr.className = 'hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors';
+      const soldPercent = Math.min(100, Math.round(((event.totalSeats - event.availableSeats) / event.totalSeats) * 100));
+      const statusBadge = event.availableSeats === 0 
+        ? '<span class="inline-flex items-center rounded-full bg-red-100 px-2.5 py-0.5 text-xs font-medium text-red-800 dark:bg-red-900/30 dark:text-red-400">Sold Out</span>'
+        : '<span class="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800 dark:bg-green-900/30 dark:text-green-400">Active</span>';
+
+      tr.innerHTML = `
+        <td class="px-6 py-4">
+          <div class="flex items-center gap-4">
+            <div class="h-12 w-12 flex-shrink-0 rounded-lg bg-slate-200 object-cover dark:bg-slate-700 overflow-hidden">
+              <img src="${event.thumbnailUrl || 'https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?auto=format&fit=crop&q=80&w=200'}" class="h-full w-full object-cover" />
+            </div>
+            <div>
+              <div class="font-bold text-slate-900 dark:text-white">${event.title}</div>
+              <div class="text-sm text-slate-500">ID: #${event.id.substring(0, 8)}</div>
+            </div>
+          </div>
+        </td>
+        <td class="px-6 py-4">
+          <div class="text-sm text-slate-900 dark:text-slate-100">${new Date(event.date || event.createdAt).toLocaleDateString()}</div>
+          <div class="text-xs text-slate-500 flex items-center gap-1">
+            <span class="material-symbols-outlined text-xs">location_on</span>
+            ${event.location || 'Multiple Venues'}
+          </div>
+        </td>
+        <td class="px-6 py-4">${statusBadge}</td>
+        <td class="px-6 py-4">
+          <div class="flex flex-col gap-1.5 w-32">
+            <div class="flex items-center justify-between text-xs">
+              <span class="text-slate-600 dark:text-slate-400">${event.totalSeats - event.availableSeats}/${event.totalSeats}</span>
+              <span class="font-bold">${soldPercent}%</span>
+            </div>
+            <div class="h-1.5 w-full rounded-full bg-slate-200 dark:bg-slate-700">
+              <div class="h-full rounded-full bg-primary" style="width: ${soldPercent}%"></div>
+            </div>
+          </div>
+        </td>
+        <td class="px-6 py-4 text-right">
+          <div class="flex justify-end gap-2">
+            <button class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-600 hover:bg-primary hover:text-white hover:border-primary dark:border-slate-700 dark:text-slate-400 transition-all" title="View Analytics">
+              <span class="material-symbols-outlined text-lg">insights</span>
+            </button>
+            <button class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-600 hover:bg-red-500 hover:text-white hover:border-red-500 dark:border-slate-700 dark:text-slate-400 transition-all" title="Delete Event">
+              <span class="material-symbols-outlined text-lg">delete</span>
+            </button>
+          </div>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+
   } catch (err) {
     console.log('Events API not available:', err.message);
   }
@@ -956,7 +1105,7 @@ function handleAdminCreateEvent() {
     if (!eventData.title) eventData.title = form.querySelector('input[placeholder*="name"], input[placeholder*="title"]')?.value || 'New Event';
     if (!eventData.category) eventData.category = form.querySelector('select')?.value || 'Concert';
     if (!eventData.date) eventData.date = form.querySelector('input[type="date"]')?.value || new Date().toISOString().split('T')[0];
-    if (!eventData.price) eventData.price = 1000;
+    if (eventData.price === undefined || eventData.price === '') eventData.price = 1000;
     if (!eventData.totalSeats) eventData.totalSeats = 100;
 
     try {
@@ -975,36 +1124,213 @@ function handleAdminCreateEvent() {
 // ─── ADMIN USERS ────────────────────────────────────────────────
 async function handleAdminUsers() {
   if (!requireAdmin()) return;
+  setupAdminSidebar();
+  fixAdminHeader();
+
+  const tbody = document.querySelector('tbody');
+  if (!tbody) return;
 
   try {
     const data = await AdminAPI.getUsers();
     console.log('Admin users loaded:', data.total, 'users');
+    
+    tbody.innerHTML = '';
+    if (data.users.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="5" class="px-6 py-4 text-center text-slate-500">No users found.</td></tr>';
+      return;
+    }
+
+    data.users.forEach(user => {
+      const tr = document.createElement('tr');
+      tr.className = 'hover:bg-slate-50 transition-colors';
+      const initials = user.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+      
+      let statusBadge = '';
+      if (user.idVerificationStatus === 'verified') {
+        statusBadge = '<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-700"><span class="size-1.5 rounded-full bg-emerald-500"></span>Active</span>';
+      } else if (user.idVerificationStatus === 'pending') {
+        statusBadge = '<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-700"><span class="size-1.5 rounded-full bg-amber-500"></span>Pending</span>';
+      } else {
+        statusBadge = '<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-100 text-slate-600"><span class="size-1.5 rounded-full bg-slate-400"></span>Unverified</span>';
+      }
+
+      tr.innerHTML = `
+        <td class="px-6 py-4 whitespace-nowrap">
+          <div class="flex items-center gap-3">
+            <div class="size-9 rounded-full bg-slate-200 flex items-center justify-center font-bold text-slate-600">${initials}</div>
+            <div class="text-sm font-semibold text-slate-900">${user.name}</div>
+          </div>
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600">${user.email}</td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600">${user.phone || 'N/A'}</td>
+        <td class="px-6 py-4 whitespace-nowrap">${statusBadge}</td>
+        <td class="px-6 py-4 whitespace-nowrap text-right">
+          <div class="flex items-center justify-end gap-2">
+            ${user.idVerificationStatus === 'pending' ? `
+            <button onclick="window.verifyUser('${user.id}', 'approve')" class="p-2 text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors" title="Approve">
+              <span class="material-symbols-outlined text-[20px]">check_circle</span>
+            </button>` : ''}
+            <button class="p-2 text-slate-400 hover:text-orange-500 hover:bg-orange-50 rounded-lg transition-colors" title="Block User">
+              <span class="material-symbols-outlined text-[20px]">block</span>
+            </button>
+            <button class="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors" title="Delete User">
+              <span class="material-symbols-outlined text-[20px]">delete</span>
+            </button>
+          </div>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    // Update stats cards in admin-users if they exist
+    const stats = document.querySelectorAll('.text-3xl.font-bold');
+    if (stats[0]) stats[0].textContent = data.total.toLocaleString();
+    if (stats[1]) stats[1].textContent = data.users.filter(u => u.idVerificationStatus === 'verified').length.toLocaleString();
+    if (stats[2]) stats[2].textContent = data.users.filter(u => u.idVerificationStatus === 'pending').length.toLocaleString();
+
   } catch (err) {
-    console.log('Users API not available:', err.message);
+    console.log('Users API call failed:', err.message);
+    showToast('Failed to load users: ' + err.message, 'error');
   }
 }
 
 // ─── ADMIN BOOKINGS ────────────────────────────────────────────
 async function handleAdminBookings() {
   if (!requireAdmin()) return;
+  setupAdminSidebar();
+  fixAdminHeader();
+
+  const tbody = document.querySelector('tbody');
+  if (!tbody) return;
 
   try {
     const data = await AdminAPI.getBookings();
     console.log('Admin bookings loaded:', data.total, 'bookings');
+    
+    tbody.innerHTML = '';
+    if (data.bookings.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="5" class="px-6 py-4 text-center text-slate-500">No bookings found.</td></tr>';
+      return;
+    }
+
+    data.bookings.forEach(booking => {
+      const tr = document.createElement('tr');
+      tr.className = 'hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors group';
+      
+      const initials = booking.userName ? booking.userName.split(' ').map(n => n[0]).join('').toUpperCase() : 'U';
+      const statusClass = booking.status === 'confirmed' 
+        ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400' 
+        : booking.status === 'pending'
+          ? 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400'
+          : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400';
+
+      tr.innerHTML = `
+        <td class="px-6 py-4">
+          <div class="flex items-center gap-3">
+            <div class="size-9 rounded-full bg-slate-200 flex items-center justify-center font-bold text-slate-600 overflow-hidden">
+               ${booking.userAvatar ? `<img src="${booking.userAvatar}" class="size-full object-cover" />` : initials}
+            </div>
+            <div class="flex flex-col">
+              <span class="text-sm font-semibold text-slate-900 dark:text-white leading-none mb-1">${booking.userName || 'Unknown'}</span>
+              <span class="text-xs text-slate-500">${booking.userEmail || ''}</span>
+            </div>
+          </div>
+        </td>
+        <td class="px-6 py-4">
+          <div class="flex flex-col">
+            <span class="text-sm font-medium text-slate-900 dark:text-white mb-1">${booking.eventTitle}</span>
+            <div class="flex items-center gap-2 text-xs text-slate-500">
+              <span class="material-symbols-outlined text-[14px]">calendar_today</span>
+              ${new Date(booking.createdAt).toLocaleDateString()}
+            </div>
+          <span class="inline-flex items-center rounded-md bg-slate-100 dark:bg-slate-800 px-2 py-1 text-xs font-medium text-slate-700 dark:text-slate-300">
+            ${booking.seats.join(', ')}
+          </span>
+        </td>
+        <td class="px-6 py-4">
+          <span class="inline-flex items-center gap-1.5 rounded-full ${statusClass} px-3 py-1 text-xs font-semibold">
+            <span class="size-1.5 rounded-full ${booking.status === 'confirmed' ? 'bg-emerald-600' : booking.status === 'pending' ? 'bg-amber-600' : 'bg-slate-400'}"></span>
+            ${booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}
+          </span>
+        </td>
+        <td class="px-6 py-4 text-right">
+          <div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+            <button class="p-2 text-slate-500 hover:text-primary dark:hover:text-primary-light hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors" title="Update Status">
+              <span class="material-symbols-outlined text-[20px]">edit_note</span>
+            </button>
+            <button onclick="window.cancelBooking('${booking.id}')" class="p-2 text-slate-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors" title="Cancel Booking">
+              <span class="material-symbols-outlined text-[20px]">cancel</span>
+            </button>
+          </div>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    // Update stats summary if present
+    const statsVals = document.querySelectorAll('.text-2xl.font-black');
+    if (statsVals[0]) statsVals[0].textContent = data.bookings.length;
+    if (statsVals[1]) statsVals[1].textContent = `₹${data.totalRevenue?.toLocaleString() || '0'}`;
+
   } catch (err) {
-    console.log('Admin bookings API not available:', err.message);
+    console.log('Bookings API call failed:', err.message);
   }
 }
 
 // ─── ADMIN ANALYTICS ───────────────────────────────────────────
 async function handleAdminAnalytics() {
   if (!requireAdmin()) return;
+  setupAdminSidebar();
+  fixAdminHeader();
 
   try {
     const data = await AdminAPI.getAnalytics();
     console.log('Analytics loaded:', data);
+
+    // Update metric cards
+    const h3s = document.querySelectorAll('h3.text-2xl.font-bold');
+    if (h3s.length >= 4) {
+      h3s[0].textContent = data.totalBookings?.toLocaleString() || '0';
+      h3s[1].textContent = `₹${data.totalRevenue?.toLocaleString() || '0'}`;
+      h3s[2].textContent = data.totalUsers?.toLocaleString() || '0';
+      h3s[3].textContent = data.activeEvents?.toLocaleString() || '0';
+    }
+
+    // Update Recent Bookings table
+    const tbody = document.querySelector('tbody');
+    if (tbody && data.recentBookings) {
+      tbody.innerHTML = '';
+      data.recentBookings.forEach(booking => {
+        const tr = document.createElement('tr');
+        const initials = booking.customerName ? booking.customerName.split(' ').map(n => n[0]).join('').toUpperCase() : 'U';
+        
+        tr.innerHTML = `
+          <td class="px-6 py-4">
+            <div class="flex items-center gap-3">
+              <div class="size-8 rounded-full bg-slate-200 flex items-center justify-center text-xs font-bold">${initials}</div>
+              <span class="text-sm font-medium">${booking.customerName}</span>
+            </div>
+          </td>
+          <td class="px-6 py-4 text-sm">${booking.eventTitle}</td>
+          <td class="px-6 py-4 text-sm text-slate-500">${new Date(booking.date).toLocaleDateString()}</td>
+          <td class="px-6 py-4 text-sm font-semibold">₹${booking.amount.toLocaleString()}</td>
+          <td class="px-6 py-4">
+            <span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-400 uppercase tracking-wide">
+              ${booking.status}
+            </span>
+          </td>
+          <td class="px-6 py-4 text-right">
+            <button class="text-slate-400 hover:text-primary">
+              <span class="material-symbols-outlined text-[20px]">more_vert</span>
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
   } catch (err) {
-    console.log('Analytics API not available:', err.message);
+    console.log('Analytics API failed:', err.message);
   }
 }
 
