@@ -68,8 +68,7 @@ async function generateTicketQR(bookingData) {
       issuer: 'APNATICKET Platform',
     }, null, 2);
 
-    const encryptedPayload = encrypt(payload);
-    const qrDataUrl = await QRCode.toDataURL(encryptedPayload, {
+    const qrDataUrl = await QRCode.toDataURL(payload, {
       width: 350,
       margin: 2,
       errorCorrectionLevel: 'M',

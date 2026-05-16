@@ -341,40 +341,122 @@ async function handleMyBookings() {
     const data = await BookingsAPI.list();
     console.log('Bookings loaded:', data.total, 'bookings');
     
-    // Find the table body or container and clear it
-    const tbody = document.querySelector('tbody');
-    if (tbody && data.bookings) {
-      tbody.innerHTML = '';
-      if (data.bookings.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="6" class="px-6 py-4 text-center text-slate-500">No bookings found.</td></tr>';
+    const container = document.getElementById('bookings-list-container');
+    const tabUpcoming = document.getElementById('tab-upcoming');
+    const tabPast = document.getElementById('tab-past');
+    
+    if (!container) return;
+
+    let displayMode = 'upcoming'; // 'upcoming' or 'past'
+
+    function renderBookings() {
+      container.innerHTML = '';
+      
+      // Filter bookings based on active tab
+      const isPast = (b) => b.status === 'cancelled' || new Date(b.createdAt) < new Date(Date.now() - 30 * 24 * 60 * 60 * 1000); // cancelled or more than 30 days old
+      const filteredBookings = data.bookings.filter(b => displayMode === 'past' ? isPast(b) : !isPast(b));
+
+      if (filteredBookings.length === 0) {
+        container.innerHTML = '<div class="p-6 text-center text-slate-500">No bookings found for this category.</div>';
         return;
       }
 
-      data.bookings.forEach(booking => {
-        const tr = document.createElement('tr');
-        tr.className = 'hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors';
+      filteredBookings.forEach(booking => {
         const isCancelled = booking.status === 'cancelled';
-        const statusBadge = isCancelled 
-            ? '<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800"><span class="h-1.5 w-1.5 rounded-full bg-red-600"></span>Cancelled</span>'
-            : '<span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800"><span class="h-1.5 w-1.5 rounded-full bg-green-600"></span>Confirmed</span>';
+        const card = document.createElement('div');
+        
+        let headerBadge;
+        if (isCancelled) {
+          card.className = 'group flex flex-col lg:flex-row items-stretch border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden opacity-75 grayscale-[0.5]';
+          headerBadge = '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400 uppercase tracking-wider">Cancelled</span>';
+        } else {
+          card.className = 'group flex flex-col lg:flex-row items-stretch border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden hover:shadow-md transition-shadow bg-background-light/30 dark:bg-background-dark/30';
+          headerBadge = '<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 uppercase tracking-wider">Confirmed</span>';
+        }
 
-        tr.innerHTML = `
-          <td class="px-6 py-4 text-sm font-mono text-slate-500">#${booking.id.split('_')[1] || booking.id.substring(0, 8)}</td>
-          <td class="px-6 py-4">
-            <span class="text-sm font-medium">${booking.eventTitle}</span><br>
-            <span class="text-xs text-slate-500">${booking.seats.join(', ')}</span>
-          </td>
-          <td class="px-6 py-4 text-sm text-slate-500">${new Date(booking.createdAt).toLocaleDateString()}</td>
-          <td class="px-6 py-4 text-sm font-bold">₹${booking.totalAmount} e-INR</td>
-          <td class="px-6 py-4">${statusBadge}</td>
-          <td class="px-6 py-4 text-right">
-            ${!isCancelled ? `<button class="text-sm text-red-500 hover:text-red-700 font-semibold" onclick="window.cancelBooking('${booking.id}')">Cancel</button>` : ''}
-            <button class="ml-3 text-sm text-primary font-semibold" onclick="window.location.href='ticket-details.html?id=${booking.id}'">View QR</button>
-          </td>
+        const date = new Date(booking.createdAt).toLocaleDateString();
+
+        card.innerHTML = `
+          <div class="lg:w-64 h-48 lg:h-auto bg-center bg-no-repeat bg-cover flex items-center justify-center bg-slate-200 dark:bg-slate-800">
+            <span class="material-symbols-outlined text-6xl text-slate-400">event</span>
+          </div>
+          <div class="flex-1 p-5 flex flex-col justify-between gap-4">
+            <div class="flex flex-col gap-1">
+              <div class="flex items-center justify-between">
+                  ${headerBadge}
+                  <span class="text-slate-400 text-xs font-medium">${date}</span>
+              </div>
+              <h3 class="text-slate-900 dark:text-slate-100 text-lg font-bold">${booking.eventTitle}</h3>
+              <p class="text-slate-500 dark:text-slate-400 text-sm flex items-center gap-1">
+                  <span class="material-symbols-outlined text-sm">confirmation_number</span>
+                  Booking ID: <span class="font-mono">${booking.id.split('_')[1] || booking.id.substring(0, 8)}</span>
+              </p>
+            </div>
+            
+            <div class="flex flex-wrap items-center justify-between gap-4 mt-auto">
+              <div class="flex items-center gap-4">
+                  <div class="flex flex-col">
+                      <span class="text-[10px] uppercase text-slate-400 font-bold">Seats</span>
+                      <span class="text-sm font-bold text-slate-700 dark:text-slate-300">${booking.seats.join(', ')}</span>
+                  </div>
+                  <div class="flex flex-col border-l border-slate-200 dark:border-slate-700 pl-4">
+                      <span class="text-[10px] uppercase text-slate-400 font-bold">Amount</span>
+                      <span class="text-sm font-bold text-slate-700 dark:text-slate-300">₹${booking.totalAmount}</span>
+                  </div>
+              </div>
+              
+              <div class="flex gap-2">
+                  ${!isCancelled ? `<button onclick="window.location.href='ticket-details.html?id=${booking.id}'" class="flex items-center gap-2 h-9 px-4 rounded-lg bg-primary text-white text-sm font-bold hover:bg-primary/90 transition-colors">
+                      <span class="material-symbols-outlined text-lg">download</span>
+                      <span>Ticket</span>
+                  </button>
+                  <button onclick="window.cancelBooking('${booking.id}')" class="flex items-center justify-center h-9 w-9 rounded-lg border border-red-200 dark:border-red-900 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30 transition-colors" title="Cancel Booking">
+                      <span class="material-symbols-outlined">cancel</span>
+                  </button>` : `<button class="flex items-center gap-2 h-9 px-4 rounded-lg bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-sm font-bold">
+                      <span class="material-symbols-outlined text-lg">receipt_long</span>
+                      <span>Receipt</span>
+                  </button>`}
+              </div>
+            </div>
+          </div>
         `;
-        tbody.appendChild(tr);
+        container.appendChild(card);
       });
     }
+
+    // Tab Handlers
+    function updateTabs() {
+      const activeClass = 'border-primary text-primary border-b-2';
+      const inactiveClass = 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 border-b-2';
+      
+      if (displayMode === 'upcoming') {
+        tabUpcoming.className = `flex items-center gap-2 pb-4 pt-4 px-2 transition-all ${activeClass}`;
+        tabPast.className = `flex items-center gap-2 pb-4 pt-4 px-6 transition-all ${inactiveClass}`;
+      } else {
+        tabUpcoming.className = `flex items-center gap-2 pb-4 pt-4 px-2 transition-all ${inactiveClass}`;
+        tabPast.className = `flex items-center gap-2 pb-4 pt-4 px-6 transition-all ${activeClass}`;
+      }
+      renderBookings();
+    }
+
+    if (tabUpcoming) {
+      tabUpcoming.addEventListener('click', (e) => {
+        e.preventDefault();
+        displayMode = 'upcoming';
+        updateTabs();
+      });
+    }
+    
+    if (tabPast) {
+      tabPast.addEventListener('click', (e) => {
+        e.preventDefault();
+        displayMode = 'past';
+        updateTabs();
+      });
+    }
+
+    // Initial render
+    updateTabs();
 
   } catch (err) {
     console.log('Bookings API not available:', err.message);
@@ -1504,6 +1586,7 @@ async function handleTicketDetailsPage() {
           id: ticket.bookingId,
           eventTitle: ticket.eventTitle,
           seats: ticket.seats,
+          totalAmount: ticket.totalAmount,
           passengers: ticket.passengers,
           qrCode: ticket.qrCode,
         }));

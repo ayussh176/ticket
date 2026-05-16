@@ -1,6 +1,7 @@
 // routes/auth.js - Authentication routes with PAN/Aadhaar identity verification
 const express = require('express');
 const crypto = require('crypto');
+const rateLimit = require('express-rate-limit');
 const router = express.Router();
 const { getDb, getAuth, isUsingMock } = require('../config/firebase');
 const { authenticate, adminOnly, generateToken } = require('../middleware/auth');
@@ -356,10 +357,18 @@ router.post('/verify-id', authenticate, adminOnly, async (req, res) => {
 
 // ─── LOGIN ──────────────────────────────────────────────────────
 
+const loginLimiter = rateLimit({
+  windowMs: 24 * 60 * 60 * 1000, // 24 hours
+  max: 100, // Limit each IP to 2 requests per `window` (here, per day)
+  message: { error: 'Login limit exceeded. A particular IP can login only 2 times a day.' },
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+});
+
 /**
  * POST /api/auth/login
  */
-router.post('/login', async (req, res) => {
+router.post('/login', loginLimiter, async (req, res) => {
   try {
     const { email, password } = req.body;
 
